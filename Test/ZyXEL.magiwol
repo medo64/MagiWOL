@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-16"?>
+<MagiWOL version="2.00">
+  <Addresses>
+    <Address name="192.168.1.1" macAddress="00:02:CF:A8:C5:53" secureOnPassword="" broadcastAddress="255.255.255.255" broadcastPort="9" isBroadcastAddressValid="False" isBroadcastPortValid="False" description="" />
+    <Address name="192.168.1.30" macAddress="00:22:B0:72:57:34" secureOnPassword="" broadcastAddress="255.255.255.255" broadcastPort="9" isBroadcastAddressValid="False" isBroadcastPortValid="False" description="" />
+    <Address name="192.168.1.33" macAddress="00:03:FF:AD:9A:A2" secureOnPassword="" broadcastAddress="255.255.255.255" broadcastPort="9" isBroadcastAddressValid="False" isBroadcastPortValid="False" description="" />
+  </Addresses>
+</MagiWOL>

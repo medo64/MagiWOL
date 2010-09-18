@@ -1,0 +1,234 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{53656681-D8B3-40E0-A4F5-3B031CFA9113}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MagiWol</RootNamespace>
+    <AssemblyName>MagiWOL</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ApplicationIcon>Properties\App.ico</ApplicationIcon>
+    <ApplicationManifest>Properties\App.manifest</ApplicationManifest>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>Properties\App.snk</AssemblyOriginatorKeyFile>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Binaries\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\Binaries\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="%28Medo%29\AboutBox [008].cs" />
+    <Compile Include="%28Medo%29\Args [001].cs" />
+    <Compile Include="%28Medo%29\EntryAssembly [003].cs" />
+    <Compile Include="%28Medo%29\ErrorReport [016].cs" />
+    <Compile Include="%28Medo%29\MessageBox [006].cs" />
+    <Compile Include="%28Medo%29\RecentFiles [002].cs" />
+    <Compile Include="%28Medo%29\Settings [010].cs" />
+    <Compile Include="%28Medo%29\State [013].cs" />
+    <Compile Include="%28Medo%29\StringAdder [002].cs" />
+    <Compile Include="%28Medo%29\TaskbarProgress [000].cs" />
+    <Compile Include="%28Medo%29\UnhandledCatch [006].cs" />
+    <Compile Include="%28Medo%29\WakeOnLan [003].cs" />
+    <Compile Include="%28Medo%29\XmlTagWriter [002].cs" />
+    <Compile Include="ImportResultsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ImportResultsForm.Designer.cs">
+      <DependentUpon>ImportResultsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ImportFromNetworkProgressForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ImportFromNetworkProgressForm.Designer.cs">
+      <DependentUpon>ImportFromNetworkProgressForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ImportFromNetworkForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ImportFromNetworkForm.Designer.cs">
+      <DependentUpon>ImportFromNetworkForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ListViewColumnSorter.cs" />
+    <Compile Include="Magic.cs" />
+    <Compile Include="MagiWolDocument\Address.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="SettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SettingsForm.Designer.cs">
+      <DependentUpon>SettingsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WakeProgressForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WakeProgressForm.Designer.cs">
+      <DependentUpon>WakeProgressForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="QuickWakeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="QuickWakeForm.Designer.cs">
+      <DependentUpon>QuickWakeForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DetailForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DetailForm.Designer.cs">
+      <DependentUpon>DetailForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MagiWolDocument\Document.cs" />
+    <Compile Include="MacBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SecurBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Settings.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="App.cs" />
+    <Compile Include="WakeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WakeForm.Designer.cs">
+      <DependentUpon>WakeForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="ImportResultsForm.resx">
+      <DependentUpon>ImportResultsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImportFromNetworkProgressForm.resx">
+      <DependentUpon>ImportFromNetworkProgressForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImportFromNetworkForm.resx">
+      <DependentUpon>ImportFromNetworkForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SettingsForm.resx">
+      <DependentUpon>SettingsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WakeProgressForm.resx">
+      <DependentUpon>WakeProgressForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QuickWakeForm.resx">
+      <DependentUpon>QuickWakeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DetailForm.resx">
+      <DependentUpon>DetailForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="Properties\SolutionInfo.cs" />
+    <EmbeddedResource Include="WakeForm.resx">
+      <DependentUpon>WakeForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Properties\App.ico" />
+    <Content Include="Setup\MagiWol.iss" />
+    <None Include="App.config" />
+    <None Include="MagiWOLDocument.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Content Include="ReadMe.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\App.snk" />
+    <None Include="Properties\App.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PreBuildEvent>Q:\Tools\BuildEvents\BuildEvents.exe /Prebuild /ConfigurationName:"$(ConfigurationName)" /TargetPath:"$(TargetPath)" /SolutionDir:"$(SolutionDir)" /ProjectDir:"$(ProjectDir)"</PreBuildEvent>
+    <PostBuildEvent>Q:\Tools\BuildEvents\BuildEvents.exe /Postbuild /ConfigurationName:"$(ConfigurationName)" /TargetPath:"$(TargetPath)" /SolutionDir:"$(SolutionDir)" /ProjectDir:"$(ProjectDir)"</PostBuildEvent>
+  </PropertyGroup>
+</Project>

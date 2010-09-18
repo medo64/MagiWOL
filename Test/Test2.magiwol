@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-16"?>
+<MagiWOL version="2.00">
+  <Addresses>
+    <Address name="First" macAddress="AD:FD:FA:DF:AD:FD" secureOnPassword="DF:DF:23:42:34:23" broadcastAddress="255.255.255.255" broadcastPort="9" isBroadcastAddressValid="True" isBroadcastPortValid="True" description="Testing it now" />
+    <Address name="Second" macAddress="12:31:23:12:31:23" secureOnPassword="AD:FD:AD:FD:FD:FD" broadcastAddress="255.255.255.255" broadcastPort="9" isBroadcastAddressValid="False" isBroadcastPortValid="False" description="Test 2" />
+  </Addresses>
+</MagiWOL>

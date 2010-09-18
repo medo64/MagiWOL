@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-16"?>
+<MagiWOL version="2.00">
+  <Addresses>
+    <Address name="Uno" macAddress="AD:FD:FA:DF:AD:FD" secureOnPassword="DF:DF:23:42:34:23" broadcastAddress="255.255.255.255" broadcastPort="12" isBroadcastAddressValid="False" isBroadcastPortValid="True" description="Testing it now" />
+    <Address name="Due" macAddress="12:31:23:12:31:23" secureOnPassword="AD:FD:AD:FD:FD:FD" broadcastAddress="255.255.255.255" broadcastPort="9" isBroadcastAddressValid="False" isBroadcastPortValid="False" description="Test 2" />
+    <Address name="Tres" macAddress="0A:DA:DA:DD:0D:DF" secureOnPassword="" broadcastAddress="255.255.255.255" broadcastPort="9" isBroadcastAddressValid="False" isBroadcastPortValid="False" description="Pero" />
+    <Address name="sdfsf" macAddress="EE:E1:23:12:31:23" secureOnPassword="" broadcastAddress="255.255.255.255" broadcastPort="9" isBroadcastAddressValid="False" isBroadcastPortValid="False" description="" />
+    <Address name="tzrz4" macAddress="45:34:65:67:FB:AD" secureOnPassword="" broadcastAddress="255.255.255.255" broadcastPort="9" isBroadcastAddressValid="False" isBroadcastPortValid="False" description="" />
+    <Address name="2wers" macAddress="F4:EE:56:3E:DA:FA" secureOnPassword="" broadcastAddress="255.255.255.255" broadcastPort="9" isBroadcastAddressValid="False" isBroadcastPortValid="False" description="" />
+    <Address name="wersdfgv" macAddress="23:4E:AE:DF:FC:DF" secureOnPassword="" broadcastAddress="255.255.255.255" broadcastPort="9" isBroadcastAddressValid="False" isBroadcastPortValid="False" description="" />
+    <Address name="dfgs" macAddress="34:53:46:FD:CA:DA" secureOnPassword="" broadcastAddress="255.255.255.255" broadcastPort="9" isBroadcastAddressValid="False" isBroadcastPortValid="False" description="" />
+    <Address name="SDF" macAddress="FE:42:34:53:12:31" secureOnPassword="" broadcastAddress="255.255.255.255" broadcastPort="9" isBroadcastAddressValid="False" isBroadcastPortValid="False" description="" />
+    <Address name="23r4" macAddress="23:4E:ED:FC:AC:AD" secureOnPassword="" broadcastAddress="255.255.255.255" broadcastPort="9" isBroadcastAddressValid="False" isBroadcastPortValid="False" description="" />
+    <Address name="wedfwed" macAddress="23:42:3E:41:23:41" secureOnPassword="" broadcastAddress="255.255.255.255" broadcastPort="9" isBroadcastAddressValid="False" isBroadcastPortValid="False" description="" />
+    <Address name="beorn" macAddress="00:50:70:52:36:51" secureOnPassword="" broadcastAddress="255.255.255.255" broadcastPort="9" isBroadcastAddressValid="False" isBroadcastPortValid="False" description="" />
+    <Address name="192.168.100.100" macAddress="00:11:D8:75:C1:5E" secureOnPassword="" broadcastAddress="255.255.255.255" broadcastPort="9" isBroadcastAddressValid="False" isBroadcastPortValid="False" description="" />
+    <Address name="192.168.100.101" macAddress="00:0D:B9:0D:35:C0" secureOnPassword="" broadcastAddress="255.255.255.255" broadcastPort="9" isBroadcastAddressValid="False" isBroadcastPortValid="False" description="" />
+    <Address name="192.168.100.131" macAddress="00:21:00:4D:86:A1" secureOnPassword="" broadcastAddress="255.255.255.255" broadcastPort="9" isBroadcastAddressValid="False" isBroadcastPortValid="False" description="" />
+  </Addresses>
+</MagiWOL>

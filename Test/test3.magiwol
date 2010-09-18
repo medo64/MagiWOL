@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-16"?>
+<MagiWOL version="2.00">
+  <Addresses>
+    <Address name="Trd" macAddress="DF:0F:0D:DF:DF:DF" secureOnPassword="" broadcastAddress="255.255.255.255" broadcastPort="9" isBroadcastAddressValid="False" isBroadcastPortValid="False" description="" />
+  </Addresses>
+</MagiWOL>
