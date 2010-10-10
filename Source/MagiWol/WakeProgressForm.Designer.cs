@@ -64,13 +64,14 @@
             // 
             this.labelCurrent.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelCurrent.Location = new System.Drawing.Point(12, 53);
+            this.labelCurrent.AutoEllipsis = true;
+            this.labelCurrent.Location = new System.Drawing.Point(12, 38);
             this.labelCurrent.Name = "labelCurrent";
-            this.labelCurrent.Size = new System.Drawing.Size(344, 28);
+            this.labelCurrent.Size = new System.Drawing.Size(344, 43);
             this.labelCurrent.TabIndex = 18;
-            this.labelCurrent.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.labelCurrent.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
-            // ProgressForm
+            // WakeProgressForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -83,7 +84,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "ProgressForm";
+            this.Name = "WakeProgressForm";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

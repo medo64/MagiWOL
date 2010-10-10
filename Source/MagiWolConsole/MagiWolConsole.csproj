@@ -9,7 +9,7 @@
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MagiWolConsole</RootNamespace>
-    <AssemblyName>MagiWOLc</AssemblyName>
+    <AssemblyName>wol</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ApplicationIcon>Properties\App.ico</ApplicationIcon>
@@ -34,7 +34,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <ApplicationManifest>Q:\Projects\Josip Medved\MagiWol\Source\MagiWol\Properties\App.manifest</ApplicationManifest>
+    <ApplicationManifest>Q:\Projects\My\Freeware\Windows\MagiWOL\Source\MagiWol\Properties\App.manifest</ApplicationManifest>
     <SccProjectName>
     </SccProjectName>
     <SccLocalPath>

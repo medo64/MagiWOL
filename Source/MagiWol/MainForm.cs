@@ -49,11 +49,11 @@ namespace MagiWol {
         private bool _suppressMenuKey;
 
         private void MainForm_Deactivate(object sender, EventArgs e) {
-            mnu.Visible = Settings.ShowMenu;
+            mnu.Visible = Settings.Runtime.ShowMenu;
         }
 
         private void MainForm_Load(object sender, EventArgs e) {
-            mnu.Visible = Settings.ShowMenu;
+            mnu.Visible = Settings.Runtime.ShowMenu;
             Medo.Windows.Forms.State.Load(this, list);
             OpenFromCommandLineArgs();
             UpdateData(null);
@@ -71,7 +71,7 @@ namespace MagiWol {
         private void MainForm_KeyDown(object sender, KeyEventArgs e) {
             Debug.WriteLine("MainForm_KeyDown: " + e.KeyData.ToString());
 
-            if (!Settings.ShowMenu) {
+            if (!Settings.Runtime.ShowMenu) {
                 switch (e.KeyData) {
 
                     case (Keys.Alt | Keys.F):
@@ -128,7 +128,7 @@ namespace MagiWol {
         private void MainForm_KeyUp(object sender, KeyEventArgs e) {
             Debug.WriteLine("MainForm_KeyUp: " + e.KeyData.ToString());
 
-            if (!Settings.ShowMenu) {
+            if (!Settings.Runtime.ShowMenu) {
                 if (e.KeyData == Keys.Menu) {
                     if (this._suppressMenuKey) {
                         this._suppressMenuKey = false;
@@ -148,7 +148,7 @@ namespace MagiWol {
         }
 
         private void mnu_Leave(object sender, EventArgs e) {
-            if (!Settings.ShowMenu) {
+            if (!Settings.Runtime.ShowMenu) {
                 if (mnu.Visible) { mnu.Visible = false; }
             }
         }
@@ -337,20 +337,6 @@ namespace MagiWol {
             this.Close();
         }
 
-
-        private void mnxFileNew_Click(object sender, EventArgs e) {
-            mnuFileNew_Click(null, null);
-        }
-
-        private void mnxFileOpen_ButtonClick(object sender, EventArgs e) {
-            mnuFileOpen_Click(null, null);
-        }
-
-
-        private void mnxFileSave_Click(object sender, EventArgs e) {
-            mnuFileSave_Click(null, null);
-        }
-
         #endregion
 
 
@@ -436,31 +422,6 @@ namespace MagiWol {
             }
         }
 
-
-        private void mnxEditCut_Click(object sender, EventArgs e) {
-            mnuEditCut_Click(sender, e);
-        }
-
-        private void mnxEditCopy_Click(object sender, EventArgs e) {
-            mnuEditCopy_Click(sender, e);
-        }
-
-        private void mnxEditPaste_Click(object sender, EventArgs e) {
-            mnuEditPaste_Click(sender, e);
-        }
-
-        private void mnxEditAdd_Click(object sender, EventArgs e) {
-            mnuEditAdd_Click(sender, e);
-        }
-
-        private void mnxEditChange_Click(object sender, EventArgs e) {
-            mnuEditChange_Click(sender, e);
-        }
-
-        private void mnxEditRemove_Click(object sender, EventArgs e) {
-            mnuEditRemove_Click(sender, e);
-        }
-
         #endregion
 
 
@@ -498,19 +459,6 @@ namespace MagiWol {
             }
         }
 
-
-        private void mnxActionWake_Click(object sender, EventArgs e) {
-            mnuActionWake_Click(sender, e);
-        }
-
-        private void mnxActionWakeAll_Click(object sender, EventArgs e) {
-            mnuActionWakeAll_Click(sender, e);
-        }
-
-        private void mnxActionQuickWake_Click(object sender, EventArgs e) {
-            mnuActionQuickWake_Click(sender, e);
-        }
-
         #endregion
 
         #region Menu: Tools
@@ -518,13 +466,9 @@ namespace MagiWol {
         private void mnuToolsOptions_Click(object sender, EventArgs e) {
             using (var form = new SettingsForm()) {
                 if (form.ShowDialog(this) == DialogResult.OK) {
-                    mnu.Visible = Settings.ShowMenu;
+                    mnu.Visible = Settings.Runtime.ShowMenu;
                 }
             }
-        }
-
-        private void mnxToolsOptions_Click(object sender, EventArgs e) {
-            mnuToolsOptions_Click(null, null);
         }
 
         #endregion
@@ -556,39 +500,6 @@ namespace MagiWol {
             mnxListQuickWake.Enabled = (list.SelectedItems.Count == 1);
         }
 
-
-        private void mnxListCut_Click(object sender, EventArgs e) {
-            mnuEditCut_Click(sender, e);
-        }
-
-        private void mnxListCopy_Click(object sender, EventArgs e) {
-            mnuEditCopy_Click(sender, e);
-        }
-
-        private void mnxListPaste_Click(object sender, EventArgs e) {
-            mnuEditPaste_Click(sender, e);
-        }
-
-        private void mnxListEditSelectAll_Click(object sender, EventArgs e) {
-            mnuEditSelectAll_Click(sender, e);
-        }
-
-        private void mnxListAdd_Click(object sender, EventArgs e) {
-            mnuEditAdd_Click(sender, e);
-        }
-
-        private void mnxListChange_Click(object sender, EventArgs e) {
-            mnuEditChange_Click(sender, e);
-        }
-
-        private void mnxListRemove_Click(object sender, EventArgs e) {
-            mnuEditRemove_Click(sender, e);
-        }
-
-        private void mnxListActionWake_Click(object sender, EventArgs e) {
-            mnuActionWake_Click(sender, e);
-        }
-
         private void mnxListQuickWake_Click(object sender, EventArgs e) {
             if (list.SelectedItems.Count == 1) {
                 var address = (MagiWolDocument.Address)list.SelectedItems[0];
@@ -611,12 +522,14 @@ namespace MagiWol {
             } else {
                 e.CancelEdit = true;
             }
+            mnuEditRemove.ShortcutKeys = Keys.Delete;
         }
 
         private void list_KeyUp(object sender, KeyEventArgs e) {
             if (e.KeyData == Keys.F2) {
                 if (list.SelectedItems.Count == 1) {
                     if (list.FocusedItem != null) {
+                        mnuEditRemove.ShortcutKeys = Keys.None;
                         list.FocusedItem.BeginEdit();
                     }
                 }
@@ -720,14 +633,6 @@ namespace MagiWol {
                     }
                 }
             }
-        }
-
-        private void mnxAbout_Click(object sender, EventArgs e) {
-            mnuHelpAbout_Click(null, null);
-        }
-
-        private void mnxReportABug_Click(object sender, EventArgs e) {
-            mnuHelpReportABug_Click(null, null);
         }
 
     }

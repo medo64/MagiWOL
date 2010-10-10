@@ -3,17 +3,17 @@ using System.Net;
 
 namespace MagiWol {
 
-    static class Settings {
+    internal static class Settings {
 
-        public static bool ShowMenu {
-            get {
-                return Medo.Configuration.Settings.Read("ShowMenu", false);
-            }
-            set
-            {
-                Medo.Configuration.Settings.Write("ShowMenu", value);
-            }
+        public static class Runtime { //reseted upon every application start
+
+            public static bool ShowMenu { get; set; }
+
+            public static int WolWaitBetweenComputersIntervalSeconds { get; set; }
+        
         }
+
+
 
         public static IPEndPoint DefaultPacketEndPoint {
             get {

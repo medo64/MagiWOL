@@ -1,10 +1,10 @@
 [Setup]
 AppName=MagiWOL
-AppVerName=MagiWOL 2.10
+AppVerName=MagiWOL 2.20
 DefaultDirName={pf}\Josip Medved\MagiWOL
-OutputBaseFilename=magiwol210
+OutputBaseFilename=magiwol220
 OutputDir=..\Releases
-SourceDir=..\..\..\Binaries
+SourceDir=..\Binaries
 AppId=JosipMedved_MagiWOL
 AppMutex=Global\JosipMedved_MagiWOL
 AppPublisher=Josip Medved
@@ -23,7 +23,7 @@ ChangesAssociations=yes
 [Files]
 Source: "MagiWOL.exe";  DestDir: "{app}";
 Source: "MagiWOLDocument.ico";  DestDir: "{app}";
-Source: "MagiWOLc.exe"; DestDir: "{app}";
+Source: "wol.exe"; DestDir: "{app}";
 Source: "ReadMe.txt";   DestDir: "{app}"; Attribs: readonly; Flags: overwritereadonly uninsremovereadonly;
 
 [Icons]

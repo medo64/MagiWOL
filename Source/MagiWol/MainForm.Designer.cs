@@ -297,6 +297,7 @@ namespace MagiWol {
             // 
             this.mnuEditRemove.Image = ((System.Drawing.Image)(resources.GetObject("mnuEditRemove.Image")));
             this.mnuEditRemove.Name = "mnuEditRemove";
+            this.mnuEditRemove.ShortcutKeyDisplayString = "";
             this.mnuEditRemove.ShortcutKeys = System.Windows.Forms.Keys.Delete;
             this.mnuEditRemove.Size = new System.Drawing.Size(190, 24);
             this.mnuEditRemove.Text = "&Remove";
@@ -449,7 +450,7 @@ namespace MagiWol {
             this.mnxFileNew.Size = new System.Drawing.Size(23, 24);
             this.mnxFileNew.Text = "New";
             this.mnxFileNew.ToolTipText = "New file (Ctrl+N)";
-            this.mnxFileNew.Click += new System.EventHandler(this.mnxFileNew_Click);
+            this.mnxFileNew.Click += new System.EventHandler(this.mnuFileNew_Click);
             // 
             // mnxFileOpen
             // 
@@ -461,7 +462,7 @@ namespace MagiWol {
             this.mnxFileOpen.Size = new System.Drawing.Size(32, 24);
             this.mnxFileOpen.Text = "Open";
             this.mnxFileOpen.ToolTipText = "Open file (Ctrl+O)";
-            this.mnxFileOpen.ButtonClick += new System.EventHandler(this.mnxFileOpen_ButtonClick);
+            this.mnxFileOpen.ButtonClick += new System.EventHandler(this.mnuFileOpen_Click);
             // 
             // mnxFileSave
             // 
@@ -473,7 +474,7 @@ namespace MagiWol {
             this.mnxFileSave.Size = new System.Drawing.Size(23, 24);
             this.mnxFileSave.Text = "Save";
             this.mnxFileSave.ToolTipText = "Save file (Ctrl+S)";
-            this.mnxFileSave.Click += new System.EventHandler(this.mnxFileSave_Click);
+            this.mnxFileSave.Click += new System.EventHandler(this.mnuFileSave_Click);
             // 
             // toolStripSeparator1
             // 
@@ -491,7 +492,7 @@ namespace MagiWol {
             this.mnxEditCut.Size = new System.Drawing.Size(23, 24);
             this.mnxEditCut.Text = "Cut";
             this.mnxEditCut.ToolTipText = "Cut (Ctrl+X)";
-            this.mnxEditCut.Click += new System.EventHandler(this.mnxEditCut_Click);
+            this.mnxEditCut.Click += new System.EventHandler(this.mnuEditCut_Click);
             // 
             // mnxEditCopy
             // 
@@ -503,7 +504,7 @@ namespace MagiWol {
             this.mnxEditCopy.Size = new System.Drawing.Size(23, 24);
             this.mnxEditCopy.Text = "Copy";
             this.mnxEditCopy.ToolTipText = "Copy (Ctrl+C)";
-            this.mnxEditCopy.Click += new System.EventHandler(this.mnxEditCopy_Click);
+            this.mnxEditCopy.Click += new System.EventHandler(this.mnuEditCopy_Click);
             // 
             // mnxEditPaste
             // 
@@ -515,7 +516,7 @@ namespace MagiWol {
             this.mnxEditPaste.Size = new System.Drawing.Size(23, 24);
             this.mnxEditPaste.Text = "Paste";
             this.mnxEditPaste.ToolTipText = "Paste (Ctrl+V)";
-            this.mnxEditPaste.Click += new System.EventHandler(this.mnxEditPaste_Click);
+            this.mnxEditPaste.Click += new System.EventHandler(this.mnuEditPaste_Click);
             // 
             // toolStripSeparator3
             // 
@@ -533,7 +534,7 @@ namespace MagiWol {
             this.mnxEditAdd.Size = new System.Drawing.Size(23, 24);
             this.mnxEditAdd.Text = "Add";
             this.mnxEditAdd.ToolTipText = "Add (Ins)";
-            this.mnxEditAdd.Click += new System.EventHandler(this.mnxEditAdd_Click);
+            this.mnxEditAdd.Click += new System.EventHandler(this.mnuEditAdd_Click);
             // 
             // mnxEditChange
             // 
@@ -545,7 +546,7 @@ namespace MagiWol {
             this.mnxEditChange.Size = new System.Drawing.Size(23, 24);
             this.mnxEditChange.Text = "Change";
             this.mnxEditChange.ToolTipText = "Change (F4)";
-            this.mnxEditChange.Click += new System.EventHandler(this.mnxEditChange_Click);
+            this.mnxEditChange.Click += new System.EventHandler(this.mnuEditChange_Click);
             // 
             // mnxEditRemove
             // 
@@ -557,7 +558,7 @@ namespace MagiWol {
             this.mnxEditRemove.Size = new System.Drawing.Size(23, 24);
             this.mnxEditRemove.Text = "Remove";
             this.mnxEditRemove.ToolTipText = "Remove (Del)";
-            this.mnxEditRemove.Click += new System.EventHandler(this.mnxEditRemove_Click);
+            this.mnxEditRemove.Click += new System.EventHandler(this.mnuEditRemove_Click);
             // 
             // toolStripSeparator2
             // 
@@ -574,7 +575,7 @@ namespace MagiWol {
             this.mnxActionWake.Size = new System.Drawing.Size(125, 24);
             this.mnxActionWake.Text = "Wake selected";
             this.mnxActionWake.ToolTipText = "Wake selected (F6)";
-            this.mnxActionWake.Click += new System.EventHandler(this.mnxActionWake_Click);
+            this.mnxActionWake.Click += new System.EventHandler(this.mnuActionWake_Click);
             // 
             // mnxActionWakeAll
             // 
@@ -585,7 +586,7 @@ namespace MagiWol {
             this.mnxActionWakeAll.Size = new System.Drawing.Size(86, 24);
             this.mnxActionWakeAll.Text = "Wake all";
             this.mnxActionWakeAll.ToolTipText = "Wake all (Shift+F6)";
-            this.mnxActionWakeAll.Click += new System.EventHandler(this.mnxActionWakeAll_Click);
+            this.mnxActionWakeAll.Click += new System.EventHandler(this.mnuActionWakeAll_Click);
             // 
             // mnxAbout
             // 
@@ -596,7 +597,7 @@ namespace MagiWol {
             this.mnxAbout.Name = "mnxAbout";
             this.mnxAbout.Size = new System.Drawing.Size(23, 24);
             this.mnxAbout.Text = "About";
-            this.mnxAbout.Click += new System.EventHandler(this.mnxAbout_Click);
+            this.mnxAbout.Click += new System.EventHandler(this.mnuHelpAbout_Click);
             // 
             // mnxReportABug
             // 
@@ -607,7 +608,7 @@ namespace MagiWol {
             this.mnxReportABug.Name = "mnxReportABug";
             this.mnxReportABug.Size = new System.Drawing.Size(23, 24);
             this.mnxReportABug.Text = "Report a bug";
-            this.mnxReportABug.Click += new System.EventHandler(this.mnxReportABug_Click);
+            this.mnxReportABug.Click += new System.EventHandler(this.mnuHelpReportABug_Click);
             // 
             // mnxToolsOptions
             // 
@@ -618,7 +619,7 @@ namespace MagiWol {
             this.mnxToolsOptions.Name = "mnxToolsOptions";
             this.mnxToolsOptions.Size = new System.Drawing.Size(23, 24);
             this.mnxToolsOptions.Text = "Options";
-            this.mnxToolsOptions.Click += new System.EventHandler(this.mnxToolsOptions_Click);
+            this.mnxToolsOptions.Click += new System.EventHandler(this.mnuToolsOptions_Click);
             // 
             // toolStripSeparator4
             // 
@@ -641,7 +642,7 @@ namespace MagiWol {
             this.mnxActionQuickWake.Size = new System.Drawing.Size(104, 24);
             this.mnxActionQuickWake.Text = "Quick wake";
             this.mnxActionQuickWake.ToolTipText = "Quick wake (Ctrl+W)";
-            this.mnxActionQuickWake.Click += new System.EventHandler(this.mnxActionQuickWake_Click);
+            this.mnxActionQuickWake.Click += new System.EventHandler(this.mnuActionQuickWake_Click);
             // 
             // list
             // 
@@ -707,77 +708,77 @@ namespace MagiWol {
             this.mnxListCut.Image = ((System.Drawing.Image)(resources.GetObject("mnxListCut.Image")));
             this.mnxListCut.Name = "mnxListCut";
             this.mnxListCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.mnxListCut.Size = new System.Drawing.Size(198, 24);
+            this.mnxListCut.Size = new System.Drawing.Size(209, 24);
             this.mnxListCut.Text = "Cu&t";
-            this.mnxListCut.Click += new System.EventHandler(this.mnxListCut_Click);
+            this.mnxListCut.Click += new System.EventHandler(this.mnuEditCut_Click);
             // 
             // mnxListCopy
             // 
             this.mnxListCopy.Image = ((System.Drawing.Image)(resources.GetObject("mnxListCopy.Image")));
             this.mnxListCopy.Name = "mnxListCopy";
             this.mnxListCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.mnxListCopy.Size = new System.Drawing.Size(198, 24);
+            this.mnxListCopy.Size = new System.Drawing.Size(209, 24);
             this.mnxListCopy.Text = "&Copy";
-            this.mnxListCopy.Click += new System.EventHandler(this.mnxListCopy_Click);
+            this.mnxListCopy.Click += new System.EventHandler(this.mnuEditCopy_Click);
             // 
             // mnxListPaste
             // 
             this.mnxListPaste.Image = ((System.Drawing.Image)(resources.GetObject("mnxListPaste.Image")));
             this.mnxListPaste.Name = "mnxListPaste";
             this.mnxListPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.mnxListPaste.Size = new System.Drawing.Size(198, 24);
+            this.mnxListPaste.Size = new System.Drawing.Size(209, 24);
             this.mnxListPaste.Text = "&Paste";
-            this.mnxListPaste.Click += new System.EventHandler(this.mnxListPaste_Click);
+            this.mnxListPaste.Click += new System.EventHandler(this.mnuEditPaste_Click);
             // 
             // toolStripMenuItem6
             // 
             this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-            this.toolStripMenuItem6.Size = new System.Drawing.Size(195, 6);
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(206, 6);
             // 
             // mnxListEditSelectAll
             // 
             this.mnxListEditSelectAll.Name = "mnxListEditSelectAll";
             this.mnxListEditSelectAll.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-            this.mnxListEditSelectAll.Size = new System.Drawing.Size(198, 24);
+            this.mnxListEditSelectAll.Size = new System.Drawing.Size(209, 24);
             this.mnxListEditSelectAll.Text = "&Select all";
-            this.mnxListEditSelectAll.Click += new System.EventHandler(this.mnxListEditSelectAll_Click);
+            this.mnxListEditSelectAll.Click += new System.EventHandler(this.mnuEditSelectAll_Click);
             // 
             // toolStripMenuItem9
             // 
             this.toolStripMenuItem9.Name = "toolStripMenuItem9";
-            this.toolStripMenuItem9.Size = new System.Drawing.Size(195, 6);
+            this.toolStripMenuItem9.Size = new System.Drawing.Size(206, 6);
             // 
             // mnxListAdd
             // 
             this.mnxListAdd.Image = ((System.Drawing.Image)(resources.GetObject("mnxListAdd.Image")));
             this.mnxListAdd.Name = "mnxListAdd";
             this.mnxListAdd.ShortcutKeys = System.Windows.Forms.Keys.Insert;
-            this.mnxListAdd.Size = new System.Drawing.Size(198, 24);
+            this.mnxListAdd.Size = new System.Drawing.Size(209, 24);
             this.mnxListAdd.Text = "&Add";
-            this.mnxListAdd.Click += new System.EventHandler(this.mnxListAdd_Click);
+            this.mnxListAdd.Click += new System.EventHandler(this.mnuEditAdd_Click);
             // 
             // mnxListChange
             // 
             this.mnxListChange.Image = ((System.Drawing.Image)(resources.GetObject("mnxListChange.Image")));
             this.mnxListChange.Name = "mnxListChange";
             this.mnxListChange.ShortcutKeys = System.Windows.Forms.Keys.F4;
-            this.mnxListChange.Size = new System.Drawing.Size(198, 24);
+            this.mnxListChange.Size = new System.Drawing.Size(209, 24);
             this.mnxListChange.Text = "C&hange";
-            this.mnxListChange.Click += new System.EventHandler(this.mnxListChange_Click);
+            this.mnxListChange.Click += new System.EventHandler(this.mnuEditChange_Click);
             // 
             // mnxListRemove
             // 
             this.mnxListRemove.Image = ((System.Drawing.Image)(resources.GetObject("mnxListRemove.Image")));
             this.mnxListRemove.Name = "mnxListRemove";
-            this.mnxListRemove.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.mnxListRemove.Size = new System.Drawing.Size(198, 24);
+            this.mnxListRemove.ShortcutKeyDisplayString = "Del";
+            this.mnxListRemove.Size = new System.Drawing.Size(209, 24);
             this.mnxListRemove.Text = "&Remove";
-            this.mnxListRemove.Click += new System.EventHandler(this.mnxListRemove_Click);
+            this.mnxListRemove.Click += new System.EventHandler(this.mnuEditRemove_Click);
             // 
             // toolStripMenuItem7
             // 
             this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-            this.toolStripMenuItem7.Size = new System.Drawing.Size(195, 6);
+            this.toolStripMenuItem7.Size = new System.Drawing.Size(206, 6);
             // 
             // mnxListActionWake
             // 
@@ -786,12 +787,12 @@ namespace MagiWol {
             this.mnxListActionWake.ShortcutKeys = System.Windows.Forms.Keys.F6;
             this.mnxListActionWake.Size = new System.Drawing.Size(209, 24);
             this.mnxListActionWake.Text = "&Wake selected";
-            this.mnxListActionWake.Click += new System.EventHandler(this.mnxListActionWake_Click);
+            this.mnxListActionWake.Click += new System.EventHandler(this.mnuActionWake_Click);
             // 
             // toolStripMenuItem10
             // 
             this.toolStripMenuItem10.Name = "toolStripMenuItem10";
-            this.toolStripMenuItem10.Size = new System.Drawing.Size(195, 6);
+            this.toolStripMenuItem10.Size = new System.Drawing.Size(206, 6);
             // 
             // mnxListQuickWake
             // 

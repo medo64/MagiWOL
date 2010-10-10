@@ -25,7 +25,6 @@
         private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsForm));
-            this.chbShowMenu = new System.Windows.Forms.CheckBox();
             this.groupPacketEndPoint = new System.Windows.Forms.GroupBox();
             this.buttonDefault = new System.Windows.Forms.Button();
             this.labelBroadcastPort = new System.Windows.Forms.Label();
@@ -38,17 +37,6 @@
             this.groupPacketEndPoint.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.erp)).BeginInit();
             this.SuspendLayout();
-            // 
-            // chbShowMenu
-            // 
-            this.chbShowMenu.AutoSize = true;
-            this.chbShowMenu.Location = new System.Drawing.Point(12, 141);
-            this.chbShowMenu.Margin = new System.Windows.Forms.Padding(3, 15, 3, 3);
-            this.chbShowMenu.Name = "chbShowMenu";
-            this.chbShowMenu.Size = new System.Drawing.Size(103, 21);
-            this.chbShowMenu.TabIndex = 1;
-            this.chbShowMenu.Text = "Show menu";
-            this.chbShowMenu.UseVisualStyleBackColor = true;
             // 
             // groupPacketEndPoint
             // 
@@ -121,7 +109,7 @@
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(282, 180);
+            this.buttonCancel.Location = new System.Drawing.Point(282, 141);
             this.buttonCancel.Margin = new System.Windows.Forms.Padding(3, 15, 3, 3);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(100, 28);
@@ -133,7 +121,7 @@
             // 
             this.buttonOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.buttonOk.Location = new System.Drawing.Point(176, 180);
+            this.buttonOk.Location = new System.Drawing.Point(176, 141);
             this.buttonOk.Margin = new System.Windows.Forms.Padding(3, 15, 3, 3);
             this.buttonOk.Name = "buttonOk";
             this.buttonOk.Size = new System.Drawing.Size(100, 28);
@@ -154,11 +142,10 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(394, 220);
+            this.ClientSize = new System.Drawing.Size(394, 181);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonOk);
             this.Controls.Add(this.groupPacketEndPoint);
-            this.Controls.Add(this.chbShowMenu);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -172,13 +159,11 @@
             this.groupPacketEndPoint.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.erp)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.CheckBox chbShowMenu;
         private System.Windows.Forms.GroupBox groupPacketEndPoint;
         private System.Windows.Forms.Label labelBroadcastPort;
         private System.Windows.Forms.TextBox textBroadcastPort;

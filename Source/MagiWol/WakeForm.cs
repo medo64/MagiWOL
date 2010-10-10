@@ -31,7 +31,7 @@ namespace MagiWol {
         }
 
         private void WakeForm_Load(object sender, EventArgs e) {
-
+            nudPause.Value = Settings.Runtime.WolWaitBetweenComputersIntervalSeconds;
         }
 
         private void WakeForm_Resize(object sender, EventArgs e) {
@@ -41,15 +41,16 @@ namespace MagiWol {
         }
 
         private void buttonOk_Click(object sender, EventArgs e) {
-            using (var form = new WakeProgressForm(this._addresses)) {
+            using (var form = new WakeProgressForm(this._addresses, (int)nudPause.Value)) {
                 if (form.ShowDialog(this) == DialogResult.OK) {
+                    Settings.Runtime.WolWaitBetweenComputersIntervalSeconds = (int)nudPause.Value;
                     this.DialogResult = DialogResult.OK;
                 }
             }
         }
 
         private void WakeForm_Shown(object sender, EventArgs e) { //because of Mono compatiblity
-            if (WakeForm.IsRunningOnMono) { WakeForm_Resize(null, null); }
+            WakeForm_Resize(null, null);
         }
 
 

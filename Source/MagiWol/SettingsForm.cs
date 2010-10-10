@@ -25,7 +25,6 @@ namespace MagiWol {
         private void SettingsForm_Load(object sender, EventArgs e) {
             textBroadcastAddress.Text = Settings.DefaultPacketEndPoint.Address.ToString();
             textBroadcastPort.Text = Settings.DefaultPacketEndPoint.Port.ToString(CultureInfo.InvariantCulture);
-            chbShowMenu.Checked = Settings.ShowMenu;
         }
 
         private void buttonOk_Click(object sender, EventArgs e) {
@@ -38,8 +37,6 @@ namespace MagiWol {
                 port = Settings.DefaultPacketEndPoint.Port;
             }
             Settings.DefaultPacketEndPoint = new IPEndPoint(address, port);
-
-            Settings.ShowMenu = chbShowMenu.Checked;
         }
 
         private void textBroadcastAddress_Validating(object sender, CancelEventArgs e) {

@@ -74,11 +74,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="%28Medo%29\AboutBox [008].cs" />
+    <Compile Include="%28Medo%29\AboutBox [009].cs" />
     <Compile Include="%28Medo%29\Args [001].cs" />
     <Compile Include="%28Medo%29\EntryAssembly [003].cs" />
     <Compile Include="%28Medo%29\ErrorReport [016].cs" />
     <Compile Include="%28Medo%29\MessageBox [006].cs" />
+    <Compile Include="%28Medo%29\NumberDeclination [001].cs" />
     <Compile Include="%28Medo%29\RecentFiles [002].cs" />
     <Compile Include="%28Medo%29\Settings [010].cs" />
     <Compile Include="%28Medo%29\State [013].cs" />
@@ -194,7 +195,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Properties\App.ico" />
-    <Content Include="Setup\MagiWol.iss" />
     <None Include="App.config" />
     <None Include="MagiWOLDocument.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

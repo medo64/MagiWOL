@@ -7,6 +7,7 @@
 //2008-04-11: Cleaned code to match FxCop 1.36 beta 2 (NormalizeStringsToUppercase, SpecifyMarshalingForPInvokeStringArguments).
 //2008-11-05: Refactoring (Microsoft.Maintainability : 'AboutBox.ShowDialog(IWin32Window, Uri, string)' has a cyclomatic complexity of 27, Microsoft.Maintainability : 'AboutBox.ShowDialog(IWin32Window, Uri, string)' is coupled with 38 different types from 10 different namespaces.).
 //2008-12-20: Adjusted for high DPI mode.
+//2009-10-25: Adjusted disposing of buttons.
 
 
 using System;
@@ -229,6 +230,10 @@ namespace Medo.Windows.Forms {
                 } else {
                     form.ShowDialog();
                 }
+
+                buttonClose.Dispose();
+                if (buttonReadme != null) { buttonReadme.Dispose(); }
+                if (buttonWebPage != null) { buttonWebPage.Dispose(); }
             }
 
             if (_paintImage != null) { _paintImage.Dispose(); }

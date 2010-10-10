@@ -30,9 +30,11 @@ Shortcut keys
 
 Version history
 
-   Version 2.20 ()
+   Version 2.20 (2010-10-12)
 
-      o  Fixed bug (The requested address is not valid in its context).
+      o  Bug fixing.
+      o  Added option to wait between waking computers.
+      o  Renamed console application to wol.exe (easier auto-complete).
 
    Version 2.10 (2009-08-02)
 
