@@ -45,6 +45,7 @@
             this.list_Mac});
             this.list.FullRowSelect = true;
             this.list.GridLines = true;
+            this.list.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.list.Location = new System.Drawing.Point(12, 12);
             this.list.Name = "list";
             this.list.Size = new System.Drawing.Size(330, 259);
