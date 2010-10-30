@@ -1,8 +1,8 @@
 [Setup]
 AppName=MagiWOL
-AppVerName=MagiWOL 2.20
+AppVerName=MagiWOL 2.21
 DefaultDirName={pf}\Josip Medved\MagiWOL
-OutputBaseFilename=magiwol220
+OutputBaseFilename=magiwol221
 OutputDir=..\Releases
 SourceDir=..\Binaries
 AppId=JosipMedved_MagiWOL
@@ -40,5 +40,3 @@ Root: HKCR; Subkey: "MagiWolFile\shell\open\command"; ValueType: string; ValueNa
 [Run]
 Filename: "{app}\ReadMe.txt"; Description: "View ReadMe.txt"; Flags: postinstall runasoriginaluser shellexec nowait skipifsilent unchecked
 Filename: "{app}\MagiWOL.exe"; Description: "Launch application now"; Flags: postinstall nowait skipifsilent runasoriginaluser unchecked
-
-
