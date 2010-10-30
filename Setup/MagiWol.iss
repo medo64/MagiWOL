@@ -30,7 +30,7 @@ Source: "ReadMe.txt";   DestDir: "{app}"; Attribs: readonly; Flags: overwriterea
 Name: "{userstartmenu}\MagiWOL"; Filename: "{app}\MagiWOL.exe"
 
 [Registry]
-Root: HKCU; Subkey: "Software\Josip Medved\MagiWOL"; Flags: uninsdeletekey
+Root: HKCU; Subkey: "Software\Josip Medved\MagiWOL"; ValueType: dword; ValueName: "Installed"; ValueData: "1"; Flags: uninsdeletekey
 Root: HKCU; Subkey: "Software\Josip Medved"; Flags: uninsdeletekeyifempty
 Root: HKCR; Subkey: ".magiwol"; ValueType: string; ValueName: ""; ValueData: "MagiWolFile"; Flags: uninsdeletevalue
 Root: HKCR; Subkey: "MagiWolFile"; ValueType: string; ValueName: ""; ValueData: "MagiWOL File"; Flags: uninsdeletekey
