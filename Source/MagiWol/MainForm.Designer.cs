@@ -78,7 +78,6 @@ namespace MagiWol {
             this.mnxAbout = new System.Windows.Forms.ToolStripButton();
             this.mnxReportABug = new System.Windows.Forms.ToolStripButton();
             this.mnxToolsOptions = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.mnxActionQuickWake = new System.Windows.Forms.ToolStripButton();
             this.list = new System.Windows.Forms.ListView();
@@ -430,7 +429,6 @@ namespace MagiWol {
             this.mnxAbout,
             this.mnxReportABug,
             this.mnxToolsOptions,
-            this.toolStripSeparator4,
             this.toolStripSeparator5,
             this.mnxActionQuickWake});
             this.mnx.Location = new System.Drawing.Point(0, 28);
@@ -446,7 +444,6 @@ namespace MagiWol {
             this.mnxFileNew.Image = ((System.Drawing.Image)(resources.GetObject("mnxFileNew.Image")));
             this.mnxFileNew.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnxFileNew.Name = "mnxFileNew";
-            this.mnxFileNew.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
             this.mnxFileNew.Size = new System.Drawing.Size(23, 24);
             this.mnxFileNew.Text = "New";
             this.mnxFileNew.ToolTipText = "New file (Ctrl+N)";
@@ -458,7 +455,6 @@ namespace MagiWol {
             this.mnxFileOpen.Image = ((System.Drawing.Image)(resources.GetObject("mnxFileOpen.Image")));
             this.mnxFileOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnxFileOpen.Name = "mnxFileOpen";
-            this.mnxFileOpen.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
             this.mnxFileOpen.Size = new System.Drawing.Size(32, 24);
             this.mnxFileOpen.Text = "Open";
             this.mnxFileOpen.ToolTipText = "Open file (Ctrl+O)";
@@ -470,7 +466,6 @@ namespace MagiWol {
             this.mnxFileSave.Image = ((System.Drawing.Image)(resources.GetObject("mnxFileSave.Image")));
             this.mnxFileSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnxFileSave.Name = "mnxFileSave";
-            this.mnxFileSave.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
             this.mnxFileSave.Size = new System.Drawing.Size(23, 24);
             this.mnxFileSave.Text = "Save";
             this.mnxFileSave.ToolTipText = "Save file (Ctrl+S)";
@@ -479,7 +474,6 @@ namespace MagiWol {
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 27);
             // 
             // mnxEditCut
@@ -488,7 +482,6 @@ namespace MagiWol {
             this.mnxEditCut.Image = ((System.Drawing.Image)(resources.GetObject("mnxEditCut.Image")));
             this.mnxEditCut.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnxEditCut.Name = "mnxEditCut";
-            this.mnxEditCut.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
             this.mnxEditCut.Size = new System.Drawing.Size(23, 24);
             this.mnxEditCut.Text = "Cut";
             this.mnxEditCut.ToolTipText = "Cut (Ctrl+X)";
@@ -500,7 +493,6 @@ namespace MagiWol {
             this.mnxEditCopy.Image = ((System.Drawing.Image)(resources.GetObject("mnxEditCopy.Image")));
             this.mnxEditCopy.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnxEditCopy.Name = "mnxEditCopy";
-            this.mnxEditCopy.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
             this.mnxEditCopy.Size = new System.Drawing.Size(23, 24);
             this.mnxEditCopy.Text = "Copy";
             this.mnxEditCopy.ToolTipText = "Copy (Ctrl+C)";
@@ -512,7 +504,6 @@ namespace MagiWol {
             this.mnxEditPaste.Image = ((System.Drawing.Image)(resources.GetObject("mnxEditPaste.Image")));
             this.mnxEditPaste.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnxEditPaste.Name = "mnxEditPaste";
-            this.mnxEditPaste.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
             this.mnxEditPaste.Size = new System.Drawing.Size(23, 24);
             this.mnxEditPaste.Text = "Paste";
             this.mnxEditPaste.ToolTipText = "Paste (Ctrl+V)";
@@ -521,7 +512,6 @@ namespace MagiWol {
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 27);
             // 
             // mnxEditAdd
@@ -530,7 +520,6 @@ namespace MagiWol {
             this.mnxEditAdd.Image = ((System.Drawing.Image)(resources.GetObject("mnxEditAdd.Image")));
             this.mnxEditAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnxEditAdd.Name = "mnxEditAdd";
-            this.mnxEditAdd.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
             this.mnxEditAdd.Size = new System.Drawing.Size(23, 24);
             this.mnxEditAdd.Text = "Add";
             this.mnxEditAdd.ToolTipText = "Add (Ins)";
@@ -542,7 +531,6 @@ namespace MagiWol {
             this.mnxEditChange.Image = ((System.Drawing.Image)(resources.GetObject("mnxEditChange.Image")));
             this.mnxEditChange.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnxEditChange.Name = "mnxEditChange";
-            this.mnxEditChange.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
             this.mnxEditChange.Size = new System.Drawing.Size(23, 24);
             this.mnxEditChange.Text = "Change";
             this.mnxEditChange.ToolTipText = "Change (F4)";
@@ -554,7 +542,6 @@ namespace MagiWol {
             this.mnxEditRemove.Image = ((System.Drawing.Image)(resources.GetObject("mnxEditRemove.Image")));
             this.mnxEditRemove.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnxEditRemove.Name = "mnxEditRemove";
-            this.mnxEditRemove.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
             this.mnxEditRemove.Size = new System.Drawing.Size(23, 24);
             this.mnxEditRemove.Text = "Remove";
             this.mnxEditRemove.ToolTipText = "Remove (Del)";
@@ -563,7 +550,6 @@ namespace MagiWol {
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 27);
             // 
             // mnxActionWake
@@ -571,7 +557,6 @@ namespace MagiWol {
             this.mnxActionWake.Image = ((System.Drawing.Image)(resources.GetObject("mnxActionWake.Image")));
             this.mnxActionWake.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnxActionWake.Name = "mnxActionWake";
-            this.mnxActionWake.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
             this.mnxActionWake.Size = new System.Drawing.Size(125, 24);
             this.mnxActionWake.Text = "Wake selected";
             this.mnxActionWake.ToolTipText = "Wake selected (F6)";
@@ -582,7 +567,6 @@ namespace MagiWol {
             this.mnxActionWakeAll.Image = ((System.Drawing.Image)(resources.GetObject("mnxActionWakeAll.Image")));
             this.mnxActionWakeAll.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnxActionWakeAll.Name = "mnxActionWakeAll";
-            this.mnxActionWakeAll.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
             this.mnxActionWakeAll.Size = new System.Drawing.Size(86, 24);
             this.mnxActionWakeAll.Text = "Wake all";
             this.mnxActionWakeAll.ToolTipText = "Wake all (Shift+F6)";
@@ -621,16 +605,9 @@ namespace MagiWol {
             this.mnxToolsOptions.Text = "Options";
             this.mnxToolsOptions.Click += new System.EventHandler(this.mnuToolsOptions_Click);
             // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 27);
-            // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
             this.toolStripSeparator5.Size = new System.Drawing.Size(6, 27);
             // 
             // mnxActionQuickWake
@@ -638,7 +615,6 @@ namespace MagiWol {
             this.mnxActionQuickWake.Image = ((System.Drawing.Image)(resources.GetObject("mnxActionQuickWake.Image")));
             this.mnxActionQuickWake.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnxActionQuickWake.Name = "mnxActionQuickWake";
-            this.mnxActionQuickWake.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
             this.mnxActionQuickWake.Size = new System.Drawing.Size(104, 24);
             this.mnxActionQuickWake.Text = "Quick wake";
             this.mnxActionQuickWake.ToolTipText = "Quick wake (Ctrl+W)";
@@ -916,7 +892,6 @@ namespace MagiWol {
         private System.Windows.Forms.ToolStripMenuItem mnuToolsRefresh;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem12;
         private System.Windows.Forms.ToolStripButton mnxToolsOptions;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripButton mnxAbout;
         private System.Windows.Forms.ToolStripButton mnxReportABug;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
