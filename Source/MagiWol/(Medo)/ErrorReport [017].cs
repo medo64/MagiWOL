@@ -24,6 +24,7 @@
 //2010-02-13: Added TopMost.
 //2010-03-02: Line wrapping at 72nd character.
 //2010-03-07: Changed Math.* to System.Math.*.
+//2010-10-30: Fixed bug with sending error report.
 
 
 using System;
@@ -713,7 +714,7 @@ namespace Medo.Diagnostics {
         private static string LogBufferGetStringWithUserInformation(string message, string name, string email) {
             var sb = new StringBuilder();
             if (!string.IsNullOrEmpty(message)) {
-                AppendLine("message", sb);
+                AppendLine(message, sb);
                 AppendLine("", sb);
                 AppendLine("", sb);
             }
