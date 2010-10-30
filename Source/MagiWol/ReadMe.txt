@@ -30,6 +30,10 @@ Shortcut keys
 
 Version history
 
+   Version 2.21 (2010-10-30)
+
+      o  Fixed bug that caused sending of empty error reports.
+
    Version 2.20 (2010-10-12)
 
       o  Bug fixing.
