@@ -30,6 +30,11 @@ Shortcut keys
 
 Version history
 
+   Version 3.00 ()
+
+      o  No registry writes will be performed if application is not
+         installed.
+
    Version 2.21 (2010-10-30)
 
       o  Fixed bug that caused sending of empty error reports.

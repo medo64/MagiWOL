@@ -80,9 +80,9 @@
     <Compile Include="%28Medo%29\ErrorReport [017].cs" />
     <Compile Include="%28Medo%29\MessageBox [006].cs" />
     <Compile Include="%28Medo%29\NumberDeclination [001].cs" />
-    <Compile Include="%28Medo%29\RecentFiles [002].cs" />
-    <Compile Include="%28Medo%29\Settings [010].cs" />
-    <Compile Include="%28Medo%29\State [013].cs" />
+    <Compile Include="%28Medo%29\RecentFiles [003].cs" />
+    <Compile Include="%28Medo%29\Settings [011].cs" />
+    <Compile Include="%28Medo%29\State [015].cs" />
     <Compile Include="%28Medo%29\StringAdder [002].cs" />
     <Compile Include="%28Medo%29\TaskbarProgress [000].cs" />
     <Compile Include="%28Medo%29\UnhandledCatch [006].cs" />

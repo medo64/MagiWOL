@@ -23,6 +23,10 @@ namespace MagiWol {
             Medo.Application.UnhandledCatch.ThreadException += new EventHandler<ThreadExceptionEventArgs>(UnhandledCatch_ThreadException);
             Medo.Application.UnhandledCatch.Attach();
 
+            Medo.Configuration.Settings.NoRegistryWrites = !Medo.Configuration.Settings.Read("Installed", false);
+            Medo.Configuration.RecentFiles.NoRegistryWrites = !Medo.Configuration.Settings.Read("Installed", false);
+            Medo.Windows.Forms.State.NoRegistryWrites = !Medo.Configuration.Settings.Read("Installed", false);
+
             if (!((Environment.OSVersion.Version.Build < 7000) || (App.IsRunningOnMono))) {
                 var appId = Assembly.GetExecutingAssembly().Location;
                 if (appId.Length > 127) { appId = @"JosipMedved_MagiWOL\" + appId.Substring(appId.Length - 127 - 20); }
