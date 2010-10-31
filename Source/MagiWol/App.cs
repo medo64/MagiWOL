@@ -26,6 +26,7 @@ namespace MagiWol {
             Medo.Configuration.Settings.NoRegistryWrites = !Medo.Configuration.Settings.Read("Installed", false);
             Medo.Configuration.RecentFiles.NoRegistryWrites = !Medo.Configuration.Settings.Read("Installed", false);
             Medo.Windows.Forms.State.NoRegistryWrites = !Medo.Configuration.Settings.Read("Installed", false);
+            Medo.Diagnostics.ErrorReport.DisableAutomaticSaveToTemp = !Medo.Configuration.Settings.Read("Installed", false);
 
             if (!((Environment.OSVersion.Version.Build < 7000) || (App.IsRunningOnMono))) {
                 var appId = Assembly.GetExecutingAssembly().Location;
