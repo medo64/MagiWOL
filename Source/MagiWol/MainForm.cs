@@ -287,7 +287,7 @@ namespace MagiWol {
                         if (this._document.HasAddress(iAddress)) {
                             Medo.MessageBox.ShowWarning(this, string.Format("MAC address \"{0}\" is already in list.", iAddress.Mac));
                         } else {
-                            this._document.AddAddress(iAddress);
+                            this._document.AddAddress(iAddress, false);
                         }
                     }
                     UpdateData(form.ImportedAddresses);
@@ -405,7 +405,7 @@ namespace MagiWol {
                     if (this._document.HasAddress(frm.Destination)) {
                         Medo.MessageBox.ShowWarning(this, string.Format("MAC address \"{0}\" is already in list.", frm.Destination.Mac));
                     } else {
-                        this._document.AddAddress(frm.Destination);
+                        this._document.AddAddress(frm.Destination, false);
                     }
                     UpdateData(new MagiWolDocument.Address[] { frm.Destination });
                 }

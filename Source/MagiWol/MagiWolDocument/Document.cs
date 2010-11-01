@@ -49,9 +49,7 @@ namespace MagiWol.MagiWolDocument {
             var doc = new Document();
             doc.FileName = fileName;
             foreach (var iAddress in GetAddressesFromXml(doc, System.IO.File.ReadAllText(fileName))) {
-                if (!doc.HasAddress(iAddress)) {
-                    doc.AddAddress(iAddress);
-                }
+                doc.AddAddress(iAddress, true);
             }
             doc.HasChanged = false;
             return doc;
@@ -94,10 +92,8 @@ namespace MagiWol.MagiWolDocument {
         }
 
 
-        public void AddAddress(Address item) {
-            if (this._addresses.Contains(item)) {
-                //throw new System.InvalidOperationException("Duplicate address.");
-            } else {
+        public void AddAddress(Address item, bool allowDuplicates) {
+            if ((allowDuplicates == true) || (this._addresses.Contains(item) == false)) {
                 item.Parent = this;
                 _addresses.Add(item);
                 this.HasChanged = true;
@@ -144,7 +140,7 @@ namespace MagiWol.MagiWolDocument {
             if (xmlData != null) {
                 foreach (var iAddress in GetAddressesFromXml(this, xmlData)) {
                     if (!this.HasAddress(iAddress)) {
-                        this.AddAddress(iAddress);
+                        this.AddAddress(iAddress, false);
                         pastedAddresses.Add(iAddress);
                         isChanged = true;
                     } else {
@@ -164,7 +160,7 @@ namespace MagiWol.MagiWolDocument {
                         var iAddress = GetAddressFromLine(iLine);
                         if (iAddress != null) {
                             if (!this.HasAddress(iAddress)) {
-                                this.AddAddress(iAddress);
+                                this.AddAddress(iAddress, false);
                                 pastedAddresses.Add(iAddress);
                                 isChanged = true;
                             } else {
@@ -242,9 +238,7 @@ namespace MagiWol.MagiWolDocument {
 
                                         IPEndPoint aEndPoint = new IPEndPoint(address, port);
                                         Address addr = new Address(aName, aMac, aSecureOn, aDescription, aEndPoint, isAddressValid, isPortValid);
-                                        if (!all.Contains(addr)) {
-                                            all.Add(addr);
-                                        }
+                                        all.Add(addr);
                                         break;
                                 }
 
