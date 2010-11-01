@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Threading;
+using System.Runtime.InteropServices;
 
 namespace MagiWol {
 
@@ -358,7 +359,11 @@ namespace MagiWol {
                     var iAddress = (MagiWolDocument.Address)iItem;
                     addrs.Add(iAddress);
                 }
-                this._document.Cut(addrs);
+                try {
+                    this._document.Cut(addrs);
+                } catch (ExternalException ex) {
+                    Medo.MessageBox.ShowError(this, "Cut error.\n\n" + ex.Message);
+                }
                 UpdateData(null);
             }
         }
@@ -370,14 +375,22 @@ namespace MagiWol {
                     var iAddress = (MagiWolDocument.Address)iItem;
                     addrs.Add(iAddress);
                 }
-                this._document.Copy(addrs);
+                try {
+                    this._document.Copy(addrs);
+                } catch (ExternalException ex) {
+                    Medo.MessageBox.ShowError(this, "Copy error.\n\n" + ex.Message);
+                }
                 UpdateData(addrs);
             }
         }
 
         private void mnuEditPaste_Click(object sender, EventArgs e) {
-            var pasted = this._document.Paste();
-            UpdateData(pasted);
+            try {
+                var pasted = this._document.Paste();
+                UpdateData(pasted);
+            } catch (ExternalException ex) {
+                Medo.MessageBox.ShowError(this, "Paste error.\n\n" + ex.Message);
+            }
         }
 
         private void mnuEditSelectAll_Click(object sender, EventArgs e) {
