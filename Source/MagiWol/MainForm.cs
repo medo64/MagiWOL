@@ -551,7 +551,16 @@ namespace MagiWol {
         }
 
         private void list_ItemActivate(object sender, EventArgs e) {
-            mnuEditChange_Click(null, null);
+            var addresses = new List<MagiWolDocument.Address>();
+            foreach (ListViewItem iItem in list.SelectedItems) {
+                var iAddress = (MagiWolDocument.Address)iItem;
+                addresses.Add(iAddress);
+            }
+            if (addresses.Count > 0) {
+                using (var form = new WakeProgressForm(addresses, 0)) {
+                    form.ShowDialog(this);
+                }
+            }
         }
 
         private void timerEnableDisable_Tick(object sender, EventArgs e) {
