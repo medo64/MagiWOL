@@ -9,6 +9,7 @@
 //2008-12-20: Adjusted for high DPI mode.
 //2009-10-25: Adjusted disposing of buttons.
 //2010-11-03: Informational version is used for program name.
+//            Content background is now in Window system color.
 
 
 using System;
@@ -84,12 +85,16 @@ namespace Medo.Windows.Forms {
         }
 
         private static void ShowForm(IWin32Window owner, Uri webpage, string productText, string applicationText, string copyrightText, string applicationPath) {
+            Font productFont = null;
+
+            PaintItem fullName = null;
+            PaintItem dotNetFramework = null;
+            PaintItem osVersion = null;
+            PaintItem copyright = null;
+
             Button buttonReadme = null;
             Button buttonClose = null;
             Button buttonWebPage = null;
-
-            Font productFont = null;
-            PaintItem fullName = null;
 
             using (Form form = new Form()) {
                 try {
@@ -104,8 +109,8 @@ namespace Medo.Windows.Forms {
 
 
                     int imageHeight = 32;
-                    int maxRight = 0;
-                    int maxBottom = 0;
+                    int maxRight = 320;
+                    int maxBottom = 80;
                     using (Graphics graphics = form.CreateGraphics()) {
                         //icon
                         Bitmap bitmap = GetAppIcon(applicationPath);
@@ -125,8 +130,8 @@ namespace Medo.Windows.Forms {
                         _paintProduct = new PaintItem(productText, productFont, imageRight, 7, imageHeight, VerticalAlignment.Center, graphics);
 
                         _titleHeight = 7 + imageHeight + 7;
-                        maxRight = _paintProduct.Rectangle.Right;
-                        maxBottom = _titleHeight;
+                        maxRight = System.Math.Max(maxRight, _paintProduct.Rectangle.Right);
+                        maxBottom = System.Math.Max(maxBottom, _titleHeight);
 
 
                         //other stuff
@@ -137,18 +142,18 @@ namespace Medo.Windows.Forms {
                         maxBottom = System.Math.Max(maxBottom, fullName.Rectangle.Bottom);
                         _infoLines.Add(fullName);
 
-                        PaintItem dotNetFramework = new PaintItem(".NET framework " + Environment.Version.ToString(), SystemFonts.MessageBoxFont, 7, fullName.Rectangle.Bottom, 0, VerticalAlignment.Top, graphics);
+                        dotNetFramework = new PaintItem(".NET framework " + Environment.Version.ToString(), SystemFonts.MessageBoxFont, 7, fullName.Rectangle.Bottom, 0, VerticalAlignment.Top, graphics);
                         maxRight = System.Math.Max(maxRight, dotNetFramework.Rectangle.Right);
                         maxBottom = System.Math.Max(maxBottom, dotNetFramework.Rectangle.Bottom);
                         _infoLines.Add(dotNetFramework);
 
-                        PaintItem osVersion = new PaintItem(System.Environment.OSVersion.VersionString, SystemFonts.MessageBoxFont, 7, dotNetFramework.Rectangle.Bottom, 0, VerticalAlignment.Top, graphics);
+                        osVersion = new PaintItem(System.Environment.OSVersion.VersionString, SystemFonts.MessageBoxFont, 7, dotNetFramework.Rectangle.Bottom, 0, VerticalAlignment.Top, graphics);
                         maxRight = System.Math.Max(maxRight, osVersion.Rectangle.Right);
                         maxBottom = System.Math.Max(maxBottom, osVersion.Rectangle.Bottom);
                         _infoLines.Add(osVersion);
 
                         if (copyrightText != null) {
-                            PaintItem copyright = new PaintItem(copyrightText, SystemFonts.MessageBoxFont, 7, osVersion.Rectangle.Bottom + 7, 0, VerticalAlignment.Top, graphics);
+                            copyright = new PaintItem(copyrightText, SystemFonts.MessageBoxFont, 7, osVersion.Rectangle.Bottom + 7, 0, VerticalAlignment.Top, graphics);
                             maxRight = System.Math.Max(maxRight, copyright.Rectangle.Right);
                             maxBottom = System.Math.Max(maxBottom, copyright.Rectangle.Bottom);
                             _infoLines.Add(copyright);
@@ -197,7 +202,7 @@ namespace Medo.Windows.Forms {
                     int borderX = (form.Width - form.ClientRectangle.Width);
                     int borderY = (form.Height - form.ClientRectangle.Height);
                     form.Width = borderX + maxRight + 7;
-                    form.Height = borderY + maxBottom + 11 + buttonClose.Size.Height + 7;
+                    form.Height = borderY + maxBottom + 11 + 11 + buttonClose.Size.Height + 7;
                     if (owner == null) {
                         form.StartPosition = FormStartPosition.CenterScreen;
                     } else {
@@ -242,6 +247,9 @@ namespace Medo.Windows.Forms {
                     if (buttonWebPage != null) { buttonWebPage.Dispose(); }
 
                     if (fullName != null) { fullName.Dispose(); }
+                    if (dotNetFramework != null) { dotNetFramework.Dispose(); }
+                    if (osVersion != null) { osVersion.Dispose(); }
+                    if (copyright != null) { copyright.Dispose(); }
 
                     if (_paintImage != null) { _paintImage.Dispose(); }
                     if (_paintProduct != null) { _paintProduct.Dispose(); }
@@ -260,11 +268,19 @@ namespace Medo.Windows.Forms {
         }
 
         private static string GetAppProductText(Assembly assembly) {
+            string product;
             object[] productAttributes = assembly.GetCustomAttributes(typeof(AssemblyProductAttribute), true);
             if ((productAttributes != null) && (productAttributes.Length >= 1)) {
-                return ((AssemblyProductAttribute)productAttributes[productAttributes.Length - 1]).Product;
+                product = ((AssemblyProductAttribute)productAttributes[productAttributes.Length - 1]).Product;
             } else {
-                return GetAppTitleText(assembly);
+                product = GetAppTitleText(assembly);
+            }
+
+            object[] infoVersionAttributes = assembly.GetCustomAttributes(typeof(AssemblyInformationalVersionAttribute), true);
+            if ((infoVersionAttributes != null) && (infoVersionAttributes.Length >= 1)) {
+                return product + " " + ((AssemblyInformationalVersionAttribute)infoVersionAttributes[infoVersionAttributes.Length - 1]).InformationalVersion;
+            } else {
+                return product;
             }
         }
 
@@ -276,7 +292,6 @@ namespace Medo.Windows.Forms {
                 return assembly.GetName().Name;
             }
         }
-
 
 
         static void buttonWebPage_Click(object sender, System.EventArgs e) {
@@ -296,9 +311,12 @@ namespace Medo.Windows.Forms {
 
         private static void Form_Paint(object sender, System.Windows.Forms.PaintEventArgs e) {
             lock (_syncRoot) {
-                e.Graphics.FillRectangle(SystemBrushes.ControlLight, e.ClipRectangle.Left, 0, e.ClipRectangle.Right, _titleHeight);
-                e.Graphics.DrawLine(SystemPens.ControlDark, e.ClipRectangle.Left, _titleHeight, e.ClipRectangle.Right, _titleHeight);
-                e.Graphics.DrawLine(SystemPens.ControlLightLight, e.ClipRectangle.Left, _titleHeight + 1, e.ClipRectangle.Right, _titleHeight + 1);
+                if (_infoLines != null) {
+                    e.Graphics.FillRectangle(SystemBrushes.Window, e.ClipRectangle.Left, e.ClipRectangle.Top, e.ClipRectangle.Width, _infoLines[_infoLines.Count - 1].Rectangle.Bottom + 11);
+                } else {
+                    e.Graphics.FillRectangle(SystemBrushes.Window, e.ClipRectangle.Left, e.ClipRectangle.Top, e.ClipRectangle.Width, _paintProduct.Rectangle.Bottom + 11);
+                }
+
                 if (_paintImage != null) { _paintImage.Paint(e.Graphics); }
                 if (_paintProduct != null) { _paintProduct.Paint(e.Graphics); }
                 if (_infoLines != null) {

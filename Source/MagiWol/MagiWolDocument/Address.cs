@@ -137,7 +137,7 @@ namespace MagiWol.MagiWolDocument {
 
         public override bool Equals(object obj) {
             var other = obj as Address;
-            if ((other != null) && (string.Compare(this.Mac, other.Mac, StringComparison.InvariantCultureIgnoreCase) == 0)) { return true; }
+            if ((other != null) && (string.Compare(this.Mac, other.Mac, StringComparison.OrdinalIgnoreCase) == 0)) { return true; }
             return false;
         }
 

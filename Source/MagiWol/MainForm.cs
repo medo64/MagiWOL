@@ -493,7 +493,7 @@ namespace MagiWol {
         }
 
         private void mnuHelpAbout_Click(object sender, EventArgs e) {
-            Medo.Windows.Forms.AboutBox.ShowDialog(this, new Uri("http://www.jmedved.com/?page=magiwol"), "MagiWOL");
+            Medo.Windows.Forms.AboutBox.ShowDialog(this, new Uri("http://www.jmedved.com/?page=magiwol"));
         }
 
         #endregion
