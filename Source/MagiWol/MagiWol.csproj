@@ -77,7 +77,7 @@
     <Compile Include="%28Medo%29\AboutBox [010].cs" />
     <Compile Include="%28Medo%29\Args [001].cs" />
     <Compile Include="%28Medo%29\EntryAssembly [003].cs" />
-    <Compile Include="%28Medo%29\ErrorReport [017].cs" />
+    <Compile Include="%28Medo%29\ErrorReport [018].cs" />
     <Compile Include="%28Medo%29\MessageBox [006].cs" />
     <Compile Include="%28Medo%29\NumberDeclination [001].cs" />
     <Compile Include="%28Medo%29\RecentFiles [003].cs" />
