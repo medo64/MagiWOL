@@ -30,7 +30,7 @@ Shortcut keys
 
 Version history
 
-   Version 3.00 ()
+   Version 3.00 (beta 1)
 
       o  No registry writes will be performed if application is not
          installed.
