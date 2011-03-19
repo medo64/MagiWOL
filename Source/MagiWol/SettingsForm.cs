@@ -23,20 +23,16 @@ namespace MagiWol {
         }
 
         private void SettingsForm_Load(object sender, EventArgs e) {
-            textBroadcastAddress.Text = Settings.DefaultPacketEndPoint.Address.ToString();
-            textBroadcastPort.Text = Settings.DefaultPacketEndPoint.Port.ToString(CultureInfo.InvariantCulture);
+            textBroadcastAddress.Text = Settings.DefaultBroadcastHost;
+            textBroadcastPort.Text = Settings.DefaultBroadcastPort.ToString(CultureInfo.InvariantCulture);
         }
 
         private void buttonOk_Click(object sender, EventArgs e) {
-            IPAddress address;
-            if (!(IPAddress.TryParse(textBroadcastAddress.Text, out address) && (address.AddressFamily == AddressFamily.InterNetwork))) {
-                address = Settings.DefaultPacketEndPoint.Address;
-            }
+            Settings.DefaultBroadcastHost = textBroadcastAddress.Text;
             int port;
             if (!(int.TryParse(textBroadcastPort.Text, NumberStyles.Integer, CultureInfo.CurrentCulture, out  port) && (port >= 0) && (port <= 65535))) {
-                port = Settings.DefaultPacketEndPoint.Port;
+                port = Settings.DefaultBroadcastPort;
             }
-            Settings.DefaultPacketEndPoint = new IPEndPoint(address, port);
         }
 
         private void textBroadcastAddress_Validating(object sender, CancelEventArgs e) {

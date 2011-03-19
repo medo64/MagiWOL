@@ -35,6 +35,7 @@ Version history
       o  No registry writes will be performed if application is not
          installed.
       o  Double-click now wakes computer instead of editing entry.
+      o  Broadcast address now can be host name (usefull for waking over Internet).
       o  Lot of bug fixing.
 
    Version 2.21 (2010-10-30)

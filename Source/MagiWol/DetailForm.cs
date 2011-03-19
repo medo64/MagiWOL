@@ -36,14 +36,14 @@ namespace MagiWol {
                 textTitle.Text = this.Destination.Title;
                 textMac.Text = this.Destination.Mac;
                 textSecureOn.Text = this.Destination.SecureOn;
-                checkBroadcastAddress.Checked = this.Destination.IsPacketEndPointAddressValid;
-                textBroadcastAddress.Text = this.Destination.PacketEndPoint.Address.ToString();
+                checkBroadcastAddress.Checked = this.Destination.IsPacketEndPointHostValid;
+                textBroadcastAddress.Text = this.Destination.BroadcastHost;
                 checkBroadcastPort.Checked = this.Destination.IsPacketEndPointPortValid;
-                textBroadcastPort.Text = this.Destination.PacketEndPoint.Port.ToString(CultureInfo.InvariantCulture);
+                textBroadcastPort.Text = this.Destination.BroadcastPort.ToString(CultureInfo.InvariantCulture);
                 textNotes.Text = this.Destination.Notes;
             } else {
-                textBroadcastAddress.Text = Settings.DefaultPacketEndPoint.Address.ToString();
-                textBroadcastPort.Text = Settings.DefaultPacketEndPoint.Port.ToString(CultureInfo.InvariantCulture);
+                textBroadcastAddress.Text = Settings.DefaultBroadcastHost;
+                textBroadcastPort.Text = Settings.DefaultBroadcastPort.ToString(CultureInfo.InvariantCulture);
             }
 
             CheckForm();
@@ -58,17 +58,18 @@ namespace MagiWol {
             this.Destination.Mac = textMac.Text;
             this.Destination.SecureOn = textSecureOn.Text;
 
-            IPAddress address;
+            string host;
             if (checkBroadcastAddress.Checked) {
-                if (IPAddress.TryParse(textBroadcastAddress.Text, out address)) {
-                    this.Destination.IsPacketEndPointAddressValid = true;
+                if (string.IsNullOrEmpty(textBroadcastAddress.Text.Trim()) == false) {
+                    host = textBroadcastAddress.Text.Trim();
+                    this.Destination.IsPacketEndPointHostValid = true;
                 } else {
-                    address = Settings.DefaultPacketEndPoint.Address;
-                    this.Destination.IsPacketEndPointAddressValid = false;
+                    host = Settings.DefaultBroadcastHost;
+                    this.Destination.IsPacketEndPointHostValid = false;
                 }
             } else {
-                address = this.Destination.PacketEndPoint.Address;
-                this.Destination.IsPacketEndPointAddressValid = false;
+                host = this.Destination.BroadcastHost;
+                this.Destination.IsPacketEndPointHostValid = false;
             }
 
             int port;
@@ -77,19 +78,20 @@ namespace MagiWol {
                     if ((port >= 0) || (port <= 65535)) {
                         this.Destination.IsPacketEndPointPortValid = true;
                     } else {
-                        port = Settings.DefaultPacketEndPoint.Port;
+                        port = Settings.DefaultBroadcastPort;
                         this.Destination.IsPacketEndPointPortValid = false;
                     }
                 } else {
-                    port = Settings.DefaultPacketEndPoint.Port;
+                    port = Settings.DefaultBroadcastPort;
                     this.Destination.IsPacketEndPointPortValid = false;
                 }
             } else {
-                port = this.Destination.PacketEndPoint.Port;
+                port = this.Destination.BroadcastPort;
                 this.Destination.IsPacketEndPointPortValid = false;
             }
 
-            this.Destination.PacketEndPoint = new IPEndPoint(address, port);
+            this.Destination.BroadcastHost = host;
+            this.Destination.BroadcastPort = port;
 
             this.Destination.Notes = textNotes.Text;
         }
@@ -104,12 +106,11 @@ namespace MagiWol {
 
 
         private void textBroadcastAddress_Validating(object sender, CancelEventArgs e) {
-            IPAddress address;
-            if (!IPAddress.TryParse(textBroadcastAddress.Text, out address)) {
+            if (string.IsNullOrEmpty(textBroadcastAddress.Text)) {
                 if (this.Destination != null) {
-                    textBroadcastAddress.Text = this.Destination.PacketEndPoint.Address.ToString();
+                    textBroadcastAddress.Text = this.Destination.BroadcastHost;
                 } else {
-                    textBroadcastAddress.Text = Settings.DefaultPacketEndPoint.Address.ToString();
+                    textBroadcastAddress.Text = Settings.DefaultBroadcastHost;
                 }
             }
         }
@@ -118,9 +119,9 @@ namespace MagiWol {
             int port;
             if (!(int.TryParse(textBroadcastPort.Text, NumberStyles.Integer, CultureInfo.InvariantCulture, out port) && (port >= 0) && (port <= 65535))) {
                 if (this.Destination != null) {
-                    textBroadcastPort.Text = this.Destination.PacketEndPoint.Port.ToString(CultureInfo.InvariantCulture);
+                    textBroadcastPort.Text = this.Destination.BroadcastPort.ToString(CultureInfo.InvariantCulture);
                 } else {
-                    textBroadcastPort.Text = Settings.DefaultPacketEndPoint.Port.ToString(CultureInfo.InvariantCulture);
+                    textBroadcastPort.Text = Settings.DefaultBroadcastPort.ToString(CultureInfo.InvariantCulture);
                 }
             }
         }

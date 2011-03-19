@@ -203,21 +203,22 @@ namespace MagiWol.MagiWolDocument {
                                         string aName = xr.GetAttribute("name");
                                         string aMac = xr.GetAttribute("macAddress");
                                         string aSecureOn = xr.GetAttribute("secureOnPassword");
-                                        string aAddress = xr.GetAttribute("broadcastAddress");
+                                        string aHost = xr.GetAttribute("broadcastAddress");
                                         string aPort = xr.GetAttribute("broadcastPort");
                                         string aDescription = xr.GetAttribute("description");
                                         string aIsAddressValid = xr.GetAttribute("isBroadcastAddressValid");
                                         string aIsPortValid = xr.GetAttribute("isBroadcastPortValid");
 
-                                        bool isAddressValid;
-                                        IPAddress address;
-                                        if ((aAddress != null) && (IPAddress.TryParse(aAddress, out address))) {
-                                            if (!bool.TryParse(aIsAddressValid, out isAddressValid)) { //if it is overriden by version 2.00 setting
-                                                isAddressValid = true;
+                                        bool isHostValid;
+                                        string host;
+                                        if ((aHost != null) && (string.IsNullOrEmpty(aHost) == false)) {
+                                            host = aHost;
+                                            if (!bool.TryParse(aIsAddressValid, out isHostValid)) { //if it is overriden by version 2.00 setting
+                                                isHostValid = true;
                                             }
                                         } else {
-                                            address = Settings.DefaultPacketEndPoint.Address;
-                                            isAddressValid = false;
+                                            host = Settings.DefaultBroadcastHost;
+                                            isHostValid = false;
                                         }
 
                                         bool isPortValid;
@@ -228,16 +229,15 @@ namespace MagiWol.MagiWolDocument {
                                                     isPortValid = true;
                                                 }
                                             } else {
-                                                port = Settings.DefaultPacketEndPoint.Port;
+                                                port = Settings.DefaultBroadcastPort;
                                                 isPortValid = false;
                                             }
                                         } else {
-                                            port = Settings.DefaultPacketEndPoint.Port;
+                                            port = Settings.DefaultBroadcastPort;
                                             isPortValid = false;
                                         }
 
-                                        IPEndPoint aEndPoint = new IPEndPoint(address, port);
-                                        Address addr = new Address(aName, aMac, aSecureOn, aDescription, aEndPoint, isAddressValid, isPortValid);
+                                        Address addr = new Address(aName, aMac, aSecureOn, aDescription, host, port, isHostValid, isPortValid);
                                         all.Add(addr);
                                         break;
                                 }
@@ -269,9 +269,9 @@ namespace MagiWol.MagiWolDocument {
                         paramValuePairs.AddRange(new string[] { "name", iAddress.Title });
                         paramValuePairs.AddRange(new string[] { "macAddress", iAddress.Mac });
                         paramValuePairs.AddRange(new string[] { "secureOnPassword", iAddress.SecureOn });
-                        paramValuePairs.AddRange(new string[] { "broadcastAddress", iAddress.PacketEndPoint.Address.ToString() });
-                        paramValuePairs.AddRange(new string[] { "broadcastPort", iAddress.PacketEndPoint.Port.ToString(CultureInfo.InvariantCulture) });
-                        paramValuePairs.AddRange(new string[] { "isBroadcastAddressValid", iAddress.IsPacketEndPointAddressValid.ToString(CultureInfo.InvariantCulture) });
+                        paramValuePairs.AddRange(new string[] { "broadcastAddress", iAddress.BroadcastHost });
+                        paramValuePairs.AddRange(new string[] { "broadcastPort", iAddress.BroadcastPort.ToString(CultureInfo.InvariantCulture) });
+                        paramValuePairs.AddRange(new string[] { "isBroadcastAddressValid", iAddress.IsPacketEndPointHostValid.ToString(CultureInfo.InvariantCulture) });
                         paramValuePairs.AddRange(new string[] { "isBroadcastPortValid", iAddress.IsPacketEndPointPortValid.ToString(CultureInfo.InvariantCulture) });
                         paramValuePairs.AddRange(new string[] { "description", iAddress.Notes });
                         xw.WriteTag("Address", paramValuePairs.ToArray());
@@ -293,12 +293,12 @@ namespace MagiWol.MagiWolDocument {
                     if (i == 0) {
                         string name = string.Join(" ", parts, 1, parts.Length - 1);
                         string mac = GetProperMAC(parts[i]);
-                        return new Address(name, mac, string.Empty, string.Empty, null, false, false);
+                        return new Address(name, mac, string.Empty, string.Empty, null, null, false, false);
                     } else {
                         string name = string.Join(" ", parts, 0, i);
                         string mac = GetProperMAC(parts[i]);
                         string desc = string.Join(" ", parts, i + 1, parts.Length - i - 1);
-                        return new Address(name, mac, string.Empty, desc, null, false, false);
+                        return new Address(name, mac, string.Empty, desc, null, null, false, false);
                     }
                 }
             }

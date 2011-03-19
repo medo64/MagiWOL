@@ -1,5 +1,6 @@
 using System;
 using System.Net;
+using System.Net.Sockets;
 
 namespace MagiWol {
 
@@ -10,11 +11,32 @@ namespace MagiWol {
             public static bool ShowMenu { get; set; }
 
             public static int WolWaitBetweenComputersIntervalSeconds { get; set; }
-        
+
         }
 
+        public static string DefaultBroadcastHost {
+            get {
+                string addressValue = Medo.Configuration.Settings.Read("DefaultBroadcastAddress", "255.255.255.255");
+                if (string.IsNullOrEmpty(addressValue)) { return "255.255.255.255"; }
+                return addressValue;
+            }
+            set {
+                Medo.Configuration.Settings.Write("DefaultBroadcastAddress", value.Trim());
+            }
+        }
 
+        public static int DefaultBroadcastPort {
+            get {
+                var portValue = Medo.Configuration.Settings.Read("DefaultBroadcastPort", 9);
+                if ((portValue < 0) || (portValue > 65535)) { return 9; }
+                return portValue;
+            }
+            set {
+                Medo.Configuration.Settings.Write("DefaultBroadcastPort", value);
+            }
+        }
 
+        [Obsolete]
         public static IPEndPoint DefaultPacketEndPoint {
             get {
                 string addressValue = Medo.Configuration.Settings.Read("DefaultBroadcastAddress", "255.255.255.255");

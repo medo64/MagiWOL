@@ -13,10 +13,10 @@ namespace MagiWol.MagiWolDocument {
         internal Document Parent { get; set; }
 
         public Address()
-            : this("", "", "", "", null, false, false) {
+            : this("", "", "", "", null, null, false, false) {
         }
 
-        public Address(string title, string mac, string secureOn, string notes, IPEndPoint packetEndPoint, bool isAddressValid, bool isPortValid)
+        public Address(string title, string mac, string secureOn, string notes, string broadcastHost, int? broadcastPort, bool isAddressValid, bool isPortValid)
             : base() {
             if (_fixedSizeFont == null) {
                 _fixedSizeFont = new Font("Courier New", base.Font.Size, base.Font.Style);
@@ -37,13 +37,15 @@ namespace MagiWol.MagiWolDocument {
             this.Mac = mac;
             this.SecureOn = secureOn;
             this.Notes = notes;
-            if (packetEndPoint != null) {
-                this.PacketEndPoint = packetEndPoint;
-                this.IsPacketEndPointAddressValid = isAddressValid;
+            if ((broadcastHost != null) && (broadcastPort != null)) {
+                this.BroadcastHost = broadcastHost;
+                this.BroadcastPort = broadcastPort.Value;
+                this.IsPacketEndPointHostValid = isAddressValid;
                 this.IsPacketEndPointPortValid = isPortValid;
             } else {
-                this.PacketEndPoint = Settings.DefaultPacketEndPoint;
-                this.IsPacketEndPointAddressValid = false;
+                this.BroadcastHost = Settings.DefaultBroadcastHost;
+                this.BroadcastPort = Settings.DefaultBroadcastPort;
+                this.IsPacketEndPointHostValid = false;
                 this.IsPacketEndPointPortValid = false;
             }
         }
@@ -113,17 +115,27 @@ namespace MagiWol.MagiWolDocument {
             }
         }
 
-        private IPEndPoint _packetEndPoint;
-        public IPEndPoint PacketEndPoint {
-            get { return this._packetEndPoint; }
+        private string _broadcastHost;
+        public string BroadcastHost {
+            get { return this._broadcastHost; }
             set {
-                IPEndPoint oldValue = this._packetEndPoint;
-                this._packetEndPoint = value;
-                if ((this.Parent != null) && (oldValue != this._packetEndPoint)) { this.Parent.HasChanged = true; }
+                string oldValue = this._broadcastHost;
+                this._broadcastHost = value;
+                if ((this.Parent != null) && (oldValue != this._broadcastHost)) { this.Parent.HasChanged = true; }
             }
         }
 
-        public bool IsPacketEndPointAddressValid {
+        private int _broadcastPort;
+        public int BroadcastPort {
+            get { return this._broadcastPort; }
+            set {
+                int oldValue = this._broadcastPort;
+                this._broadcastPort = value;
+                if ((this.Parent != null) && (oldValue != this._broadcastPort)) { this.Parent.HasChanged = true; }
+            }
+        }
+
+        public bool IsPacketEndPointHostValid {
             get;
             set;
         }

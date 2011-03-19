@@ -32,8 +32,8 @@ namespace MagiWol {
 
 
         private void DetailForm_Load(object sender, EventArgs e) {
-            textBroadcastAddress.Text = Settings.DefaultPacketEndPoint.Address.ToString();
-            textBroadcastPort.Text = Settings.DefaultPacketEndPoint.Port.ToString(CultureInfo.InvariantCulture);
+            textBroadcastAddress.Text = Settings.DefaultBroadcastHost;
+            textBroadcastPort.Text = Settings.DefaultBroadcastPort.ToString(CultureInfo.InvariantCulture);
 
             CheckForm();
         }
@@ -45,17 +45,18 @@ namespace MagiWol {
             destination.Mac = textMac.Text;
             destination.SecureOn = textSecureOn.Text;
 
-            IPAddress address;
+            string host;
             if (checkBroadcastAddress.Checked) {
-                if (IPAddress.TryParse(textBroadcastAddress.Text, out address)) {
-                    destination.IsPacketEndPointAddressValid = true;
+                if (string.IsNullOrEmpty(textBroadcastAddress.Text.Trim()) == false) {
+                    host = textBroadcastAddress.Text.Trim();
+                    destination.IsPacketEndPointHostValid = true;
                 } else {
-                    address = Settings.DefaultPacketEndPoint.Address;
-                    destination.IsPacketEndPointAddressValid = false;
+                    host = Settings.DefaultBroadcastHost;
+                    destination.IsPacketEndPointHostValid = false;
                 }
             } else {
-                address = destination.PacketEndPoint.Address;
-                destination.IsPacketEndPointAddressValid = false;
+                host = destination.BroadcastHost;
+                destination.IsPacketEndPointHostValid = false;
             }
 
             int port;
@@ -64,19 +65,20 @@ namespace MagiWol {
                     if ((port >= 0) || (port <= 65535)) {
                         destination.IsPacketEndPointPortValid = true;
                     } else {
-                        port = Settings.DefaultPacketEndPoint.Port;
+                        port = Settings.DefaultBroadcastPort;
                         destination.IsPacketEndPointPortValid = false;
                     }
                 } else {
-                    port = Settings.DefaultPacketEndPoint.Port;
+                    port = Settings.DefaultBroadcastPort;
                     destination.IsPacketEndPointPortValid = false;
                 }
             } else {
-                port = destination.PacketEndPoint.Port;
+                port = destination.BroadcastPort;
                 destination.IsPacketEndPointPortValid = false;
             }
 
-            destination.PacketEndPoint = new IPEndPoint(address, port);
+            destination.BroadcastHost = host;
+            destination.BroadcastPort = port;
 
             destination.Notes = null;
 
@@ -93,16 +95,15 @@ namespace MagiWol {
 
 
         private void textBroadcastAddress_Validating(object sender, CancelEventArgs e) {
-            IPAddress address;
-            if (!IPAddress.TryParse(textBroadcastAddress.Text, out address)) {
-                textBroadcastAddress.Text = Settings.DefaultPacketEndPoint.Address.ToString();
+            if (string.IsNullOrEmpty(textBroadcastAddress.Text.Trim())== false) {
+                textBroadcastAddress.Text = Settings.DefaultBroadcastHost;
             }
         }
 
         private void textBroadcastPort_Validating(object sender, CancelEventArgs e) {
             int port;
             if (!(int.TryParse(textBroadcastPort.Text, NumberStyles.Integer, CultureInfo.InvariantCulture, out port) && (port >= 0) && (port <= 65535))) {
-                textBroadcastPort.Text = Settings.DefaultPacketEndPoint.Port.ToString(CultureInfo.InvariantCulture);
+                textBroadcastPort.Text = Settings.DefaultBroadcastPort.ToString(CultureInfo.InvariantCulture);
             }
         }
 

@@ -202,7 +202,7 @@ namespace MagiWol {
 
                 if ((res == 0) && ((macBytes[0] != 0) || (macBytes[1] != 0) || (macBytes[2] != 0) || (macBytes[3] != 0) || (macBytes[4] != 0) || (macBytes[5] != 0))) {
                     var macText = (macBytes[0].ToString("x2") + ":" + macBytes[1].ToString("x2") + ":" + macBytes[2].ToString("x2") + ":" + macBytes[3].ToString("x2") + ":" + macBytes[4].ToString("x2") + ":" + macBytes[5].ToString("x2")).ToUpper();
-                    var iAddress = new MagiWolDocument.Address(iEntryTitle, macText, "", "", Settings.DefaultPacketEndPoint, false, false);
+                    var iAddress = new MagiWolDocument.Address(iEntryTitle, macText, "", "", null, null, false, false);
 
                     lock (_syncRootAsyncMac) {
                         if (!this._asyncMacsList.Contains(iAddress)) {
