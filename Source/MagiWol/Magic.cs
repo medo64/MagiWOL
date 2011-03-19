@@ -32,6 +32,7 @@ namespace MagiWol {
                     }
                 }
             } catch (SocketException) { } //No such host is known
+
             if (count == 0) {
                 try {
                     IPAddress ip;

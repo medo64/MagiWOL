@@ -1,6 +1,5 @@
                                                 Josip Medved
                                                 http://www.jmedved.com
-                                                http://blog.jmedved.com
 
 
                                 MagiWOL
