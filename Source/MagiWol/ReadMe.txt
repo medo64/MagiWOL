@@ -7,6 +7,8 @@
 
 Shortcut keys
 
+   Alt                     Shows menu
+
    Ctrl+N                  New file
    Ctrl+O                  Open file
    Ctrl+S                  Save file
