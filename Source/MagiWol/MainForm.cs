@@ -36,7 +36,10 @@ namespace MagiWol {
             mnx.ImageScalingSize = new Size((int)(16 * dpiRatioX), (int)(16 * dpiRatioY));
             mnx.Scale(new SizeF(dpiRatioX, dpiRatioY));
 
-            if (Medo.Configuration.Settings.NoRegistryWrites) { mnxFileOpen.DropDownButtonWidth = 0; }
+            if (Medo.Configuration.Settings.NoRegistryWrites) {
+                mnuFileRecent.Enabled = false;
+                mnxFileOpen.DropDownButtonWidth = 0; 
+            }
 
             this._document = new MagiWolDocument.Document();
             this._recent = new Medo.Configuration.RecentFiles();
