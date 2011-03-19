@@ -195,7 +195,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Properties\App.ico" />
-    <None Include="App.config" />
     <None Include="MagiWOLDocument.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
