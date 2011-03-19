@@ -285,7 +285,9 @@ namespace MagiWol {
                 if (form.ShowDialog(this) == DialogResult.OK) {
                     foreach (var iAddress in form.ImportedAddresses) {
                         if (this._document.HasAddress(iAddress)) {
-                            Medo.MessageBox.ShowWarning(this, string.Format("MAC address \"{0}\" is already in list.", iAddress.Mac));
+                            if (Medo.MessageBox.ShowQuestion(this, string.Format("MAC address \"{0}\" is already in list.\nDo you wish to add it anyhow?", iAddress.Mac), MessageBoxButtons.YesNo, MessageBoxDefaultButton.Button2) == DialogResult.Yes) {
+                                this._document.AddAddress(iAddress, false);
+                            }
                         } else {
                             this._document.AddAddress(iAddress, false);
                         }
@@ -403,7 +405,9 @@ namespace MagiWol {
             using (var frm = new DetailForm(null)) {
                 if (frm.ShowDialog(this) == DialogResult.OK) {
                     if (this._document.HasAddress(frm.Destination)) {
-                        Medo.MessageBox.ShowWarning(this, string.Format("MAC address \"{0}\" is already in list.", frm.Destination.Mac));
+                        if (Medo.MessageBox.ShowQuestion(this, string.Format("MAC address \"{0}\" is already in list.\nDo you wish to add it anyhow?", frm.Destination.Mac), MessageBoxButtons.YesNo) == DialogResult.Yes) {
+                            this._document.AddAddress(frm.Destination, true);
+                        }
                     } else {
                         this._document.AddAddress(frm.Destination, false);
                     }
