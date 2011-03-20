@@ -4,6 +4,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Net;
+using System.Globalization;
 
 namespace MagiWol.MagiWolDocument {
 
@@ -16,7 +17,7 @@ namespace MagiWol.MagiWolDocument {
             : this("", "", "", "", null, null, false, false) {
         }
 
-        public Address(string title, string mac, string secureOn, string notes, string broadcastHost, int? broadcastPort, bool isAddressValid, bool isPortValid)
+        public Address(string title, string mac, string secureOn, string notes, string broadcastHost, int? broadcastPort, bool isHostValid, bool isPortValid)
             : base() {
             if (_fixedSizeFont == null) {
                 _fixedSizeFont = new Font("Courier New", base.Font.Size, base.Font.Style);
@@ -25,14 +26,6 @@ namespace MagiWol.MagiWolDocument {
                 _fixedSizeFont = new Font("Courier New", base.Font.Size, base.Font.Style);
             }
 
-            base.Text = title; //title
-            base.SubItems.Add(mac); //mac
-            base.SubItems.Add(secureOn); //secureon
-
-            base.UseItemStyleForSubItems = false;
-            base.SubItems[1].Font = _fixedSizeFont;
-            base.SubItems[2].Font = _fixedSizeFont;
-
             this.Title = title;
             this.Mac = mac;
             this.SecureOn = secureOn;
@@ -40,14 +33,29 @@ namespace MagiWol.MagiWolDocument {
             if ((broadcastHost != null) && (broadcastPort != null)) {
                 this.BroadcastHost = broadcastHost;
                 this.BroadcastPort = broadcastPort.Value;
-                this.IsPacketEndPointHostValid = isAddressValid;
-                this.IsPacketEndPointPortValid = isPortValid;
+                this.IsBroadcastHostValid = isHostValid;
+                this.IsBroadcastPortValid = isPortValid;
+            } else if (broadcastHost != null) {
+                this.BroadcastHost = broadcastHost;
+                this.BroadcastPort = Settings.DefaultBroadcastPort;
+                this.IsBroadcastHostValid = true;
+                this.IsBroadcastPortValid = false;
+            } else if (broadcastPort != null) {
+                this.BroadcastHost = Settings.DefaultBroadcastHost;
+                this.BroadcastPort = broadcastPort.Value;
+                this.IsBroadcastHostValid = false;
+                this.IsBroadcastPortValid = true;
             } else {
                 this.BroadcastHost = Settings.DefaultBroadcastHost;
                 this.BroadcastPort = Settings.DefaultBroadcastPort;
-                this.IsPacketEndPointHostValid = false;
-                this.IsPacketEndPointPortValid = false;
+                this.IsBroadcastHostValid = false;
+                this.IsBroadcastPortValid = false;
             }
+
+
+            base.Text = title;
+            base.UseItemStyleForSubItems = false;
+            RefreshColumns();
         }
 
 
@@ -87,7 +95,7 @@ namespace MagiWol.MagiWolDocument {
             set {
                 string oldValue = this._mac;
                 this._mac = GetProperMAC(value);
-                base.SubItems[1].Text = this._mac;
+                RefreshColumns();
                 if ((this.Parent != null) && (oldValue != this._mac)) { this.Parent.HasChanged = true; }
             }
         }
@@ -100,18 +108,8 @@ namespace MagiWol.MagiWolDocument {
             set {
                 string oldValue = this._secureOn;
                 this._secureOn = GetProperMAC(value);
-                base.SubItems[2].Text = this._secureOn;
+                RefreshColumns();
                 if ((this.Parent != null) && (oldValue != this._secureOn)) { this.Parent.HasChanged = true; }
-            }
-        }
-
-        private string _notes;
-        public string Notes {
-            get { return this._notes; }
-            set {
-                string oldValue = this._notes;
-                this._notes = value;
-                if ((this.Parent != null) && (oldValue != this._notes)) { this.Parent.HasChanged = true; }
             }
         }
 
@@ -121,6 +119,7 @@ namespace MagiWol.MagiWolDocument {
             set {
                 string oldValue = this._broadcastHost;
                 this._broadcastHost = value;
+                RefreshColumns();
                 if ((this.Parent != null) && (oldValue != this._broadcastHost)) { this.Parent.HasChanged = true; }
             }
         }
@@ -131,20 +130,24 @@ namespace MagiWol.MagiWolDocument {
             set {
                 int oldValue = this._broadcastPort;
                 this._broadcastPort = value;
+                RefreshColumns();
                 if ((this.Parent != null) && (oldValue != this._broadcastPort)) { this.Parent.HasChanged = true; }
             }
         }
 
-        public bool IsPacketEndPointHostValid {
-            get;
-            set;
+        private string _notes;
+        public string Notes {
+            get { return this._notes; }
+            set {
+                string oldValue = this._notes;
+                this._notes = value;
+                RefreshColumns();
+                if ((this.Parent != null) && (oldValue != this._notes)) { this.Parent.HasChanged = true; }
+            }
         }
 
-        public bool IsPacketEndPointPortValid {
-            get;
-            set;
-        }
-
+        public bool IsBroadcastHostValid { get; set; }
+        public bool IsBroadcastPortValid { get; set; }
 
 
         public override bool Equals(object obj) {
@@ -219,6 +222,36 @@ namespace MagiWol.MagiWolDocument {
 
         }
 
-    }
+        internal void RefreshColumns() {
+            for (int i = base.SubItems.Count - 1; i >= 1; i--) {
+                base.SubItems.RemoveAt(i);
+            }
+            int index = 1;
+            if (Settings.ShowColumnMac) {
+                base.SubItems.Add(this.Mac); //mac
+                base.SubItems[index].Font = _fixedSizeFont;
+                index += 1;
+            }
+            if (Settings.ShowColumnSecureOn) {
+                base.SubItems.Add(this.SecureOn); //secureon
+                base.SubItems[index].Font = _fixedSizeFont;
+                index += 1;
+            }
+            if (Settings.ShowColumnBroadcastHost) {
+                base.SubItems.Add(this.IsBroadcastHostValid ? this.BroadcastHost : Settings.DefaultBroadcastHost);
+                base.SubItems[index].ForeColor = this.IsBroadcastHostValid ? SystemColors.WindowText : SystemColors.GrayText;
+                index += 1;
+            }
+            if (Settings.ShowColumnBroadcastPort) {
+                base.SubItems.Add(this.IsBroadcastPortValid ? this.BroadcastPort.ToString(CultureInfo.InvariantCulture) : Settings.DefaultBroadcastPort.ToString(CultureInfo.InvariantCulture));
+                base.SubItems[index].ForeColor = this.IsBroadcastPortValid ? SystemColors.WindowText : SystemColors.GrayText;
+                index += 1;
+            }
+            if (Settings.ShowColumnNotes) {
+                base.SubItems.Add(this.Notes);
+                index += 1;
+            }
+        }
 
+    }
 }

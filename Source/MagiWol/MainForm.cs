@@ -38,7 +38,7 @@ namespace MagiWol {
 
             if (Medo.Configuration.Settings.NoRegistryWrites) {
                 mnuFileRecent.Enabled = false;
-                mnxFileOpen.DropDownButtonWidth = 0; 
+                mnxFileOpen.DropDownButtonWidth = 0;
             }
 
             this._document = new MagiWolDocument.Document();
@@ -487,6 +487,7 @@ namespace MagiWol {
             using (var form = new SettingsForm()) {
                 if (form.ShowDialog(this) == DialogResult.OK) {
                     mnu.Visible = Settings.Runtime.ShowMenu;
+                    mnuToolsRefresh_Click(null, null);
                 }
             }
         }

@@ -29,14 +29,27 @@ namespace MagiWol.MagiWolDocument {
             MagiWolDocument.Address potentialFocus = null;
 
             list.BeginUpdate();
+
+            Medo.Windows.Forms.State.Save(list);
+            list.Columns.Clear();
+            list.Columns.Add(new ColumnHeader() { Tag = "Name", Text = "Name" });
+            if (Settings.ShowColumnMac) { list.Columns.Add(new ColumnHeader() { Tag = "Mac", Text = "Mac", Width = 150 }); }
+            if (Settings.ShowColumnSecureOn) { list.Columns.Add(new ColumnHeader() { Tag = "SecureOn", Text = "SecureOn", Width = 150 }); }
+            if (Settings.ShowColumnBroadcastHost) { list.Columns.Add(new ColumnHeader() { Tag = "BroadcastHost", Text = "Host", Width = 150 }); }
+            if (Settings.ShowColumnBroadcastPort) { list.Columns.Add(new ColumnHeader() { Tag = "BroadcastPort", Text = "Port", Width = 150 }); }
+            if (Settings.ShowColumnNotes) { list.Columns.Add(new ColumnHeader() { Text = "Notes", Tag = "Notes" }); }
+            Medo.Windows.Forms.State.Load(list);
+
             list.Items.Clear();
             for (int i = 0; i < this._addresses.Count; ++i) {
                 _addresses[i].Selected = selectionList.Contains(_addresses[i]);
+                _addresses[i].RefreshColumns();
                 list.Items.Add(_addresses[i]);
                 if (selectionList.Contains(_addresses[i])) {
                     potentialFocus = _addresses[i];
                 }
             }
+
             list.EndUpdate();
 
             if (potentialFocus != null) { list.FocusedItem = potentialFocus; }
@@ -271,8 +284,8 @@ namespace MagiWol.MagiWolDocument {
                         paramValuePairs.AddRange(new string[] { "secureOnPassword", iAddress.SecureOn });
                         paramValuePairs.AddRange(new string[] { "broadcastAddress", iAddress.BroadcastHost });
                         paramValuePairs.AddRange(new string[] { "broadcastPort", iAddress.BroadcastPort.ToString(CultureInfo.InvariantCulture) });
-                        paramValuePairs.AddRange(new string[] { "isBroadcastAddressValid", iAddress.IsPacketEndPointHostValid.ToString(CultureInfo.InvariantCulture) });
-                        paramValuePairs.AddRange(new string[] { "isBroadcastPortValid", iAddress.IsPacketEndPointPortValid.ToString(CultureInfo.InvariantCulture) });
+                        paramValuePairs.AddRange(new string[] { "isBroadcastAddressValid", iAddress.IsBroadcastHostValid.ToString(CultureInfo.InvariantCulture) });
+                        paramValuePairs.AddRange(new string[] { "isBroadcastPortValid", iAddress.IsBroadcastPortValid.ToString(CultureInfo.InvariantCulture) });
                         paramValuePairs.AddRange(new string[] { "description", iAddress.Notes });
                         xw.WriteTag("Address", paramValuePairs.ToArray());
                     }

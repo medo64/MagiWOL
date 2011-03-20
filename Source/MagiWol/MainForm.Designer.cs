@@ -83,7 +83,7 @@ namespace MagiWol {
             this.list = new System.Windows.Forms.ListView();
             this.list_Name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.list_MAC = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.list_SecureOn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.list_Notes = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.mnxList = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnxListCut = new System.Windows.Forms.ToolStripMenuItem();
             this.mnxListCopy = new System.Windows.Forms.ToolStripMenuItem();
@@ -194,8 +194,8 @@ namespace MagiWol {
             // mnuFileSaveAs
             // 
             this.mnuFileSaveAs.Name = "mnuFileSaveAs";
-            this.mnuFileSaveAs.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
-                        | System.Windows.Forms.Keys.S)));
+            this.mnuFileSaveAs.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.S)));
             this.mnuFileSaveAs.Size = new System.Drawing.Size(219, 24);
             this.mnuFileSaveAs.Text = "Save &As";
             this.mnuFileSaveAs.Click += new System.EventHandler(this.mnuFileSaveAs_Click);
@@ -625,7 +625,7 @@ namespace MagiWol {
             this.list.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.list_Name,
             this.list_MAC,
-            this.list_SecureOn});
+            this.list_Notes});
             this.list.ContextMenuStrip = this.mnxList;
             this.list.Dock = System.Windows.Forms.DockStyle.Fill;
             this.list.FullRowSelect = true;
@@ -646,18 +646,21 @@ namespace MagiWol {
             // 
             // list_Name
             // 
+            this.list_Name.Tag = "Name";
             this.list_Name.Text = "Name";
             this.list_Name.Width = 150;
             // 
             // list_MAC
             // 
+            this.list_MAC.Tag = "MAC";
             this.list_MAC.Text = "MAC address";
             this.list_MAC.Width = 150;
             // 
-            // list_SecureOn
+            // list_Notes
             // 
-            this.list_SecureOn.Text = "SecureOn password";
-            this.list_SecureOn.Width = 150;
+            this.list_Notes.Tag = "Notes";
+            this.list_Notes.Text = "Notes";
+            this.list_Notes.Width = 150;
             // 
             // mnxList
             // 
@@ -845,7 +848,7 @@ namespace MagiWol {
         private System.Windows.Forms.ListView list;
         private System.Windows.Forms.ColumnHeader list_Name;
         private System.Windows.Forms.ColumnHeader list_MAC;
-        private System.Windows.Forms.ColumnHeader list_SecureOn;
+        private System.Windows.Forms.ColumnHeader list_Notes;
         private System.Windows.Forms.ToolStripMenuItem mnuEdit;
         private System.Windows.Forms.ToolStripMenuItem mnuEditAdd;
         private System.Windows.Forms.ToolStripMenuItem mnuEditChange;

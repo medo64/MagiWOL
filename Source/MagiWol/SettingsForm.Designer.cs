@@ -35,16 +35,24 @@
             this.textBroadcastPort = new System.Windows.Forms.TextBox();
             this.textBroadcastAddress = new System.Windows.Forms.TextBox();
             this.labelBroadcastAddress = new System.Windows.Forms.Label();
+            this.tabs_pagColumns = new System.Windows.Forms.TabPage();
+            this.chbNotes = new System.Windows.Forms.CheckBox();
+            this.chbBroadcastPort = new System.Windows.Forms.CheckBox();
+            this.chbBroadcastHost = new System.Windows.Forms.CheckBox();
+            this.chbSecureOn = new System.Windows.Forms.CheckBox();
+            this.chbMac = new System.Windows.Forms.CheckBox();
+            this.chbTitle = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.erp)).BeginInit();
             this.tabs.SuspendLayout();
             this.tabs_pagPacket.SuspendLayout();
+            this.tabs_pagColumns.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonCancel
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(282, 154);
+            this.buttonCancel.Location = new System.Drawing.Point(282, 226);
             this.buttonCancel.Margin = new System.Windows.Forms.Padding(3, 15, 3, 3);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(100, 28);
@@ -56,7 +64,7 @@
             // 
             this.buttonOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.buttonOk.Location = new System.Drawing.Point(176, 154);
+            this.buttonOk.Location = new System.Drawing.Point(176, 226);
             this.buttonOk.Margin = new System.Windows.Forms.Padding(3, 15, 3, 3);
             this.buttonOk.Name = "buttonOk";
             this.buttonOk.Size = new System.Drawing.Size(100, 28);
@@ -73,14 +81,15 @@
             // 
             // tabs
             // 
-            this.tabs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabs.Controls.Add(this.tabs_pagPacket);
+            this.tabs.Controls.Add(this.tabs_pagColumns);
             this.tabs.Location = new System.Drawing.Point(12, 12);
             this.tabs.Name = "tabs";
             this.tabs.SelectedIndex = 0;
-            this.tabs.Size = new System.Drawing.Size(370, 125);
+            this.tabs.Size = new System.Drawing.Size(370, 197);
             this.tabs.TabIndex = 5;
             // 
             // tabs_pagPacket
@@ -93,7 +102,7 @@
             this.tabs_pagPacket.Location = new System.Drawing.Point(4, 25);
             this.tabs_pagPacket.Name = "tabs_pagPacket";
             this.tabs_pagPacket.Padding = new System.Windows.Forms.Padding(3);
-            this.tabs_pagPacket.Size = new System.Drawing.Size(362, 96);
+            this.tabs_pagPacket.Size = new System.Drawing.Size(362, 168);
             this.tabs_pagPacket.TabIndex = 1;
             this.tabs_pagPacket.Text = "WOL packet";
             this.tabs_pagPacket.UseVisualStyleBackColor = true;
@@ -119,8 +128,8 @@
             // 
             // textBroadcastPort
             // 
-            this.textBroadcastPort.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBroadcastPort.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBroadcastPort.Location = new System.Drawing.Point(156, 34);
             this.textBroadcastPort.MaxLength = 0;
             this.textBroadcastPort.Name = "textBroadcastPort";
@@ -129,8 +138,8 @@
             // 
             // textBroadcastAddress
             // 
-            this.textBroadcastAddress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBroadcastAddress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBroadcastAddress.Location = new System.Drawing.Point(156, 6);
             this.textBroadcastAddress.MaxLength = 0;
             this.textBroadcastAddress.Name = "textBroadcastAddress";
@@ -146,13 +155,92 @@
             this.labelBroadcastAddress.TabIndex = 5;
             this.labelBroadcastAddress.Text = "Broadcast address:";
             // 
+            // tabs_pagColumns
+            // 
+            this.tabs_pagColumns.Controls.Add(this.chbNotes);
+            this.tabs_pagColumns.Controls.Add(this.chbBroadcastPort);
+            this.tabs_pagColumns.Controls.Add(this.chbBroadcastHost);
+            this.tabs_pagColumns.Controls.Add(this.chbSecureOn);
+            this.tabs_pagColumns.Controls.Add(this.chbMac);
+            this.tabs_pagColumns.Controls.Add(this.chbTitle);
+            this.tabs_pagColumns.Location = new System.Drawing.Point(4, 25);
+            this.tabs_pagColumns.Name = "tabs_pagColumns";
+            this.tabs_pagColumns.Padding = new System.Windows.Forms.Padding(3);
+            this.tabs_pagColumns.Size = new System.Drawing.Size(362, 168);
+            this.tabs_pagColumns.TabIndex = 2;
+            this.tabs_pagColumns.Text = "Columns";
+            this.tabs_pagColumns.UseVisualStyleBackColor = true;
+            // 
+            // chbNotes
+            // 
+            this.chbNotes.AutoSize = true;
+            this.chbNotes.Location = new System.Drawing.Point(6, 141);
+            this.chbNotes.Name = "chbNotes";
+            this.chbNotes.Size = new System.Drawing.Size(67, 21);
+            this.chbNotes.TabIndex = 11;
+            this.chbNotes.Text = "Notes";
+            this.chbNotes.UseVisualStyleBackColor = true;
+            // 
+            // chbBroadcastPort
+            // 
+            this.chbBroadcastPort.AutoSize = true;
+            this.chbBroadcastPort.Location = new System.Drawing.Point(6, 114);
+            this.chbBroadcastPort.Name = "chbBroadcastPort";
+            this.chbBroadcastPort.Size = new System.Drawing.Size(123, 21);
+            this.chbBroadcastPort.TabIndex = 10;
+            this.chbBroadcastPort.Text = "Broadcast port";
+            this.chbBroadcastPort.UseVisualStyleBackColor = true;
+            // 
+            // chbBroadcastHost
+            // 
+            this.chbBroadcastHost.AutoSize = true;
+            this.chbBroadcastHost.Location = new System.Drawing.Point(6, 87);
+            this.chbBroadcastHost.Name = "chbBroadcastHost";
+            this.chbBroadcastHost.Size = new System.Drawing.Size(125, 21);
+            this.chbBroadcastHost.TabIndex = 9;
+            this.chbBroadcastHost.Text = "Broadcast host";
+            this.chbBroadcastHost.UseVisualStyleBackColor = true;
+            // 
+            // chbSecureOn
+            // 
+            this.chbSecureOn.AutoSize = true;
+            this.chbSecureOn.Location = new System.Drawing.Point(6, 60);
+            this.chbSecureOn.Name = "chbSecureOn";
+            this.chbSecureOn.Size = new System.Drawing.Size(158, 21);
+            this.chbSecureOn.TabIndex = 8;
+            this.chbSecureOn.Text = "SecureOn password";
+            this.chbSecureOn.UseVisualStyleBackColor = true;
+            // 
+            // chbMac
+            // 
+            this.chbMac.AutoSize = true;
+            this.chbMac.Location = new System.Drawing.Point(6, 33);
+            this.chbMac.Name = "chbMac";
+            this.chbMac.Size = new System.Drawing.Size(114, 21);
+            this.chbMac.TabIndex = 7;
+            this.chbMac.Text = "MAC address";
+            this.chbMac.UseVisualStyleBackColor = true;
+            // 
+            // chbTitle
+            // 
+            this.chbTitle.AutoSize = true;
+            this.chbTitle.Checked = true;
+            this.chbTitle.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chbTitle.Enabled = false;
+            this.chbTitle.Location = new System.Drawing.Point(6, 6);
+            this.chbTitle.Name = "chbTitle";
+            this.chbTitle.Size = new System.Drawing.Size(67, 21);
+            this.chbTitle.TabIndex = 6;
+            this.chbTitle.Text = "Name";
+            this.chbTitle.UseVisualStyleBackColor = true;
+            // 
             // SettingsForm
             // 
             this.AcceptButton = this.buttonOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(394, 194);
+            this.ClientSize = new System.Drawing.Size(394, 266);
             this.Controls.Add(this.tabs);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonOk);
@@ -169,6 +257,8 @@
             this.tabs.ResumeLayout(false);
             this.tabs_pagPacket.ResumeLayout(false);
             this.tabs_pagPacket.PerformLayout();
+            this.tabs_pagColumns.ResumeLayout(false);
+            this.tabs_pagColumns.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -185,5 +275,12 @@
         private System.Windows.Forms.TextBox textBroadcastPort;
         private System.Windows.Forms.TextBox textBroadcastAddress;
         private System.Windows.Forms.Label labelBroadcastAddress;
+        private System.Windows.Forms.TabPage tabs_pagColumns;
+        private System.Windows.Forms.CheckBox chbNotes;
+        private System.Windows.Forms.CheckBox chbBroadcastPort;
+        private System.Windows.Forms.CheckBox chbBroadcastHost;
+        private System.Windows.Forms.CheckBox chbSecureOn;
+        private System.Windows.Forms.CheckBox chbMac;
+        private System.Windows.Forms.CheckBox chbTitle;
     }
 }

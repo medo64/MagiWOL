@@ -36,9 +36,9 @@ namespace MagiWol {
                 textTitle.Text = this.Destination.Title;
                 textMac.Text = this.Destination.Mac;
                 textSecureOn.Text = this.Destination.SecureOn;
-                checkBroadcastAddress.Checked = this.Destination.IsPacketEndPointHostValid;
+                checkBroadcastAddress.Checked = this.Destination.IsBroadcastHostValid;
                 textBroadcastAddress.Text = this.Destination.BroadcastHost;
-                checkBroadcastPort.Checked = this.Destination.IsPacketEndPointPortValid;
+                checkBroadcastPort.Checked = this.Destination.IsBroadcastPortValid;
                 textBroadcastPort.Text = this.Destination.BroadcastPort.ToString(CultureInfo.InvariantCulture);
                 textNotes.Text = this.Destination.Notes;
             } else {
@@ -62,32 +62,32 @@ namespace MagiWol {
             if (checkBroadcastAddress.Checked) {
                 if (string.IsNullOrEmpty(textBroadcastAddress.Text.Trim()) == false) {
                     host = textBroadcastAddress.Text.Trim();
-                    this.Destination.IsPacketEndPointHostValid = true;
+                    this.Destination.IsBroadcastHostValid = true;
                 } else {
                     host = Settings.DefaultBroadcastHost;
-                    this.Destination.IsPacketEndPointHostValid = false;
+                    this.Destination.IsBroadcastHostValid = false;
                 }
             } else {
                 host = this.Destination.BroadcastHost;
-                this.Destination.IsPacketEndPointHostValid = false;
+                this.Destination.IsBroadcastHostValid = false;
             }
 
             int port;
             if (checkBroadcastPort.Checked) {
                 if (int.TryParse(textBroadcastPort.Text, NumberStyles.Integer, CultureInfo.InvariantCulture, out port)) {
                     if ((port >= 0) || (port <= 65535)) {
-                        this.Destination.IsPacketEndPointPortValid = true;
+                        this.Destination.IsBroadcastPortValid = true;
                     } else {
                         port = Settings.DefaultBroadcastPort;
-                        this.Destination.IsPacketEndPointPortValid = false;
+                        this.Destination.IsBroadcastPortValid = false;
                     }
                 } else {
                     port = Settings.DefaultBroadcastPort;
-                    this.Destination.IsPacketEndPointPortValid = false;
+                    this.Destination.IsBroadcastPortValid = false;
                 }
             } else {
                 port = this.Destination.BroadcastPort;
-                this.Destination.IsPacketEndPointPortValid = false;
+                this.Destination.IsBroadcastPortValid = false;
             }
 
             this.Destination.BroadcastHost = host;

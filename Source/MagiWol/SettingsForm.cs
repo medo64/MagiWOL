@@ -25,6 +25,12 @@ namespace MagiWol {
         private void SettingsForm_Load(object sender, EventArgs e) {
             textBroadcastAddress.Text = Settings.DefaultBroadcastHost;
             textBroadcastPort.Text = Settings.DefaultBroadcastPort.ToString(CultureInfo.InvariantCulture);
+
+            chbMac.Checked = Settings.ShowColumnMac;
+            chbSecureOn.Checked = Settings.ShowColumnSecureOn;
+            chbBroadcastHost.Checked = Settings.ShowColumnBroadcastHost;
+            chbBroadcastPort.Checked = Settings.ShowColumnBroadcastPort;
+            chbNotes.Checked = Settings.ShowColumnNotes;
         }
 
         private void buttonOk_Click(object sender, EventArgs e) {
@@ -33,6 +39,12 @@ namespace MagiWol {
             if (!(int.TryParse(textBroadcastPort.Text, NumberStyles.Integer, CultureInfo.CurrentCulture, out  port) && (port >= 0) && (port <= 65535))) {
                 port = Settings.DefaultBroadcastPort;
             }
+
+            Settings.ShowColumnMac = chbMac.Checked;
+            Settings.ShowColumnSecureOn = chbSecureOn.Checked;
+            Settings.ShowColumnBroadcastHost = chbBroadcastHost.Checked;
+            Settings.ShowColumnBroadcastPort = chbBroadcastPort.Checked;
+            Settings.ShowColumnNotes = chbNotes.Checked;
         }
 
         private void textBroadcastAddress_Validating(object sender, CancelEventArgs e) {

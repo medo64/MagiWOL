@@ -9,9 +9,9 @@ namespace MagiWol {
 
         public static void SendMagicPacket(MagiWolDocument.Address address) {
             var broadcastHost = Settings.DefaultBroadcastHost;
-            if (address.IsPacketEndPointHostValid) { broadcastHost = address.BroadcastHost; }
+            if (address.IsBroadcastHostValid) { broadcastHost = address.BroadcastHost; }
             var broadcastPort = Settings.DefaultBroadcastPort;
-            if (address.IsPacketEndPointPortValid) { broadcastPort = address.BroadcastPort; }
+            if (address.IsBroadcastPortValid) { broadcastPort = address.BroadcastPort; }
 
             SendMagicPacket(address.Mac, address.SecureOn, broadcastHost, broadcastPort);
         }

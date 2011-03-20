@@ -49,32 +49,32 @@ namespace MagiWol {
             if (checkBroadcastAddress.Checked) {
                 if (string.IsNullOrEmpty(textBroadcastAddress.Text.Trim()) == false) {
                     host = textBroadcastAddress.Text.Trim();
-                    destination.IsPacketEndPointHostValid = true;
+                    destination.IsBroadcastHostValid = true;
                 } else {
                     host = Settings.DefaultBroadcastHost;
-                    destination.IsPacketEndPointHostValid = false;
+                    destination.IsBroadcastHostValid = false;
                 }
             } else {
                 host = destination.BroadcastHost;
-                destination.IsPacketEndPointHostValid = false;
+                destination.IsBroadcastHostValid = false;
             }
 
             int port;
             if (checkBroadcastPort.Checked) {
                 if (int.TryParse(textBroadcastPort.Text, NumberStyles.Integer, CultureInfo.InvariantCulture, out port)) {
                     if ((port >= 0) || (port <= 65535)) {
-                        destination.IsPacketEndPointPortValid = true;
+                        destination.IsBroadcastPortValid = true;
                     } else {
                         port = Settings.DefaultBroadcastPort;
-                        destination.IsPacketEndPointPortValid = false;
+                        destination.IsBroadcastPortValid = false;
                     }
                 } else {
                     port = Settings.DefaultBroadcastPort;
-                    destination.IsPacketEndPointPortValid = false;
+                    destination.IsBroadcastPortValid = false;
                 }
             } else {
                 port = destination.BroadcastPort;
-                destination.IsPacketEndPointPortValid = false;
+                destination.IsBroadcastPortValid = false;
             }
 
             destination.BroadcastHost = host;

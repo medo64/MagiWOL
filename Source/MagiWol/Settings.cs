@@ -78,6 +78,36 @@ namespace MagiWol {
             }
         }
 
+
+        public static bool ShowColumnTitle {
+            get { return true; }
+        }
+
+        public static bool ShowColumnMac {
+            get { return Medo.Configuration.Settings.Read("ShowColumnMac", true); }
+            set { Medo.Configuration.Settings.Write("ShowColumnMac", value); }
+        }
+
+        public static bool ShowColumnSecureOn {
+            get { return Medo.Configuration.Settings.Read("ShowColumnSecureOn", false); }
+            set { Medo.Configuration.Settings.Write("ShowColumnSecureOn", value); }
+        }
+
+        public static bool ShowColumnBroadcastHost {
+            get { return Medo.Configuration.Settings.Read("ShowColumnBroadcastHost", false); }
+            set { Medo.Configuration.Settings.Write("ShowColumnBroadcastHost", value); }
+        }
+
+        public static bool ShowColumnBroadcastPort {
+            get { return Medo.Configuration.Settings.Read("ShowColumnBroadcastPort", false); }
+            set { Medo.Configuration.Settings.Write("ShowColumnBroadcastPort", value); }
+        }
+
+        public static bool ShowColumnNotes {
+            get { return Medo.Configuration.Settings.Read("ShowColumnNotes", true); }
+            set { Medo.Configuration.Settings.Write("ShowColumnNotes", value); }
+        }
+
     }
 
 }

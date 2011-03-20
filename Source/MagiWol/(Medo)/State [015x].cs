@@ -17,6 +17,7 @@
 //2010-10-17: Limited all loaded forms to screen's working area.
 //            Changed LoadNowAndSaveOnClose to use SetupOnLoadAndClose.
 //2010-10-31: Added option to skip registry writes (NoRegistryWrites).
+//2011-03-20: ListView columns are stored by name instead of index.
 
 
 using System.Windows.Forms;
@@ -401,7 +402,12 @@ namespace Medo.Windows.Forms {
             string baseValueName = Helper.GetControlPath(control);
 
             for (int i = 0; i < control.Columns.Count; i++) {
-                int width = Helper.Read(baseValueName + ".ColumnHeaderWidth[" + i.ToString(System.Globalization.CultureInfo.InvariantCulture) + "]", control.Columns[i].Width);
+                int width;
+                if (string.IsNullOrEmpty(control.Columns[i].Tag as string)) {
+                    width = Helper.Read(baseValueName + ".ColumnHeaderWidth[" + i.ToString(System.Globalization.CultureInfo.InvariantCulture) + "]", control.Columns[i].Width);
+                } else {
+                    width = Helper.Read(baseValueName + ".ColumnHeaderWidth[" + (string)control.Columns[i].Tag + "]", control.Columns[i].Width);
+                }
                 if (width > control.ClientRectangle.Width) { width = control.ClientRectangle.Width; }
                 control.Columns[i].Width = width;
             }
@@ -418,7 +424,11 @@ namespace Medo.Windows.Forms {
             string baseValueName = Helper.GetControlPath(control);
 
             for (int i = 0; i < control.Columns.Count; i++) {
-                Helper.Write(baseValueName + ".ColumnHeaderWidth[" + i.ToString(System.Globalization.CultureInfo.InvariantCulture) + "]", control.Columns[i].Width);
+                if (string.IsNullOrEmpty(control.Columns[i].Tag as string)) {
+                    Helper.Write(baseValueName + ".ColumnHeaderWidth[" + i.ToString(System.Globalization.CultureInfo.InvariantCulture) + "]", control.Columns[i].Width);
+                } else {
+                    Helper.Write(baseValueName + ".ColumnHeaderWidth[" + (string)control.Columns[i].Tag + "]", control.Columns[i].Width);
+                }
             }
         }
 
