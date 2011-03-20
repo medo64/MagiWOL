@@ -48,6 +48,8 @@ internal class ListViewColumnSorter : IComparer {
         listviewX = (ListViewItem)x;
         listviewY = (ListViewItem)y;
 
+        if (listviewX.SubItems.Count <= ColumnToSort) { return 0; }
+
         // Compare the two items
         compareResult = ObjectCompare.Compare(listviewX.SubItems[ColumnToSort].Text, listviewY.SubItems[ColumnToSort].Text);
 

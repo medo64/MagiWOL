@@ -31,13 +31,14 @@ Shortcut keys
 
 Version history
 
-   Version 3.00 (beta 1)
+   Version 3.00 (beta 2)
 
       o  No registry writes will be performed if application is not
          installed.
       o  Double-click now wakes computer instead of editing entry.
       o  Broadcast address now can be host name (useful for waking
          over Internet).
+      o  Columns can be shown and hidden.
       o  Lot of bug fixing.
 
    Version 2.21 (2010-10-30)
