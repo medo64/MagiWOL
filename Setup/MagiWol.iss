@@ -8,7 +8,7 @@ SourceDir=..\Binaries
 AppId=JosipMedved_MagiWOL
 AppMutex=Global\JosipMedved_MagiWOL
 AppPublisher=Josip Medved
-AppPublisherURL=http://www.jmedved.com/?page=magiwol
+AppPublisherURL=http://www.jmedved.com/magiwol/
 UninstallDisplayIcon={app}\MagiWOL.exe
 AlwaysShowComponentsList=no
 ArchitecturesInstallIn64BitMode=x64
