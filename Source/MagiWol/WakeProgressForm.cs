@@ -84,7 +84,12 @@ namespace MagiWol {
             if (e.Cancelled) {
                 this.DialogResult = DialogResult.Cancel;
             } else {
-                this.DialogResult = DialogResult.OK;
+                if (e.Error != null) {
+                    Medo.MessageBox.ShowError(this, e.Error.Message);
+                    this.DialogResult = DialogResult.Cancel;
+                } else {
+                    this.DialogResult = DialogResult.OK;
+                }
             }
             Medo.Windows.Forms.TaskbarProgress.SetState(Medo.Windows.Forms.TaskbarProgressState.NoProgress);
         }

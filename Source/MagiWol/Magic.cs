@@ -17,37 +17,24 @@ namespace MagiWol {
         }
 
         public static void SendMagicPacket(string macAddress, string secureOnPassword, string broadcastHost, int broadcastPort) {
-            int count = 0;
             try {
                 IPAddress ip;
                 if (IPAddress.TryParse(broadcastHost, out ip)) {
                     Medo.Net.WakeOnLan.SendMagicPacket(macAddress, secureOnPassword, ip, broadcastPort);
-                    count += 1;
                 } else {
+                    bool hasSent = false;
                     foreach (var address in Dns.GetHostAddresses(broadcastHost)) {
                         if (address.AddressFamily == AddressFamily.InterNetwork) {
                             Medo.Net.WakeOnLan.SendMagicPacket(macAddress, secureOnPassword, address, broadcastPort);
-                            count += 1;
+                            hasSent = true;
                         }
                     }
-                }
-            } catch (SocketException) { } //No such host is known
-
-            if (count == 0) {
-                try {
-                    IPAddress ip;
-                    if (IPAddress.TryParse(Settings.DefaultBroadcastHost, out ip)) {
-                        Medo.Net.WakeOnLan.SendMagicPacket(macAddress, secureOnPassword, ip, broadcastPort);
-                    } else {
-                        foreach (var address in Dns.GetHostAddresses(Settings.DefaultBroadcastHost)) {
-                            if (address.AddressFamily == AddressFamily.InterNetwork) {
-                                Medo.Net.WakeOnLan.SendMagicPacket(macAddress, secureOnPassword, address, broadcastPort);
-                            }
-                        }
+                    if (hasSent == false) {
+                        throw new InvalidOperationException(string.Format("Cannot find IP address for broadcast host \"{0}\".", broadcastHost));
                     }
-                } catch (SocketException) { //No such host is known
-                    Medo.Net.WakeOnLan.SendMagicPacket(macAddress, secureOnPassword, IPAddress.Broadcast, broadcastPort);
                 }
+            } catch (SocketException ex) { //No such host is known
+                throw new InvalidOperationException(string.Format("Broadcast host \"{0}\" cannot be resolved.", broadcastHost), ex);
             }
         }
 
@@ -66,8 +53,10 @@ namespace MagiWol {
 
             string broadcastHost = Settings.DefaultBroadcastHost;
             if (useBroadcastAddress) {
-                if (string.IsNullOrEmpty(broadcastAddressText.Trim())) {
-                    throw new FormatException("Invalid broadcast address.");
+                if (string.IsNullOrEmpty(broadcastHost)) {
+                    throw new FormatException("Invalid broadcast host.");
+                } else {
+                    broadcastHost = broadcastAddressText.Trim();
                 }
             }
             var broadcastPort = Settings.DefaultBroadcastPort;

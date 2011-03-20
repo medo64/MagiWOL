@@ -95,7 +95,8 @@ namespace MagiWol {
 
 
         private void textBroadcastAddress_Validating(object sender, CancelEventArgs e) {
-            if (string.IsNullOrEmpty(textBroadcastAddress.Text.Trim())== false) {
+            if (string.IsNullOrEmpty(textBroadcastAddress.Text.Trim())) {
+                checkBroadcastAddress.Checked = false;
                 textBroadcastAddress.Text = Settings.DefaultBroadcastHost;
             }
         }
@@ -115,7 +116,11 @@ namespace MagiWol {
             try {
                 try {
                     Cursor.Current = Cursors.WaitCursor;
-                    Magic.SendMagicPacket(textMac.Text, textSecureOn.Text, textBroadcastAddress.Text, checkBroadcastAddress.Checked, textBroadcastPort.Text, checkBroadcastPort.Checked);
+                    try {
+                        Magic.SendMagicPacket(textMac.Text, textSecureOn.Text, textBroadcastAddress.Text, checkBroadcastAddress.Checked, textBroadcastPort.Text, checkBroadcastPort.Checked);
+                    } catch (InvalidOperationException ex) {
+                        Medo.MessageBox.ShowError(this, ex.Message);
+                    }                    
                     System.Threading.Thread.Sleep(Settings.WolSleepInterval);
                 } finally {
                     Cursor.Current = Cursors.Default;
@@ -157,11 +162,10 @@ namespace MagiWol {
             }
 
             if (checkBroadcastAddress.Checked) {
-                IPAddress address;
-                if (IPAddress.TryParse(textBroadcastAddress.Text, out address)) {
-                    erp.SetError(checkBroadcastAddress, null);
+                if (string.IsNullOrEmpty(textBroadcastAddress.Text.Trim())) {
+                    erp.SetError(checkBroadcastAddress, "Host cannot be empty.");
                 } else {
-                    erp.SetError(checkBroadcastAddress, "IP address is not valid.");
+                    erp.SetError(checkBroadcastAddress, null);
                 }
             } else {
                 erp.SetError(checkBroadcastAddress, null);
