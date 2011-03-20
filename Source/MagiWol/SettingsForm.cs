@@ -90,5 +90,36 @@ namespace MagiWol {
             textBroadcastPort_Validating(null, null);
         }
 
+        private void buttonCheckHost_Click(object sender, EventArgs e) {
+            var broadcastHost = textBroadcastAddress.Text.Trim();
+            try {
+                Cursor.Current = Cursors.WaitCursor;
+                IPAddress ip;
+                if (IPAddress.TryParse(broadcastHost, out ip)) {
+                    Medo.MessageBox.ShowInformation(this, string.Format("Broadcast IP {0} is valid.", ip.ToString()));
+                } else {
+                    List<IPAddress> resolved = new List<IPAddress>();
+                    foreach (var address in Dns.GetHostAddresses(broadcastHost)) {
+                        if (address.AddressFamily == AddressFamily.InterNetwork) {
+                            resolved.Add(address);
+                        }
+                    }
+                    if (resolved.Count > 0) {
+                        Medo.Text.StringAdder sb = new Medo.Text.StringAdder(", ");
+                        foreach (var address in resolved) {
+                            sb.Append(address.ToString());
+                        }
+                        Medo.MessageBox.ShowInformation(this, string.Format("Broadcast host \"{0}\" has been resolved to {1}.", broadcastHost, sb.ToString()));
+                    } else {
+                        Medo.MessageBox.ShowWarning(this, string.Format("Cannot find valid IP address for broadcast host \"{0}\".", broadcastHost));
+                    }
+                }
+            } catch (SocketException) { //No such host is known
+                Medo.MessageBox.ShowWarning(this, string.Format("Broadcast host \"{0}\" cannot be resolved.", broadcastHost));
+            } finally {
+                Cursor.Current = Cursors.Default;
+            }
+        }
+
     }
 }

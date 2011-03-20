@@ -42,6 +42,7 @@
             this.chbSecureOn = new System.Windows.Forms.CheckBox();
             this.chbMac = new System.Windows.Forms.CheckBox();
             this.chbTitle = new System.Windows.Forms.CheckBox();
+            this.buttonCheckHost = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.erp)).BeginInit();
             this.tabs.SuspendLayout();
             this.tabs_pagPacket.SuspendLayout();
@@ -56,7 +57,7 @@
             this.buttonCancel.Margin = new System.Windows.Forms.Padding(3, 15, 3, 3);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(100, 28);
-            this.buttonCancel.TabIndex = 3;
+            this.buttonCancel.TabIndex = 2;
             this.buttonCancel.Text = "Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
             // 
@@ -68,7 +69,7 @@
             this.buttonOk.Margin = new System.Windows.Forms.Padding(3, 15, 3, 3);
             this.buttonOk.Name = "buttonOk";
             this.buttonOk.Size = new System.Drawing.Size(100, 28);
-            this.buttonOk.TabIndex = 2;
+            this.buttonOk.TabIndex = 1;
             this.buttonOk.Text = "OK";
             this.buttonOk.UseVisualStyleBackColor = true;
             this.buttonOk.Click += new System.EventHandler(this.buttonOk_Click);
@@ -90,10 +91,11 @@
             this.tabs.Name = "tabs";
             this.tabs.SelectedIndex = 0;
             this.tabs.Size = new System.Drawing.Size(370, 197);
-            this.tabs.TabIndex = 5;
+            this.tabs.TabIndex = 0;
             // 
             // tabs_pagPacket
             // 
+            this.tabs_pagPacket.Controls.Add(this.buttonCheckHost);
             this.tabs_pagPacket.Controls.Add(this.buttonDefault);
             this.tabs_pagPacket.Controls.Add(this.labelBroadcastPort);
             this.tabs_pagPacket.Controls.Add(this.textBroadcastPort);
@@ -113,7 +115,7 @@
             this.buttonDefault.Location = new System.Drawing.Point(256, 62);
             this.buttonDefault.Name = "buttonDefault";
             this.buttonDefault.Size = new System.Drawing.Size(100, 28);
-            this.buttonDefault.TabIndex = 9;
+            this.buttonDefault.TabIndex = 5;
             this.buttonDefault.Text = "Default";
             this.buttonDefault.UseVisualStyleBackColor = true;
             // 
@@ -123,7 +125,7 @@
             this.labelBroadcastPort.Location = new System.Drawing.Point(6, 37);
             this.labelBroadcastPort.Name = "labelBroadcastPort";
             this.labelBroadcastPort.Size = new System.Drawing.Size(105, 17);
-            this.labelBroadcastPort.TabIndex = 7;
+            this.labelBroadcastPort.TabIndex = 2;
             this.labelBroadcastPort.Text = "Broadcast port:";
             // 
             // textBroadcastPort
@@ -134,7 +136,7 @@
             this.textBroadcastPort.MaxLength = 0;
             this.textBroadcastPort.Name = "textBroadcastPort";
             this.textBroadcastPort.Size = new System.Drawing.Size(200, 22);
-            this.textBroadcastPort.TabIndex = 8;
+            this.textBroadcastPort.TabIndex = 3;
             // 
             // textBroadcastAddress
             // 
@@ -144,7 +146,7 @@
             this.textBroadcastAddress.MaxLength = 0;
             this.textBroadcastAddress.Name = "textBroadcastAddress";
             this.textBroadcastAddress.Size = new System.Drawing.Size(200, 22);
-            this.textBroadcastAddress.TabIndex = 6;
+            this.textBroadcastAddress.TabIndex = 1;
             // 
             // labelBroadcastAddress
             // 
@@ -152,7 +154,7 @@
             this.labelBroadcastAddress.Location = new System.Drawing.Point(6, 9);
             this.labelBroadcastAddress.Name = "labelBroadcastAddress";
             this.labelBroadcastAddress.Size = new System.Drawing.Size(131, 17);
-            this.labelBroadcastAddress.TabIndex = 5;
+            this.labelBroadcastAddress.TabIndex = 0;
             this.labelBroadcastAddress.Text = "Broadcast address:";
             // 
             // tabs_pagColumns
@@ -177,7 +179,7 @@
             this.chbNotes.Location = new System.Drawing.Point(6, 141);
             this.chbNotes.Name = "chbNotes";
             this.chbNotes.Size = new System.Drawing.Size(67, 21);
-            this.chbNotes.TabIndex = 11;
+            this.chbNotes.TabIndex = 5;
             this.chbNotes.Text = "Notes";
             this.chbNotes.UseVisualStyleBackColor = true;
             // 
@@ -187,7 +189,7 @@
             this.chbBroadcastPort.Location = new System.Drawing.Point(6, 114);
             this.chbBroadcastPort.Name = "chbBroadcastPort";
             this.chbBroadcastPort.Size = new System.Drawing.Size(123, 21);
-            this.chbBroadcastPort.TabIndex = 10;
+            this.chbBroadcastPort.TabIndex = 4;
             this.chbBroadcastPort.Text = "Broadcast port";
             this.chbBroadcastPort.UseVisualStyleBackColor = true;
             // 
@@ -197,7 +199,7 @@
             this.chbBroadcastHost.Location = new System.Drawing.Point(6, 87);
             this.chbBroadcastHost.Name = "chbBroadcastHost";
             this.chbBroadcastHost.Size = new System.Drawing.Size(125, 21);
-            this.chbBroadcastHost.TabIndex = 9;
+            this.chbBroadcastHost.TabIndex = 3;
             this.chbBroadcastHost.Text = "Broadcast host";
             this.chbBroadcastHost.UseVisualStyleBackColor = true;
             // 
@@ -207,7 +209,7 @@
             this.chbSecureOn.Location = new System.Drawing.Point(6, 60);
             this.chbSecureOn.Name = "chbSecureOn";
             this.chbSecureOn.Size = new System.Drawing.Size(158, 21);
-            this.chbSecureOn.TabIndex = 8;
+            this.chbSecureOn.TabIndex = 2;
             this.chbSecureOn.Text = "SecureOn password";
             this.chbSecureOn.UseVisualStyleBackColor = true;
             // 
@@ -217,7 +219,7 @@
             this.chbMac.Location = new System.Drawing.Point(6, 33);
             this.chbMac.Name = "chbMac";
             this.chbMac.Size = new System.Drawing.Size(114, 21);
-            this.chbMac.TabIndex = 7;
+            this.chbMac.TabIndex = 1;
             this.chbMac.Text = "MAC address";
             this.chbMac.UseVisualStyleBackColor = true;
             // 
@@ -230,9 +232,19 @@
             this.chbTitle.Location = new System.Drawing.Point(6, 6);
             this.chbTitle.Name = "chbTitle";
             this.chbTitle.Size = new System.Drawing.Size(67, 21);
-            this.chbTitle.TabIndex = 6;
+            this.chbTitle.TabIndex = 0;
             this.chbTitle.Text = "Name";
             this.chbTitle.UseVisualStyleBackColor = true;
+            // 
+            // buttonCheckHost
+            // 
+            this.buttonCheckHost.Location = new System.Drawing.Point(6, 62);
+            this.buttonCheckHost.Name = "buttonCheckHost";
+            this.buttonCheckHost.Size = new System.Drawing.Size(100, 28);
+            this.buttonCheckHost.TabIndex = 4;
+            this.buttonCheckHost.Text = "Check host";
+            this.buttonCheckHost.UseVisualStyleBackColor = true;
+            this.buttonCheckHost.Click += new System.EventHandler(this.buttonCheckHost_Click);
             // 
             // SettingsForm
             // 
@@ -282,5 +294,6 @@
         private System.Windows.Forms.CheckBox chbSecureOn;
         private System.Windows.Forms.CheckBox chbMac;
         private System.Windows.Forms.CheckBox chbTitle;
+        private System.Windows.Forms.Button buttonCheckHost;
     }
 }
