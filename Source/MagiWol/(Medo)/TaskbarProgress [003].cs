@@ -67,8 +67,8 @@ namespace Medo.Windows.Forms {
                     var res = _taskbarList.SetProgressState(owner.Handle, newState);
                     if (res != NativeMethods.S_OK) { throw new Win32Exception(string.Format(CultureInfo.InvariantCulture, "Native error {0:x8}.", res)); }
                 }
-            } catch (NotImplementedException ex) {
-                if (DoNotThrowNotImplementedException == false) { throw ex; }
+            } catch (NotImplementedException) {
+                if (DoNotThrowNotImplementedException == false) { throw; }
             }
         }
 
@@ -108,8 +108,8 @@ namespace Medo.Windows.Forms {
                     var res = _taskbarList.SetProgressValue(owner.Handle, (ulong)newProgressPercentage, 100);
                     if (res != NativeMethods.S_OK) { throw new Win32Exception(string.Format(CultureInfo.InvariantCulture, "Native error {0:x8}.", res)); }
                 }
-            } catch (NotImplementedException ex) {
-                if (DoNotThrowNotImplementedException == false) { throw ex; }
+            } catch (NotImplementedException) {
+                if (DoNotThrowNotImplementedException == false) { throw; }
             }
         }
 
@@ -124,9 +124,9 @@ namespace Medo.Windows.Forms {
                         var res = _taskbarList.HrInit();
                         if (res != NativeMethods.S_OK) { throw new Win32Exception(string.Format(CultureInfo.InvariantCulture, "Native error {0:x8}.", res)); }
                     }
-                } catch (NotImplementedException ex) {
+                } catch (NotImplementedException) {
                     _taskbarList = null;
-                    if (DoNotThrowNotImplementedException == false) { throw ex; }
+                    if (DoNotThrowNotImplementedException == false) { throw; }
                 }
             }
         }
