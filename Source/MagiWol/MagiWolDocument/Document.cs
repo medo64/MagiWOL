@@ -7,6 +7,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Runtime.InteropServices;
 
 namespace MagiWol.MagiWolDocument {
 
@@ -136,20 +137,32 @@ namespace MagiWol.MagiWolDocument {
                 sb.AppendLine(iAddress.Mac + " " + iAddress.Title);
             }
 
-            Clipboard.Clear();
-            DataObject clipData = new DataObject();
-            clipData.SetData(DataFormats.UnicodeText, true, sb.ToString());
-            clipData.SetData("MagiWOL", false, GetXmlFromAddresses(addresses));
-            Clipboard.SetDataObject(clipData, true);
+            try {
+                Clipboard.Clear();
+                DataObject clipData = new DataObject();
+                clipData.SetData(DataFormats.UnicodeText, true, sb.ToString());
+                clipData.SetData("MagiWOL", false, GetXmlFromAddresses(addresses));
+                Clipboard.SetDataObject(clipData, true);
+            } catch (ExternalException) { }
         }
 
         public IEnumerable<Address> Paste() {
             var pastedAddresses = new List<Address>();
 
-            bool isChanged = false;
-            IDataObject clipData = Clipboard.GetDataObject();
+            string xmlData = null;
+            string dataText = null;
+            try {
+                IDataObject clipData = Clipboard.GetDataObject();
+                xmlData = clipData.GetData("MagiWOL") as string;
+                if (xmlData == null) {
+                    dataText = clipData.GetData(DataFormats.UnicodeText, true) as string;
+                    if (dataText == null) { dataText = clipData.GetData(DataFormats.Text) as string; }
+                }
+            } catch (ExternalException) {
+                return pastedAddresses;
+            }
 
-            string xmlData = clipData.GetData("MagiWOL") as string;
+            bool isChanged = false;
             if (xmlData != null) {
                 foreach (var iAddress in GetAddressesFromXml(this, xmlData)) {
                     if (!this.HasAddress(iAddress)) {
@@ -165,23 +178,19 @@ namespace MagiWol.MagiWolDocument {
                         }
                     }
                 }
-            } else {
-                string dataText = clipData.GetData(DataFormats.UnicodeText, true) as string;
-                if (dataText == null) { dataText = clipData.GetData(DataFormats.Text) as string; }
-                if (dataText != null) {
-                    foreach (var iLine in dataText.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries)) {
-                        var iAddress = GetAddressFromLine(iLine);
-                        if (iAddress != null) {
-                            if (!this.HasAddress(iAddress)) {
-                                this.AddAddress(iAddress, false);
-                                pastedAddresses.Add(iAddress);
-                                isChanged = true;
-                            } else {
-                                foreach (var feAddress in this._addresses) {
-                                    if (feAddress.Equals(iAddress)) {
-                                        pastedAddresses.Add(feAddress);
-                                        break;
-                                    }
+            } else if (dataText != null) {
+                foreach (var iLine in dataText.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries)) {
+                    var iAddress = GetAddressFromLine(iLine);
+                    if (iAddress != null) {
+                        if (!this.HasAddress(iAddress)) {
+                            this.AddAddress(iAddress, false);
+                            pastedAddresses.Add(iAddress);
+                            isChanged = true;
+                        } else {
+                            foreach (var feAddress in this._addresses) {
+                                if (feAddress.Equals(iAddress)) {
+                                    pastedAddresses.Add(feAddress);
+                                    break;
                                 }
                             }
                         }
@@ -189,11 +198,17 @@ namespace MagiWol.MagiWolDocument {
                 }
             }
             if (isChanged) { this.HasChanged = true; }
+
+
             return pastedAddresses.AsReadOnly();
         }
 
         public bool CanPaste() {
-            return Clipboard.ContainsData("MagiWOL") || Clipboard.ContainsText();
+            try {
+                return Clipboard.ContainsData("MagiWOL") || Clipboard.ContainsText();
+            } catch (ExternalException) {
+                return false;
+            }
         }
 
         private static IEnumerable<Address> GetAddressesFromXml(Document document, string xmlContent) {
