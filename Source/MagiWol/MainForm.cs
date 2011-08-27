@@ -539,7 +539,8 @@ namespace MagiWol {
                 iAddress.Title = e.Label;
                 this.list.Enabled = false;
                 tmrReSort.Enabled = true;
-                //UpdateData(new MagiWolDocument.Address[] { iAddress });
+                this._document.MarkAsChanged();
+                UpdateData(new MagiWolDocument.Address[] { iAddress });
             } else {
                 e.CancelEdit = true;
             }

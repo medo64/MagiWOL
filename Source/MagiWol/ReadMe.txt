@@ -31,6 +31,10 @@ Shortcut keys
 
 Version history
 
+   Version 3.xx
+      
+      o  Bug fixing
+
    Version 3.00 (2011-08-28)
 
       o  No registry writes will be performed if application is not
