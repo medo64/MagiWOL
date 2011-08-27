@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
 using System.Diagnostics;
+using System.Drawing;
 using System.Threading;
-using System.Globalization;
+using System.Windows.Forms;
 
 namespace MagiWol {
     internal partial class WakeProgressForm : Form {
