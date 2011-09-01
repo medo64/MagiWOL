@@ -31,9 +31,9 @@ Shortcut keys
 
 Version history
 
-   Version 3.xx
+   Version 3.10
       
-      o  Bug fixing
+      o  Import enhancements.
 
    Version 3.00 (2011-08-28)
 
@@ -88,7 +88,7 @@ Version history
 
 Licence (MIT)
 
-   Copyright (c) 2009-2010 Josip Medved <jmedved@jmedved.com>
+   Copyright (c) 2005 Josip Medved <jmedved@jmedved.com>
 
    Permission is hereby granted, free of charge, to any person obtaining
    a copy of this software and associated documentation files (the
