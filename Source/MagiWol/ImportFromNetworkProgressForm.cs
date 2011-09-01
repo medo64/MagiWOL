@@ -82,7 +82,7 @@ namespace MagiWol {
                             Array.Reverse(ipByte);
                             var ipX = IPAddress.Parse(string.Format(CultureInfo.InvariantCulture, "{0}.{1}.{2}.{3}", ipByte[0], ipByte[1], ipByte[2], ipByte[3]));
                             if (!entries.ContainsKey(ipX)) {
-                                entries.Add(ipX, ipX.ToString());
+                                entries.Add(ipX, "");
                             }
                             ipInt1 += 1;
                         } while (ipInt1 <= ipInt2);
@@ -95,7 +95,7 @@ namespace MagiWol {
                         int ipInt1 = BitConverter.ToInt32(ipByte1, 0);
                         if (ipInt1 == 0) { throw new System.FormatException("Invalid IP address."); }
                         if (!entries.ContainsKey(ip1)) {
-                            entries.Add(ip1, ip1.ToString());
+                            entries.Add(ip1, "");
                         }
 
                     } else { //host name
@@ -139,7 +139,7 @@ namespace MagiWol {
 
         private void worker_ProgressChanged(object sender, ProgressChangedEventArgs e) {
             progress.Value = e.ProgressPercentage;
-                Medo.Windows.Forms.TaskbarProgress.SetPercentage(e.ProgressPercentage);
+            Medo.Windows.Forms.TaskbarProgress.SetPercentage(e.ProgressPercentage);
             labelCurrent.Text = string.Format("{0}", e.UserState);
         }
 
@@ -201,6 +201,12 @@ namespace MagiWol {
                 int res = NativeMethods.SendARP(ipDestinationBytes, 0, macBytes, ref macBytesLength);
 
                 if ((res == 0) && ((macBytes[0] != 0) || (macBytes[1] != 0) || (macBytes[2] != 0) || (macBytes[3] != 0) || (macBytes[4] != 0) || (macBytes[5] != 0))) {
+                    if (string.IsNullOrEmpty(iEntryTitle)) {
+                        var hostEntry = System.Net.Dns.GetHostEntry(iEntryAddress);
+                        var hostName = hostEntry.HostName.Split(new char[] { '.' }, 2)[0];
+                        iEntryTitle = string.IsNullOrEmpty(hostName) ? iEntryAddress.ToString() : hostName + " (" + iEntryAddress.ToString() + ")";
+                    }
+
                     var macText = (macBytes[0].ToString("x2") + ":" + macBytes[1].ToString("x2") + ":" + macBytes[2].ToString("x2") + ":" + macBytes[3].ToString("x2") + ":" + macBytes[4].ToString("x2") + ":" + macBytes[5].ToString("x2")).ToUpper();
                     var iAddress = new MagiWolDocument.Address(iEntryTitle, macText, "", "", null, null, false, false);
 
