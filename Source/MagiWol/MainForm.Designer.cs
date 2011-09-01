@@ -100,6 +100,8 @@ namespace MagiWol {
             this.mnxListQuickWake = new System.Windows.Forms.ToolStripMenuItem();
             this.timerEnableDisable = new System.Windows.Forms.Timer(this.components);
             this.tmrReSort = new System.Windows.Forms.Timer(this.components);
+            this.mnxImport = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnxImport0 = new System.Windows.Forms.ToolStripSeparator();
             this.mnu.SuspendLayout();
             this.mnx.SuspendLayout();
             this.mnxList.SuspendLayout();
@@ -452,6 +454,9 @@ namespace MagiWol {
             // mnxFileOpen
             // 
             this.mnxFileOpen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.mnxFileOpen.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnxImport,
+            this.mnxImport0});
             this.mnxFileOpen.Image = ((System.Drawing.Image)(resources.GetObject("mnxFileOpen.Image")));
             this.mnxFileOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnxFileOpen.Name = "mnxFileOpen";
@@ -791,6 +796,19 @@ namespace MagiWol {
             // 
             this.tmrReSort.Tick += new System.EventHandler(this.tmrReSortAfterRename_Tick);
             // 
+            // mnxImport
+            // 
+            this.mnxImport.Image = ((System.Drawing.Image)(resources.GetObject("mnxImport.Image")));
+            this.mnxImport.Name = "mnxImport";
+            this.mnxImport.Size = new System.Drawing.Size(152, 24);
+            this.mnxImport.Text = "&Import";
+            this.mnxImport.Click += new System.EventHandler(this.mnuFileImportFromNetwork_Click_1);
+            // 
+            // mnxImport0
+            // 
+            this.mnxImport0.Name = "mnxImport0";
+            this.mnxImport0.Size = new System.Drawing.Size(149, 6);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -898,6 +916,8 @@ namespace MagiWol {
         private System.Windows.Forms.ToolStripButton mnxAbout;
         private System.Windows.Forms.ToolStripButton mnxReportABug;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.ToolStripMenuItem mnxImport;
+        private System.Windows.Forms.ToolStripSeparator mnxImport0;
     }
 }
 

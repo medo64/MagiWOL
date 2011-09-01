@@ -38,7 +38,7 @@ namespace MagiWol {
 
             if (Medo.Configuration.Settings.NoRegistryWrites) {
                 mnuFileRecent.Enabled = false;
-                mnxFileOpen.DropDownButtonWidth = 0;
+                mnxImport0.Visible = false;
             }
 
             this._document = new MagiWolDocument.Document();
@@ -58,6 +58,8 @@ namespace MagiWol {
 
         private void MainForm_Load(object sender, EventArgs e) {
             mnu.Visible = Settings.Runtime.ShowMenu;
+            mnxImport.Visible = !MainForm.IsRunningOnMono;
+            mnxImport0.Visible = !MainForm.IsRunningOnMono;
             Medo.Windows.Forms.State.Load(this, list);
             OpenFromCommandLineArgs();
             UpdateData(null);
@@ -186,19 +188,21 @@ namespace MagiWol {
             this.Text = this._document.FileTitle + " - " + Medo.Reflection.EntryAssembly.Title;
 
             mnuFileRecent.DropDownItems.Clear();
-            mnxFileOpen.DropDownItems.Clear();
+            for (int i = mnxFileOpen.DropDownItems.Count - 1; i >= 2; i--) {
+                mnxFileOpen.DropDownItems.RemoveAt(i);
+            }
             foreach (var iRecentFile in this._recent.AsReadOnly()) {
                 var item = new ToolStripMenuItem(iRecentFile.Title);
                 item.Tag = iRecentFile;
                 item.Click += new EventHandler(recentItem_Click);
                 mnuFileRecent.DropDownItems.Add(item);
-                //mnxFileOpen.DropDownItems.Add(item);
 
                 var item2 = new ToolStripMenuItem(iRecentFile.Title);
                 item2.Tag = iRecentFile;
                 item2.Click += new EventHandler(recentItem_Click);
                 mnxFileOpen.DropDownItems.Add(item2);
             }
+            if (mnuFileRecent.DropDownItems.Count == 0) { mnxFileOpen.DropDownButtonWidth = 0; }
         }
 
         void recentItem_Click(object sender, EventArgs e) {
