@@ -8,7 +8,7 @@ using System.Net.Sockets;
 using System.Windows.Forms;
 
 namespace MagiWol {
-    public partial class SettingsForm : Form {
+    internal partial class SettingsForm : Form {
         public SettingsForm() {
             InitializeComponent();
             this.Font = SystemFonts.MessageBoxFont;
