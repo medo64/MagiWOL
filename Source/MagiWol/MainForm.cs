@@ -13,8 +13,8 @@ namespace MagiWol {
 
     internal partial class MainForm : Form {
 
-        private MagiWolDocument.Document _document;
-        private Medo.Configuration.RecentFiles _recent;
+        private MagiWolDocument.Document Document;
+        private Medo.Configuration.RecentFiles Recent;
 
 
         public MainForm() {
@@ -23,43 +23,149 @@ namespace MagiWol {
             Medo.Windows.Forms.TaskbarProgress.DefaultOwner = this;
             Medo.Windows.Forms.TaskbarProgress.DoNotThrowNotImplementedException = true;
 
-            float dpiRatioX, dpiRatioY;
-            using (var g = this.CreateGraphics()) {
-                var dpiX = g.DpiX;
-                var dpiY = g.DpiY;
-                dpiRatioX = (float)Math.Round(dpiX / 96, 2);
-                dpiRatioY = (float)Math.Round(dpiY / 96, 2);
-            }
-            mnu.ImageScalingSize = new Size((int)(16 * dpiRatioX), (int)(16 * dpiRatioY));
-            mnu.Scale(new SizeF(dpiRatioX, dpiRatioY));
-            mnx.ImageScalingSize = new Size((int)(16 * dpiRatioX), (int)(16 * dpiRatioY));
-            mnx.Scale(new SizeF(dpiRatioX, dpiRatioY));
-
-            if (Medo.Configuration.Settings.NoRegistryWrites) {
-                mnuFileRecent.Enabled = false;
-                mnxImport0.Visible = false;
+            if (Settings.IsInstalled == false) {
+                mnuImport0.Visible = false;
             }
 
-            this._document = new MagiWolDocument.Document();
-            this._recent = new Medo.Configuration.RecentFiles();
+            this.Document = new MagiWolDocument.Document();
+            this.Recent = new Medo.Configuration.RecentFiles();
 
             list.ListViewItemSorter = _listColumnSorter;
             this._listColumnSorter.SortColumn = 0;
             this._listColumnSorter.Order = SortOrder.Ascending;
             list.Sort();
+
+            Medo.Windows.Forms.State.SetupOnLoadAndClose(this, list);
         }
 
-        private bool _suppressMenuKey;
 
-        private void MainForm_Deactivate(object sender, EventArgs e) {
-            mnu.Visible = Settings.Runtime.ShowMenu;
+        private bool SuppressMenuKey = false;
+
+        protected override bool ProcessDialogKey(Keys keyData) {
+            if (((keyData & Keys.Alt) == Keys.Alt) && (keyData != (Keys.Alt | Keys.Menu))) { this.SuppressMenuKey = true; }
+
+            switch (keyData) {
+
+                case Keys.F10:
+                    ToggleMenu();
+                    return true;
+
+                case Keys.Control | Keys.N:
+                case Keys.Alt | Keys.N:
+                    mnuNew.PerformClick();
+                    return true;
+
+                case Keys.Alt | Keys.O:
+                    mnuOpenRoot.ShowDropDown();
+                    return true;
+
+                case Keys.Control | Keys.O:
+                    mnuOpen.PerformClick();
+                    return true;
+
+                case Keys.Alt | Keys.S:
+                    mnuSaveRoot.ShowDropDown();
+                    return true;
+
+                case Keys.Control | Keys.S:
+                    mnuSave.PerformClick();
+                    return true;
+
+                case Keys.Control | Keys.Shift | Keys.S:
+                    mnuSaveAs.PerformClick();
+                    return true;
+
+                case Keys.F5:
+                    mnuRefresh_Click(null, null);
+                    return true;
+
+                case Keys.Control | Keys.X:
+                    mnuCut.PerformClick();
+                    return true;
+
+                case Keys.Control | Keys.C:
+                    mnuCopy.PerformClick();
+                    return true;
+
+                case Keys.Control | Keys.V:
+                    mnuPaste.PerformClick();
+                    return true;
+
+                case Keys.Control | Keys.A:
+                    mnuSelectAll_Click(null, null);
+                    return true;
+
+                case Keys.Insert:
+                    mnuAdd.PerformClick();
+                    return true;
+
+                case Keys.F4:
+                    mnuChange.PerformClick();
+                    return true;
+
+                case Keys.Delete:
+                    mnuRemove.PerformClick();
+                    return true;
+
+                case Keys.F6:
+                    mnuWake.PerformClick();
+                    return true;
+
+                case Keys.Shift | Keys.F6:
+                    mnuWakeAll.PerformClick();
+                    return true;
+
+                case Keys.Control | Keys.W:
+                    mnuQuickWake.PerformClick();
+                    return true;
+
+                case Keys.F1:
+                    mnuApp.ShowDropDown();
+                    mnuAppAbout.Select();
+                    return true;
+
+
+
+            }
+
+            return base.ProcessDialogKey(keyData);
         }
 
-        private void MainForm_Load(object sender, EventArgs e) {
-            mnu.Visible = Settings.Runtime.ShowMenu;
-            mnxImport.Visible = !MainForm.IsRunningOnMono;
-            mnxImport0.Visible = !MainForm.IsRunningOnMono;
-            Medo.Windows.Forms.State.Load(this, list);
+        protected override void OnKeyDown(KeyEventArgs e) {
+            if (e.KeyData == Keys.Menu) {
+                if (this.SuppressMenuKey) { this.SuppressMenuKey = false; return; }
+                ToggleMenu();
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            } else {
+                base.OnKeyDown(e);
+            }
+        }
+
+        protected override void OnKeyUp(KeyEventArgs e) {
+            if (e.KeyData == Keys.Menu) {
+                if (this.SuppressMenuKey) { this.SuppressMenuKey = false; return; }
+                ToggleMenu();
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            } else {
+                base.OnKeyUp(e);
+            }
+        }
+
+        private void ToggleMenu() {
+            if (mnu.ContainsFocus) {
+                list.Select();
+            } else {
+                mnu.Select();
+                mnu.Items[0].Select();
+            }
+        }
+
+
+        private void Form_Load(object sender, EventArgs e) {
+            mnuImport.Visible = !MainForm.IsRunningOnMono;
+            mnuImport0.Visible = !MainForm.IsRunningOnMono;
             OpenFromCommandLineArgs();
             UpdateData(null);
         }
@@ -73,135 +179,25 @@ namespace MagiWol {
             return startInfo;
         }
 
-        private void MainForm_KeyDown(object sender, KeyEventArgs e) {
-            Debug.WriteLine("MainForm_KeyDown: " + e.KeyData.ToString());
-
-            if (!Settings.Runtime.ShowMenu) {
-                switch (e.KeyData) {
-
-                    case (Keys.Alt | Keys.F):
-                        mnu.Visible = true;
-                        mnuFile.ShowDropDown();
-                        this._suppressMenuKey = true;
-                        e.Handled = true;
-                        e.SuppressKeyPress = true;
-                        break;
-
-                    case (Keys.Alt | Keys.E):
-                        mnu.Visible = true;
-                        mnuEdit.ShowDropDown();
-                        this._suppressMenuKey = true;
-                        e.Handled = true;
-                        e.SuppressKeyPress = true;
-                        break;
-
-                    case (Keys.Alt | Keys.A):
-                        mnu.Visible = true;
-                        mnuAction.ShowDropDown();
-                        this._suppressMenuKey = true;
-                        e.Handled = true;
-                        e.SuppressKeyPress = true;
-                        break;
-
-                    case (Keys.Alt | Keys.T):
-                        mnu.Visible = true;
-                        mnuTools.ShowDropDown();
-                        this._suppressMenuKey = true;
-                        e.Handled = true;
-                        e.SuppressKeyPress = true;
-                        break;
-
-                    case (Keys.Alt | Keys.H):
-                        mnu.Visible = true;
-                        mnuHelp.ShowDropDown();
-                        this._suppressMenuKey = true;
-                        e.Handled = true;
-                        e.SuppressKeyPress = true;
-                        break;
-
-                    case (Keys.Alt | Keys.Menu):
-                        break;
-
-                    default:
-                        if (e.Alt) { this._suppressMenuKey = true; }
-                        break;
-
-                }
-            }//if(!ShowMenu)
-        }
-
-        private void MainForm_KeyUp(object sender, KeyEventArgs e) {
-            Debug.WriteLine("MainForm_KeyUp: " + e.KeyData.ToString());
-
-            if (!Settings.Runtime.ShowMenu) {
-                if (e.KeyData == Keys.Menu) {
-                    if (this._suppressMenuKey) {
-                        this._suppressMenuKey = false;
-                    } else {
-                        if (!mnu.Visible) {
-                            mnu.Visible = true;
-                            mnu.Select();
-                            mnuFile.Select();
-                        } else {
-                            mnu.Visible = false;
-                        }
-                        e.Handled = true;
-                        e.SuppressKeyPress = true;
-                    }
-                }
-            }
-        }
-
-        private void mnu_Leave(object sender, EventArgs e) {
-            if (!Settings.Runtime.ShowMenu) {
-                if (mnu.Visible) { mnu.Visible = false; }
-            }
-        }
-        private void mnu_MenuDeactivate(object sender, EventArgs e) {
-            mnu_Leave(null, null);
-        }
-
-
-        private void mnu_VisibleChanged(object sender, EventArgs e) {
-            MainForm_Resize(null, null);
-        }
-
-        private void MainForm_Resize(object sender, EventArgs e) {
-            list.Left = this.ClientRectangle.Left + 3;
-            if (mnu.Visible) {
-                list.Top = this.ClientRectangle.Top + mnu.Height + mnx.Height + 3;
-            } else {
-                list.Top = this.ClientRectangle.Top + mnx.Height + 3;
-            }
-            list.Width = this.ClientRectangle.Width - 6;
-            list.Height = this.ClientRectangle.Height - list.Top - 3;
-        }
-
 
 
         private void UpdateData(IEnumerable<MagiWolDocument.Address> selection) {
-            if (this._document == null) { return; }
+            if (this.Document == null) { return; }
 
-            this._document.FillListView(list, selection);
+            this.Document.FillListView(list, selection);
 
-            this.Text = this._document.FileTitle + " - " + Medo.Reflection.EntryAssembly.Title;
+            this.Text = this.Document.FileTitle + " - " + Medo.Reflection.EntryAssembly.Title;
 
-            mnuFileRecent.DropDownItems.Clear();
-            for (int i = mnxFileOpen.DropDownItems.Count - 1; i >= 2; i--) {
-                mnxFileOpen.DropDownItems.RemoveAt(i);
+            for (int i = mnuOpenRoot.DropDownItems.Count - 1; i >= 0; i--) {
+                if (mnuOpenRoot.DropDownItems[i].Tag == null) { break; }
+                mnuOpenRoot.DropDownItems.RemoveAt(i);
             }
-            foreach (var iRecentFile in this._recent.AsReadOnly()) {
+            foreach (var iRecentFile in this.Recent.AsReadOnly()) {
                 var item = new ToolStripMenuItem(iRecentFile.Title);
                 item.Tag = iRecentFile;
                 item.Click += new EventHandler(recentItem_Click);
-                mnuFileRecent.DropDownItems.Add(item);
-
-                var item2 = new ToolStripMenuItem(iRecentFile.Title);
-                item2.Tag = iRecentFile;
-                item2.Click += new EventHandler(recentItem_Click);
-                mnxFileOpen.DropDownItems.Add(item2);
+                mnuOpenRoot.DropDownItems.Add(item);
             }
-            if (mnuFileRecent.DropDownItems.Count == 0) { mnxFileOpen.DropDownButtonWidth = 0; }
         }
 
         void recentItem_Click(object sender, EventArgs e) {
@@ -209,8 +205,8 @@ namespace MagiWol {
             var recentItem = (Medo.Configuration.RecentFile)item.Tag;
             if (ProceedWithNewDocument()) {
                 try {
-                    _document = MagiWolDocument.Document.Open(recentItem.FileName);
-                    _recent.Push(recentItem.FileName);
+                    Document = MagiWolDocument.Document.Open(recentItem.FileName);
+                    Recent.Push(recentItem.FileName);
                 } catch (Exception ex) {
                     var exFile = new FileInfo(recentItem.FileName);
                     Medo.MessageBox.ShowError(this, string.Format("Cannot open \"{0}\".\n\n{1}", exFile.Name, ex.Message));
@@ -221,11 +217,11 @@ namespace MagiWol {
 
 
         private bool ProceedWithNewDocument() {
-            if (!_document.HasChanged) { return true; }
+            if (!Document.HasChanged) { return true; }
 
             switch (Medo.MessageBox.ShowQuestion(this, "Current file is not saved. Save changes now?", MessageBoxButtons.YesNoCancel, MessageBoxDefaultButton.Button1)) {
                 case DialogResult.Yes:
-                    mnuFileSave_Click(null, null);
+                    mnuSave_Click(null, null);
                     break;
 
                 case DialogResult.No:
@@ -235,29 +231,28 @@ namespace MagiWol {
                     return false;
             }
 
-            return !_document.HasChanged;
+            return !Document.HasChanged;
         }
 
-        private void MainForm_FormClosing(object sender, FormClosingEventArgs e) {
+        private void Form_FormClosing(object sender, FormClosingEventArgs e) {
             if (!ProceedWithNewDocument()) {
                 e.Cancel = true;
                 return;
             }
-            Medo.Windows.Forms.State.Save(this, list);
-            this._recent.Save();
+            this.Recent.Save();
         }
 
 
-        #region Menu: File
+        #region Menu
 
-        private void mnuFileNew_Click(object sender, EventArgs e) {
+        private void mnuNew_Click(object sender, EventArgs e) {
             if (ProceedWithNewDocument()) {
-                _document = new MagiWolDocument.Document();
+                Document = new MagiWolDocument.Document();
                 UpdateData(null);
             }
         }
 
-        private void mnuFileOpen_Click(object sender, EventArgs e) {
+        private void mnuOpen_Click(object sender, EventArgs e) {
             if (ProceedWithNewDocument()) {
                 using (var dialog = new OpenFileDialog()) {
                     dialog.AddExtension = true;
@@ -269,8 +264,8 @@ namespace MagiWol {
                     dialog.ShowReadOnly = false;
                     if (dialog.ShowDialog(this) == DialogResult.OK) {
                         try {
-                            _document = MagiWolDocument.Document.Open(dialog.FileName);
-                            _recent.Push(dialog.FileName);
+                            Document = MagiWolDocument.Document.Open(dialog.FileName);
+                            Recent.Push(dialog.FileName);
                         } catch (Exception ex) {
                             var exFile = new FileInfo(dialog.FileName);
                             Medo.MessageBox.ShowError(this, string.Format("Cannot open \"{0}\".\n\n{1}", exFile.Name, ex.Message));
@@ -281,7 +276,7 @@ namespace MagiWol {
             }
         }
 
-        private void mnuFileImportFromNetwork_Click_1(object sender, EventArgs e) {
+        private void mnuImport_Click(object sender, EventArgs e) {
             if (MainForm.IsRunningOnMono) {
                 Medo.MessageBox.ShowInformation(this, "This operation is not supported on Mono.");
                 return;
@@ -290,12 +285,12 @@ namespace MagiWol {
             using (var form = new ImportFromNetworkForm()) {
                 if (form.ShowDialog(this) == DialogResult.OK) {
                     foreach (var iAddress in form.ImportedAddresses) {
-                        if (this._document.HasAddress(iAddress)) {
+                        if (this.Document.HasAddress(iAddress)) {
                             if (Medo.MessageBox.ShowQuestion(this, string.Format("MAC address \"{0}\" is already in list.\nDo you wish to add it anyhow?", iAddress.Mac), MessageBoxButtons.YesNo, MessageBoxDefaultButton.Button2) == DialogResult.Yes) {
-                                this._document.AddAddress(iAddress, false);
+                                this.Document.AddAddress(iAddress, false);
                             }
                         } else {
-                            this._document.AddAddress(iAddress, false);
+                            this.Document.AddAddress(iAddress, false);
                         }
                     }
                     UpdateData(form.ImportedAddresses);
@@ -303,24 +298,24 @@ namespace MagiWol {
             }
         }
 
-        private void mnuFileSave_Click(object sender, EventArgs e) {
-            if (string.IsNullOrEmpty(this._document.FileName) || !System.IO.File.Exists(this._document.FileName)) {
-                mnuFileSaveAs_Click(null, null);
+        private void mnuSave_Click(object sender, EventArgs e) {
+            if (string.IsNullOrEmpty(this.Document.FileName) || !System.IO.File.Exists(this.Document.FileName)) {
+                mnuSaveAs_Click(null, null);
             } else {
                 try {
-                    this._document.Save();
+                    this.Document.Save();
                 } catch (Exception ex) {
-                    var exFile = new FileInfo(this._document.FileName);
+                    var exFile = new FileInfo(this.Document.FileName);
                     Medo.MessageBox.ShowError(this, string.Format("Cannot save \"{0}\".\n\n{1}", exFile.Name, ex.Message));
                 }
             }
-            if (this._document.FileName != null) {
-                _recent.Push(this._document.FileName);
+            if (this.Document.FileName != null) {
+                Recent.Push(this.Document.FileName);
             }
             UpdateData(null);
         }
 
-        private void mnuFileSaveAs_Click(object sender, EventArgs e) {
+        private void mnuSaveAs_Click(object sender, EventArgs e) {
             using (var dialog = new SaveFileDialog()) {
                 dialog.AddExtension = true;
                 dialog.CheckPathExists = true;
@@ -329,9 +324,9 @@ namespace MagiWol {
                 dialog.OverwritePrompt = true;
                 if (dialog.ShowDialog(this) == DialogResult.OK) {
                     try {
-                        this._document.Save(dialog.FileName);
-                        if (this._document.FileName != null) {
-                            _recent.Push(this._document.FileName);
+                        this.Document.Save(dialog.FileName);
+                        if (this.Document.FileName != null) {
+                            Recent.Push(this.Document.FileName);
                         }
                     } catch (Exception ex) {
                         var exFile = new FileInfo(dialog.FileName);
@@ -342,25 +337,18 @@ namespace MagiWol {
             UpdateData(null);
         }
 
-        private void mnuFileExit_Click(object sender, EventArgs e) {
-            this.Close();
-        }
 
-        #endregion
-
-
-        #region Menu: Edit
-
-        private void mnuEdit_DropDownOpening(object sender, EventArgs e) {
-            mnuEditCut.Enabled = (list.SelectedItems.Count > 0);
-            mnuEditCopy.Enabled = (list.SelectedItems.Count > 0);
-            mnuEditPaste.Enabled = (Clipboard.ContainsData("MagiWOL") || Clipboard.ContainsData(DataFormats.UnicodeText) || Clipboard.ContainsData(DataFormats.Text));
-            mnuEditChange.Enabled = (list.FocusedItem != null);
-            mnuEditRemove.Enabled = (list.SelectedItems.Count > 0);
+        private void mnuRefresh_Click(object sender, EventArgs e) {
+            var addrs = new List<MagiWolDocument.Address>();
+            foreach (var iItem in list.SelectedItems) {
+                var iAddress = (MagiWolDocument.Address)iItem;
+                addrs.Add(iAddress);
+            }
+            UpdateData(addrs);
         }
 
 
-        private void mnuEditCut_Click(object sender, EventArgs e) {
+        private void mnuCut_Click(object sender, EventArgs e) {
             if (list.SelectedItems.Count > 0) {
                 var addrs = new List<MagiWolDocument.Address>();
                 foreach (var iItem in list.SelectedItems) {
@@ -368,7 +356,7 @@ namespace MagiWol {
                     addrs.Add(iAddress);
                 }
                 try {
-                    this._document.Cut(addrs);
+                    this.Document.Cut(addrs);
                 } catch (ExternalException ex) {
                     Medo.MessageBox.ShowError(this, "Cut error.\n\n" + ex.Message);
                 }
@@ -376,7 +364,7 @@ namespace MagiWol {
             }
         }
 
-        private void mnuEditCopy_Click(object sender, EventArgs e) {
+        private void mnuCopy_Click(object sender, EventArgs e) {
             if (list.SelectedItems.Count > 0) {
                 var addrs = new List<MagiWolDocument.Address>();
                 foreach (var iItem in list.SelectedItems) {
@@ -384,7 +372,7 @@ namespace MagiWol {
                     addrs.Add(iAddress);
                 }
                 try {
-                    this._document.Copy(addrs);
+                    this.Document.Copy(addrs);
                 } catch (ExternalException ex) {
                     Medo.MessageBox.ShowError(this, "Copy error.\n\n" + ex.Message);
                 }
@@ -392,37 +380,38 @@ namespace MagiWol {
             }
         }
 
-        private void mnuEditPaste_Click(object sender, EventArgs e) {
+        private void mnuPaste_Click(object sender, EventArgs e) {
             try {
-                var pasted = this._document.Paste();
+                var pasted = this.Document.Paste();
                 UpdateData(pasted);
             } catch (ExternalException ex) {
                 Medo.MessageBox.ShowError(this, "Paste error.\n\n" + ex.Message);
             }
         }
 
-        private void mnuEditSelectAll_Click(object sender, EventArgs e) {
+        private void mnuSelectAll_Click(object sender, EventArgs e) {
             foreach (var iItem in list.Items) {
                 ((MagiWolDocument.Address)iItem).Selected = true;
             }
         }
 
-        private void mnuEditAdd_Click(object sender, EventArgs e) {
+
+        private void mnuAdd_Click(object sender, EventArgs e) {
             using (var frm = new DetailForm(null)) {
                 if (frm.ShowDialog(this) == DialogResult.OK) {
-                    if (this._document.HasAddress(frm.Destination)) {
+                    if (this.Document.HasAddress(frm.Destination)) {
                         if (Medo.MessageBox.ShowQuestion(this, string.Format("MAC address \"{0}\" is already in list.\nDo you wish to add it anyhow?", frm.Destination.Mac), MessageBoxButtons.YesNo) == DialogResult.Yes) {
-                            this._document.AddAddress(frm.Destination, true);
+                            this.Document.AddAddress(frm.Destination, true);
                         }
                     } else {
-                        this._document.AddAddress(frm.Destination, false);
+                        this.Document.AddAddress(frm.Destination, false);
                     }
                     UpdateData(new MagiWolDocument.Address[] { frm.Destination });
                 }
             }
         }
 
-        private void mnuEditChange_Click(object sender, EventArgs e) {
+        private void mnuChange_Click(object sender, EventArgs e) {
             if (list.SelectedItems.Count == 1) {
                 MagiWolDocument.Address currDestination = (MagiWolDocument.Address)list.SelectedItems[0];
                 using (var frm = new DetailForm(currDestination)) {
@@ -434,23 +423,19 @@ namespace MagiWol {
             }
         }
 
-        private void mnuEditRemove_Click(object sender, EventArgs e) {
+        private void mnuRemove_Click(object sender, EventArgs e) {
             if (list.SelectedItems.Count > 0) {
                 var addrs = new List<MagiWolDocument.Address>();
                 foreach (var iItem in list.SelectedItems) {
                     var iAddress = (MagiWolDocument.Address)iItem;
-                    this._document.RemoveAddress(iAddress);
+                    this.Document.RemoveAddress(iAddress);
                 }
                 UpdateData(null);
             }
         }
 
-        #endregion
 
-
-        #region Menu: Action
-
-        private void mnuActionWake_Click(object sender, EventArgs e) {
+        private void mnuWake_Click(object sender, EventArgs e) {
             if (list.SelectedItems.Count > 0) {
                 var addresses = new List<MagiWolDocument.Address>();
                 foreach (ListViewItem iItem in list.SelectedItems) {
@@ -463,7 +448,7 @@ namespace MagiWol {
             }
         }
 
-        private void mnuActionWakeAll_Click(object sender, EventArgs e) {
+        private void mnuWakeAll_Click(object sender, EventArgs e) {
             if (list.Items.Count > 0) {
                 var addresses = new List<MagiWolDocument.Address>();
                 foreach (ListViewItem iItem in list.Items) {
@@ -476,38 +461,36 @@ namespace MagiWol {
             }
         }
 
-        private void mnuActionQuickWake_Click(object sender, EventArgs e) {
+        private void mnuQuickWake_Click(object sender, EventArgs e) {
             using (var form = new QuickWakeForm()) {
                 form.ShowDialog(this);
             }
         }
 
-        #endregion
 
-        #region Menu: Tools
-
-        private void mnuToolsOptions_Click(object sender, EventArgs e) {
+        private void mnuOptions_Click(object sender, EventArgs e) {
             using (var form = new SettingsForm()) {
                 if (form.ShowDialog(this) == DialogResult.OK) {
-                    mnu.Visible = Settings.Runtime.ShowMenu;
-                    mnuToolsRefresh_Click(null, null);
+                    mnuRefresh_Click(null, null);
                 }
             }
         }
 
-        #endregion
 
-        #region Menu: Help
-
-        private void mnuHelpReportABug_Click(object sender, EventArgs e) {
+        private void mnuAppFeedback_Click(object sender, EventArgs e) {
             Medo.Diagnostics.ErrorReport.ShowDialog(this, null, new Uri("http://jmedved.com/feedback/"));
         }
 
-        private void mnuHelpAbout_Click(object sender, EventArgs e) {
+        private void mnuAppDonate_Click(object sender, EventArgs e) {
+            Process.Start("http://www.jmedved.com/donate/");
+        }
+
+        private void mnuAppAbout_Click(object sender, EventArgs e) {
             Medo.Windows.Forms.AboutBox.ShowDialog(this, new Uri("http://www.jmedved.com/magiwol/"));
         }
 
         #endregion
+
 
 
         #region ContextMenu: List
@@ -515,7 +498,7 @@ namespace MagiWol {
         private void mnxList_Opening(object sender, CancelEventArgs e) {
             mnxListCut.Enabled = (list.SelectedItems.Count > 0);
             mnxListCopy.Enabled = (list.SelectedItems.Count > 0);
-            mnxListPaste.Enabled = this._document.CanPaste();
+            mnxListPaste.Enabled = this.Document.CanPaste();
             mnxListEditSelectAll.Enabled = (list.SelectedItems.Count > 0);
             mnxListAdd.Enabled = true;
             mnxListChange.Enabled = (list.SelectedItems.Count == 1);
@@ -542,19 +525,17 @@ namespace MagiWol {
                 iAddress.Title = e.Label;
                 this.list.Enabled = false;
                 tmrReSort.Enabled = true;
-                this._document.MarkAsChanged();
+                this.Document.MarkAsChanged();
                 UpdateData(new MagiWolDocument.Address[] { iAddress });
             } else {
                 e.CancelEdit = true;
             }
-            mnuEditRemove.ShortcutKeys = Keys.Delete;
         }
 
         private void list_KeyUp(object sender, KeyEventArgs e) {
             if (e.KeyData == Keys.F2) {
                 if (list.SelectedItems.Count == 1) {
                     if (list.FocusedItem != null) {
-                        mnuEditRemove.ShortcutKeys = Keys.None;
                         list.FocusedItem.BeginEdit();
                     }
                 }
@@ -576,25 +557,15 @@ namespace MagiWol {
         }
 
         private void timerEnableDisable_Tick(object sender, EventArgs e) {
-            mnuEditCut.Enabled = (list.SelectedItems.Count > 0);
-            mnxEditCut.Enabled = mnuEditCut.Enabled;
-            mnuEditCopy.Enabled = (list.SelectedItems.Count > 0);
-            mnxEditCopy.Enabled = mnuEditCopy.Enabled;
-            mnuEditPaste.Enabled = _document.CanPaste();
-            mnxEditPaste.Enabled = mnuEditPaste.Enabled;
+            mnuCut.Enabled = (list.SelectedItems.Count > 0);
+            mnuCopy.Enabled = (list.SelectedItems.Count > 0);
+            mnuPaste.Enabled = Document.CanPaste();
 
-            mnuEditSelectAll.Enabled = (list.SelectedItems.Count > 0);
+            mnuChange.Enabled = (list.SelectedItems.Count == 1);
+            mnuRemove.Enabled = (list.SelectedItems.Count > 0);
 
-            mnuEditChange.Enabled = (list.SelectedItems.Count == 1);
-            mnxEditChange.Enabled = mnuEditChange.Enabled;
-            mnuEditRemove.Enabled = (list.SelectedItems.Count > 0);
-            mnxEditRemove.Enabled = mnuEditRemove.Enabled;
-
-            mnuActionWake.Enabled = (list.SelectedItems.Count > 0);
-            mnxActionWake.Enabled = mnuActionWake.Enabled;
-
-            mnuActionWakeAll.Enabled = (list.Items.Count > 0);
-            mnxActionWakeAll.Enabled = mnuActionWakeAll.Enabled;
+            mnuWake.Enabled = (list.SelectedItems.Count > 0);
+            mnuWakeAll.Enabled = (list.Items.Count > 0);
         }
 
 
@@ -626,14 +597,6 @@ namespace MagiWol {
             //UpdateData(new MagiWolDocument.Address[] { iAddress });
         }
 
-        private void mnuToolsRefresh_Click(object sender, EventArgs e) {
-            var addrs = new List<MagiWolDocument.Address>();
-            foreach (var iItem in list.SelectedItems) {
-                var iAddress = (MagiWolDocument.Address)iItem;
-                addrs.Add(iAddress);
-            }
-            UpdateData(addrs);
-        }
 
 
         private static bool IsRunningOnMono {
@@ -648,8 +611,8 @@ namespace MagiWol {
             for (int i = 0; i < filesToOpen.Length; ++i) {
                 iFile = new FileInfo(filesToOpen[i]);
                 try {
-                    _document = MagiWolDocument.Document.Open(iFile.FullName);
-                    _recent.Push(iFile.FullName);
+                    Document = MagiWolDocument.Document.Open(iFile.FullName);
+                    Recent.Push(iFile.FullName);
 
                     //send all other files to second instances
                     for (int j = i + 1; j < filesToOpen.Length; ++j) {

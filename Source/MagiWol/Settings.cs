@@ -5,13 +5,10 @@ namespace MagiWol {
 
     internal static class Settings {
 
-        public static class Runtime { //reseted upon every application start
-
-            public static bool ShowMenu { get; set; }
-
-            public static int WolWaitBetweenComputersIntervalSeconds { get; set; }
-
+        public static bool IsInstalled {
+            get { return Medo.Configuration.Settings.Read("Installed", false); }
         }
+
 
         public static string DefaultBroadcastHost {
             get {
@@ -105,6 +102,13 @@ namespace MagiWol {
         public static bool ShowColumnNotes {
             get { return Medo.Configuration.Settings.Read("ShowColumnNotes", true); }
             set { Medo.Configuration.Settings.Write("ShowColumnNotes", value); }
+        }
+
+
+        public static class Runtime { //reseted upon every application start
+
+            public static int WolWaitBetweenComputersIntervalSeconds { get; set; }
+
         }
 
     }

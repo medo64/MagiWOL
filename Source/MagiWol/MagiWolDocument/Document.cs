@@ -31,12 +31,12 @@ namespace MagiWol.MagiWolDocument {
 
             Medo.Windows.Forms.State.Save(list);
             list.Columns.Clear();
-            list.Columns.Add(new ColumnHeader() { Tag = "Name", Text = "Name" });
-            if (Settings.ShowColumnMac) { list.Columns.Add(new ColumnHeader() { Tag = "Mac", Text = "Mac", Width = 150 }); }
-            if (Settings.ShowColumnSecureOn) { list.Columns.Add(new ColumnHeader() { Tag = "SecureOn", Text = "SecureOn", Width = 150 }); }
+            list.Columns.Add(new ColumnHeader() { Tag = "Name", Text = "Name", Width = 175 });
+            if (Settings.ShowColumnMac) { list.Columns.Add(new ColumnHeader() { Tag = "Mac", Text = "Mac", Width = 175 }); }
+            if (Settings.ShowColumnSecureOn) { list.Columns.Add(new ColumnHeader() { Tag = "SecureOn", Text = "SecureOn", Width = 175 }); }
             if (Settings.ShowColumnBroadcastHost) { list.Columns.Add(new ColumnHeader() { Tag = "BroadcastHost", Text = "Host", Width = 150 }); }
-            if (Settings.ShowColumnBroadcastPort) { list.Columns.Add(new ColumnHeader() { Tag = "BroadcastPort", Text = "Port", Width = 150 }); }
-            if (Settings.ShowColumnNotes) { list.Columns.Add(new ColumnHeader() { Text = "Notes", Tag = "Notes" }); }
+            if (Settings.ShowColumnBroadcastPort) { list.Columns.Add(new ColumnHeader() { Tag = "BroadcastPort", Text = "Port", Width = 60 }); }
+            if (Settings.ShowColumnNotes) { list.Columns.Add(new ColumnHeader() { Text = "Notes", Tag = "Notes", Width = 270 }); }
             Medo.Windows.Forms.State.Load(list);
 
             list.Items.Clear();
