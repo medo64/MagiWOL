@@ -28,6 +28,7 @@ namespace MagiWol {
             this.mnu = new System.Windows.Forms.ToolStrip();
             this.mnuNew = new System.Windows.Forms.ToolStripButton();
             this.mnuOpenRoot = new System.Windows.Forms.ToolStripSplitButton();
+            this.mnuOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuImport = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuImport0 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuSaveRoot = new System.Windows.Forms.ToolStripSplitButton();
@@ -73,7 +74,6 @@ namespace MagiWol {
             this.mnxListQuickWake = new System.Windows.Forms.ToolStripMenuItem();
             this.timerEnableDisable = new System.Windows.Forms.Timer(this.components);
             this.tmrReSort = new System.Windows.Forms.Timer(this.components);
-            this.mnuOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.mnu.SuspendLayout();
             this.mnxList.SuspendLayout();
             this.SuspendLayout();
@@ -132,6 +132,15 @@ namespace MagiWol {
             this.mnuOpenRoot.Text = "Open";
             this.mnuOpenRoot.ToolTipText = "Open file (Ctrl+O)";
             this.mnuOpenRoot.ButtonClick += new System.EventHandler(this.mnuOpen_Click);
+            // 
+            // mnuOpen
+            // 
+            this.mnuOpen.Image = ((System.Drawing.Image)(resources.GetObject("mnuOpen.Image")));
+            this.mnuOpen.Name = "mnuOpen";
+            this.mnuOpen.ShortcutKeyDisplayString = "Ctrl+O";
+            this.mnuOpen.Size = new System.Drawing.Size(167, 24);
+            this.mnuOpen.Text = "&Open";
+            this.mnuOpen.Click += new System.EventHandler(this.mnuOpen_Click);
             // 
             // mnuImport
             // 
@@ -305,7 +314,7 @@ namespace MagiWol {
             this.mnuAppUpgrade.Name = "mnuAppUpgrade";
             this.mnuAppUpgrade.Size = new System.Drawing.Size(200, 24);
             this.mnuAppUpgrade.Text = "Check for &upgrade";
-            this.mnuAppUpgrade.Visible = false;
+            this.mnuAppUpgrade.Click += new System.EventHandler(this.mnuAppUpgrade_Click);
             // 
             // mnuAppDonate
             // 
@@ -522,15 +531,6 @@ namespace MagiWol {
             // tmrReSort
             // 
             this.tmrReSort.Tick += new System.EventHandler(this.tmrReSortAfterRename_Tick);
-            // 
-            // mnuOpen
-            // 
-            this.mnuOpen.Image = ((System.Drawing.Image)(resources.GetObject("mnuOpen.Image")));
-            this.mnuOpen.Name = "mnuOpen";
-            this.mnuOpen.ShortcutKeyDisplayString = "Ctrl+O";
-            this.mnuOpen.Size = new System.Drawing.Size(167, 24);
-            this.mnuOpen.Text = "&Open";
-            this.mnuOpen.Click += new System.EventHandler(this.mnuOpen_Click);
             // 
             // MainForm
             // 

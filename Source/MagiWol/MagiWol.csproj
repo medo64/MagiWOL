@@ -117,6 +117,12 @@
     <Compile Include="SettingsForm.Designer.cs">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="UpgradeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UpgradeForm.designer.cs">
+      <DependentUpon>UpgradeForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="WakeProgressForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -168,6 +174,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SettingsForm.resx">
       <DependentUpon>SettingsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpgradeForm.resx">
+      <DependentUpon>UpgradeForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WakeProgressForm.resx">
       <DependentUpon>WakeProgressForm.cs</DependentUpon>

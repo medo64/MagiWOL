@@ -481,6 +481,12 @@ namespace MagiWol {
             Medo.Diagnostics.ErrorReport.ShowDialog(this, null, new Uri("http://jmedved.com/feedback/"));
         }
 
+        private void mnuAppUpgrade_Click(object sender, EventArgs e) {
+            using (var frm = new UpgradeForm()) {
+                frm.ShowDialog(this);
+            }
+        }
+
         private void mnuAppDonate_Click(object sender, EventArgs e) {
             Process.Start("http://www.jmedved.com/donate/");
         }
