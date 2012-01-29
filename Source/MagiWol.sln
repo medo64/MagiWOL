@@ -2,7 +2,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagiWol", "MagiWol\MagiWol.csproj", "{53656681-D8B3-40E0-A4F5-3B031CFA9113}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagiWolConsole", "MagiWolConsole\MagiWolConsole.csproj", "{ACEB8BC1-8D85-4981-81AB-05E2AB75B204}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagiWol-Console", "MagiWol-Console\MagiWol-Console.csproj", "{ACEB8BC1-8D85-4981-81AB-05E2AB75B204}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
