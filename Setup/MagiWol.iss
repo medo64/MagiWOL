@@ -1,8 +1,8 @@
 [Setup]
 AppName=MagiWOL
-AppVerName=MagiWOL 3.00
+AppVerName=MagiWOL 0.00
 DefaultDirName={pf}\Josip Medved\MagiWOL
-OutputBaseFilename=magiwol300
+OutputBaseFilename=magiwol000
 OutputDir=..\Releases
 SourceDir=..\Binaries
 AppId=JosipMedved_MagiWOL
