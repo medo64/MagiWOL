@@ -31,6 +31,12 @@ SHORTCUT KEYS
 
 VERSION HISTORY
 
+    3.10 (2012-01-31)
+
+        o All functionality is accessible over toolbar.
+        o Added upgrade functionality.
+        o Bug-fixing.
+
     3.00 (2011-08-28)
 
         o No registry writes will be performed if application is not installed.
