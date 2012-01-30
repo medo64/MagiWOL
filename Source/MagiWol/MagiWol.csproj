@@ -117,6 +117,7 @@
     <Compile Include="SettingsForm.Designer.cs">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ToolStripBorderlessProfessionalRenderer.cs" />
     <Compile Include="UpgradeForm.cs">
       <SubType>Form</SubType>
     </Compile>

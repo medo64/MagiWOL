@@ -20,6 +20,8 @@ namespace MagiWol {
         public MainForm() {
             InitializeComponent();
             this.Font = SystemFonts.MessageBoxFont;
+            mnu.Renderer = new ToolStripBorderlessProfessionalRenderer();
+
             Medo.Windows.Forms.TaskbarProgress.DefaultOwner = this;
             Medo.Windows.Forms.TaskbarProgress.DoNotThrowNotImplementedException = true;
 

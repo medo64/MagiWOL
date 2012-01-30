@@ -102,6 +102,7 @@ namespace MagiWol {
             this.mnuQuickWake});
             this.mnu.Location = new System.Drawing.Point(0, 0);
             this.mnu.Name = "mnu";
+            this.mnu.Padding = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.mnu.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
             this.mnu.Size = new System.Drawing.Size(662, 27);
             this.mnu.Stretch = true;
