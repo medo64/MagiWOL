@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-16"?>
+<MagiWOL version="2.00">
+  <Addresses>
+    <Address name="Uno" macAddress="AD:FD:FA:DF:AD:FD" secureOnPassword="DF:DF:23:42:34:23" broadcastAddress="255.255.255.255" broadcastPort="12" isBroadcastAddressValid="False" isBroadcastPortValid="True" description="Testing it now" />
+    <Address name="Test server" macAddress="0A:DA:DA:DD:0D:DF" secureOnPassword="" broadcastAddress="255.255.255.255" broadcastPort="9" isBroadcastAddressValid="False" isBroadcastPortValid="False" description="At work" />
+    <Address name="Test server" macAddress="00:21:00:4D:46:A1" secureOnPassword="" broadcastAddress="255.255.255.255" broadcastPort="9" isBroadcastAddressValid="False" isBroadcastPortValid="False" description="In basement" />
+    <Address name="Svr 01" macAddress="01:53:44:AB:34:3A" secureOnPassword="" broadcastAddress="255.255.255.255" broadcastPort="9" isBroadcastAddressValid="False" isBroadcastPortValid="False" description="Temporary Mercurial" />
+    <Address name="Svr 02" macAddress="11:EE:DC:12:31:1A" secureOnPassword="" broadcastAddress="255.255.255.255" broadcastPort="9" isBroadcastAddressValid="False" isBroadcastPortValid="False" description="Broken currently." />
+    <Address name="Svr 03" macAddress="11:DA:77:CB:11:2F" secureOnPassword="" broadcastAddress="255.255.255.255" broadcastPort="9" isBroadcastAddressValid="False" isBroadcastPortValid="False" description="" />
+    <Address name="Router" macAddress="00:E1:21:4B:CA:AA" secureOnPassword="" broadcastAddress="255.255.255.255" broadcastPort="9" isBroadcastAddressValid="False" isBroadcastPortValid="False" description="" />
+    <Address name="Wife's computer" macAddress="00:11:21:AA:34:FA" secureOnPassword="" broadcastAddress="255.255.255.255" broadcastPort="9" isBroadcastAddressValid="False" isBroadcastPortValid="False" description="" />
+  </Addresses>
+</MagiWOL>
