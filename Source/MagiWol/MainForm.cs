@@ -194,6 +194,7 @@ namespace MagiWol {
                 if (mnuOpenRoot.DropDownItems[i].Tag == null) { break; }
                 mnuOpenRoot.DropDownItems.RemoveAt(i);
             }
+            mnuImport0.Visible = (this.Recent.Count > 0);
             foreach (var iRecentFile in this.Recent.AsReadOnly()) {
                 var item = new ToolStripMenuItem(iRecentFile.Title);
                 item.Tag = iRecentFile;
