@@ -177,7 +177,7 @@ namespace MagiWol.MagiWolDocument {
                     }
                 }
             } else if (dataText != null) {
-                foreach (var iLine in dataText.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries)) {
+                foreach (var iLine in dataText.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)) {
                     var iAddress = GetAddressFromLine(iLine);
                     if (iAddress != null) {
                         if (!this.HasAddress(iAddress)) {
@@ -313,7 +313,7 @@ namespace MagiWol.MagiWolDocument {
         private static Regex _rxMacValid = new Regex(@"(^[0-9A-F]{2}-[0-9A-F]{2}-[0-9A-F]{2}-[0-9A-F]{2}-[0-9A-F]{2}-[0-9A-F]{2}$)|(^[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}$)|(^[0-9A-F]{4}\.[0-9A-F]{4}\.[0-9A-F]{4}$)|(^[0-9A-F]{12}$)", System.Text.RegularExpressions.RegexOptions.Compiled | System.Text.RegularExpressions.RegexOptions.IgnoreCase);
 
         private static Address GetAddressFromLine(string line) {
-            string[] parts = line.Split(' ');
+            string[] parts = line.Split(new char[] { ' ', '\t' });
             for (int i = 0; i < parts.Length; i++) {
                 if (_rxMacValid.IsMatch(parts[i])) {
                     if (i == 0) {
