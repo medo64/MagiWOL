@@ -10,9 +10,22 @@ namespace MagiWol {
         }
 
 
-        public static string DefaultBroadcastHost {
+        public static bool UseIPv4 {
+            get { return Medo.Configuration.Settings.Read("UseIPv4", true) || (UseIPv6 == false); }
+            set { Medo.Configuration.Settings.Write("UseIPv4", value); }
+        }
+
+        public static bool UseIPv6 {
+            get { return Medo.Configuration.Settings.Read("UseIPv6", false); }
+            set { Medo.Configuration.Settings.Write("UseIPv6", value); }
+        }
+
+
+        public static string DefaultBroadcastHost = "255.255.255.255";
+
+        public static string BroadcastHost {
             get {
-                string addressValue = Medo.Configuration.Settings.Read("DefaultBroadcastAddress", "255.255.255.255");
+                string addressValue = Medo.Configuration.Settings.Read("DefaultBroadcastAddress", Settings.DefaultBroadcastHost);
                 if (string.IsNullOrEmpty(addressValue)) { return "255.255.255.255"; }
                 return addressValue;
             }
@@ -21,9 +34,11 @@ namespace MagiWol {
             }
         }
 
-        public static int DefaultBroadcastPort {
+        public static int DefaultBroadcastPort = 9;
+
+        public static int BroadcastPort {
             get {
-                var portValue = Medo.Configuration.Settings.Read("DefaultBroadcastPort", 9);
+                var portValue = Medo.Configuration.Settings.Read("DefaultBroadcastPort", Settings.DefaultBroadcastPort);
                 if ((portValue < 0) || (portValue > 65535)) { return 9; }
                 return portValue;
             }

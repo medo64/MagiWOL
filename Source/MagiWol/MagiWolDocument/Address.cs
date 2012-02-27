@@ -34,17 +34,17 @@ namespace MagiWol.MagiWolDocument {
                 this.IsBroadcastPortValid = isPortValid;
             } else if (broadcastHost != null) {
                 this.BroadcastHost = broadcastHost;
-                this.BroadcastPort = Settings.DefaultBroadcastPort;
+                this.BroadcastPort = Settings.BroadcastPort;
                 this.IsBroadcastHostValid = true;
                 this.IsBroadcastPortValid = false;
             } else if (broadcastPort != null) {
-                this.BroadcastHost = Settings.DefaultBroadcastHost;
+                this.BroadcastHost = Settings.BroadcastHost;
                 this.BroadcastPort = broadcastPort.Value;
                 this.IsBroadcastHostValid = false;
                 this.IsBroadcastPortValid = true;
             } else {
-                this.BroadcastHost = Settings.DefaultBroadcastHost;
-                this.BroadcastPort = Settings.DefaultBroadcastPort;
+                this.BroadcastHost = Settings.BroadcastHost;
+                this.BroadcastPort = Settings.BroadcastPort;
                 this.IsBroadcastHostValid = false;
                 this.IsBroadcastPortValid = false;
             }
@@ -235,12 +235,12 @@ namespace MagiWol.MagiWolDocument {
                 index += 1;
             }
             if (Settings.ShowColumnBroadcastHost) {
-                base.SubItems.Add(this.IsBroadcastHostValid ? this.BroadcastHost : Settings.DefaultBroadcastHost);
+                base.SubItems.Add(this.IsBroadcastHostValid ? this.BroadcastHost : Settings.BroadcastHost);
                 base.SubItems[index].ForeColor = this.IsBroadcastHostValid ? SystemColors.WindowText : SystemColors.GrayText;
                 index += 1;
             }
             if (Settings.ShowColumnBroadcastPort) {
-                base.SubItems.Add(this.IsBroadcastPortValid ? this.BroadcastPort.ToString(CultureInfo.InvariantCulture) : Settings.DefaultBroadcastPort.ToString(CultureInfo.InvariantCulture));
+                base.SubItems.Add(this.IsBroadcastPortValid ? this.BroadcastPort.ToString(CultureInfo.InvariantCulture) : Settings.BroadcastPort.ToString(CultureInfo.InvariantCulture));
                 base.SubItems[index].ForeColor = this.IsBroadcastPortValid ? SystemColors.WindowText : SystemColors.GrayText;
                 index += 1;
             }

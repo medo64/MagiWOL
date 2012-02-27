@@ -243,7 +243,7 @@ namespace MagiWol.MagiWolDocument {
                                                 isHostValid = true;
                                             }
                                         } else {
-                                            host = Settings.DefaultBroadcastHost;
+                                            host = Settings.BroadcastHost;
                                             isHostValid = false;
                                         }
 
@@ -255,11 +255,11 @@ namespace MagiWol.MagiWolDocument {
                                                     isPortValid = true;
                                                 }
                                             } else {
-                                                port = Settings.DefaultBroadcastPort;
+                                                port = Settings.BroadcastPort;
                                                 isPortValid = false;
                                             }
                                         } else {
-                                            port = Settings.DefaultBroadcastPort;
+                                            port = Settings.BroadcastPort;
                                             isPortValid = false;
                                         }
 

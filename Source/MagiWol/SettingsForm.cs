@@ -21,9 +21,12 @@ namespace MagiWol {
         }
 
         private void SettingsForm_Load(object sender, EventArgs e) {
-            textBroadcastAddress.Text = Settings.DefaultBroadcastHost;
-            textBroadcastPort.Text = Settings.DefaultBroadcastPort.ToString(CultureInfo.InvariantCulture);
+            textBroadcastAddress.Text = Settings.BroadcastHost;
+            textBroadcastPort.Text = Settings.BroadcastPort.ToString(CultureInfo.InvariantCulture);
 
+            checkProtocolIPv4.Checked = Settings.UseIPv4;
+            checkProtocolIPv6.Checked = Settings.UseIPv6;
+            checkProtocol_CheckedChanged(null, null);
             chbMac.Checked = Settings.ShowColumnMac;
             chbSecureOn.Checked = Settings.ShowColumnSecureOn;
             chbBroadcastHost.Checked = Settings.ShowColumnBroadcastHost;
@@ -32,10 +35,13 @@ namespace MagiWol {
         }
 
         private void buttonOk_Click(object sender, EventArgs e) {
-            Settings.DefaultBroadcastHost = textBroadcastAddress.Text;
+            Settings.UseIPv4 = checkProtocolIPv4.Checked;
+            Settings.UseIPv6 = checkProtocolIPv6.Checked;
+
+            Settings.BroadcastHost = textBroadcastAddress.Text;
             int port;
             if (!(int.TryParse(textBroadcastPort.Text, NumberStyles.Integer, CultureInfo.CurrentCulture, out  port) && (port >= 0) && (port <= 65535))) {
-                port = Settings.DefaultBroadcastPort;
+                port = Settings.BroadcastPort;
             }
 
             Settings.ShowColumnMac = chbMac.Checked;
@@ -75,9 +81,17 @@ namespace MagiWol {
             buttonOk.Enabled = isEnabled;
         }
 
-        private void buttonReset_Click(object sender, EventArgs e) {
-            textBroadcastAddress.Text = "255.255.255.255";
-            textBroadcastPort.Text = 9.ToString();
+        private void checkProtocol_CheckedChanged(object sender, EventArgs e) {
+            if (sender != null) {
+                var chb = (CheckBox)sender;
+                if ((checkProtocolIPv4.Checked == false) && (checkProtocolIPv6.Checked == false)) {
+                    chb.Checked = true;
+                }
+            }
+            labelBroadcastAddress.Enabled = checkProtocolIPv4.Checked;
+            textBroadcastAddress.Enabled = checkProtocolIPv4.Checked;
+            buttonCheckHost.Enabled = checkProtocolIPv4.Checked;
+            buttonDefault.Enabled = checkProtocolIPv4.Checked;
         }
 
         private void textBroadcastAddress_TextChanged(object sender, EventArgs e) {
@@ -117,6 +131,11 @@ namespace MagiWol {
             } finally {
                 Cursor.Current = Cursors.Default;
             }
+        }
+
+        private void buttonDefault_Click(object sender, EventArgs e) {
+            textBroadcastAddress.Text = Settings.DefaultBroadcastHost;
+            textBroadcastPort.Text = Settings.DefaultBroadcastPort.ToString();
         }
 
     }

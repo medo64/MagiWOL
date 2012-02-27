@@ -14,7 +14,6 @@ namespace MagiWol {
             this.textMac.Font = fixedSizeFont;
             this.textSecureOn.Font = fixedSizeFont;
 
-            //foreach (Control iControl in this.Controls) {
             foreach (Control iControl in new Control[] { textMac, textSecureOn, checkBroadcastAddress, checkBroadcastPort }) { //because of Mono
                 erp.SetIconPadding(iControl, 4);
                 erp.SetIconAlignment(iControl, ErrorIconAlignment.MiddleLeft);
@@ -28,8 +27,12 @@ namespace MagiWol {
 
 
         private void DetailForm_Load(object sender, EventArgs e) {
-            textBroadcastAddress.Text = Settings.DefaultBroadcastHost;
-            textBroadcastPort.Text = Settings.DefaultBroadcastPort.ToString(CultureInfo.InvariantCulture);
+            checkProtocolIPv4.Checked = Settings.UseIPv4;
+            checkProtocolIPv6.Checked = Settings.UseIPv6;
+            checkProtocol_CheckedChanged(null, null);
+
+            textBroadcastAddress.Text = Settings.BroadcastHost;
+            textBroadcastPort.Text = Settings.BroadcastPort.ToString(CultureInfo.InvariantCulture);
 
             CheckForm();
         }
@@ -47,7 +50,7 @@ namespace MagiWol {
                     host = textBroadcastAddress.Text.Trim();
                     destination.IsBroadcastHostValid = true;
                 } else {
-                    host = Settings.DefaultBroadcastHost;
+                    host = Settings.BroadcastHost;
                     destination.IsBroadcastHostValid = false;
                 }
             } else {
@@ -61,11 +64,11 @@ namespace MagiWol {
                     if ((port >= 0) || (port <= 65535)) {
                         destination.IsBroadcastPortValid = true;
                     } else {
-                        port = Settings.DefaultBroadcastPort;
+                        port = Settings.BroadcastPort;
                         destination.IsBroadcastPortValid = false;
                     }
                 } else {
-                    port = Settings.DefaultBroadcastPort;
+                    port = Settings.BroadcastPort;
                     destination.IsBroadcastPortValid = false;
                 }
             } else {
@@ -77,8 +80,17 @@ namespace MagiWol {
             destination.BroadcastPort = port;
 
             destination.Notes = null;
+        }
 
-            //do something
+        private void checkProtocol_CheckedChanged(object sender, EventArgs e) {
+            if (sender != null) {
+                var chb = (CheckBox)sender;
+                if ((checkProtocolIPv4.Checked == false) && (checkProtocolIPv6.Checked == false)) {
+                    chb.Checked = true;
+                }
+            }
+            labelBroadcastAddress.Enabled = checkProtocolIPv4.Checked;
+            textBroadcastAddress.Enabled = checkProtocolIPv4.Checked && checkBroadcastAddress.Checked;
         }
 
         private void checkBroadcastAddress_CheckedChanged(object sender, EventArgs e) {
@@ -93,14 +105,14 @@ namespace MagiWol {
         private void textBroadcastAddress_Validating(object sender, CancelEventArgs e) {
             if (string.IsNullOrEmpty(textBroadcastAddress.Text.Trim())) {
                 checkBroadcastAddress.Checked = false;
-                textBroadcastAddress.Text = Settings.DefaultBroadcastHost;
+                textBroadcastAddress.Text = Settings.BroadcastHost;
             }
         }
 
         private void textBroadcastPort_Validating(object sender, CancelEventArgs e) {
             int port;
             if (!(int.TryParse(textBroadcastPort.Text, NumberStyles.Integer, CultureInfo.InvariantCulture, out port) && (port >= 0) && (port <= 65535))) {
-                textBroadcastPort.Text = Settings.DefaultBroadcastPort.ToString(CultureInfo.InvariantCulture);
+                textBroadcastPort.Text = Settings.BroadcastPort.ToString(CultureInfo.InvariantCulture);
             }
         }
 
@@ -113,7 +125,12 @@ namespace MagiWol {
                 try {
                     Cursor.Current = Cursors.WaitCursor;
                     try {
-                        Magic.SendMagicPacket(textMac.Text, textSecureOn.Text, textBroadcastAddress.Text, checkBroadcastAddress.Checked, textBroadcastPort.Text, checkBroadcastPort.Checked);
+                        if (checkProtocolIPv4.Checked) {
+                            Magic.SendMagicPacket(textMac.Text, textSecureOn.Text, textBroadcastAddress.Text, checkBroadcastAddress.Checked, textBroadcastPort.Text, checkBroadcastPort.Checked);
+                        }
+                        if (checkProtocolIPv6.Checked) {
+                            Magic.SendMagicPacketIPv6(textMac.Text, textSecureOn.Text, textBroadcastPort.Text, checkBroadcastPort.Checked);
+                        }
                     } catch (InvalidOperationException ex) {
                         Medo.MessageBox.ShowError(this, ex.Message);
                     }                    

@@ -38,8 +38,8 @@ namespace MagiWol {
                 textBroadcastPort.Text = this.Destination.BroadcastPort.ToString(CultureInfo.InvariantCulture);
                 textNotes.Text = this.Destination.Notes;
             } else {
-                textBroadcastAddress.Text = Settings.DefaultBroadcastHost;
-                textBroadcastPort.Text = Settings.DefaultBroadcastPort.ToString(CultureInfo.InvariantCulture);
+                textBroadcastAddress.Text = Settings.BroadcastHost;
+                textBroadcastPort.Text = Settings.BroadcastPort.ToString(CultureInfo.InvariantCulture);
             }
 
             CheckForm();
@@ -60,7 +60,7 @@ namespace MagiWol {
                     host = textBroadcastAddress.Text.Trim();
                     this.Destination.IsBroadcastHostValid = true;
                 } else {
-                    host = Settings.DefaultBroadcastHost;
+                    host = Settings.BroadcastHost;
                     this.Destination.IsBroadcastHostValid = false;
                 }
             } else {
@@ -74,11 +74,11 @@ namespace MagiWol {
                     if ((port >= 0) || (port <= 65535)) {
                         this.Destination.IsBroadcastPortValid = true;
                     } else {
-                        port = Settings.DefaultBroadcastPort;
+                        port = Settings.BroadcastPort;
                         this.Destination.IsBroadcastPortValid = false;
                     }
                 } else {
-                    port = Settings.DefaultBroadcastPort;
+                    port = Settings.BroadcastPort;
                     this.Destination.IsBroadcastPortValid = false;
                 }
             } else {
@@ -106,7 +106,7 @@ namespace MagiWol {
                 if (this.Destination != null) {
                     textBroadcastAddress.Text = this.Destination.BroadcastHost;
                 } else {
-                    textBroadcastAddress.Text = Settings.DefaultBroadcastHost;
+                    textBroadcastAddress.Text = Settings.BroadcastHost;
                 }
             }
         }
@@ -117,7 +117,7 @@ namespace MagiWol {
                 if (this.Destination != null) {
                     textBroadcastPort.Text = this.Destination.BroadcastPort.ToString(CultureInfo.InvariantCulture);
                 } else {
-                    textBroadcastPort.Text = Settings.DefaultBroadcastPort.ToString(CultureInfo.InvariantCulture);
+                    textBroadcastPort.Text = Settings.BroadcastPort.ToString(CultureInfo.InvariantCulture);
                 }
             }
         }

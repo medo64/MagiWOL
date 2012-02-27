@@ -30,6 +30,10 @@
             this.erp = new System.Windows.Forms.ErrorProvider(this.components);
             this.tabs = new System.Windows.Forms.TabControl();
             this.tabs_pagPacket = new System.Windows.Forms.TabPage();
+            this.checkProtocolIPv6 = new System.Windows.Forms.CheckBox();
+            this.labelProtocol = new System.Windows.Forms.Label();
+            this.checkProtocolIPv4 = new System.Windows.Forms.CheckBox();
+            this.buttonCheckHost = new System.Windows.Forms.Button();
             this.buttonDefault = new System.Windows.Forms.Button();
             this.labelBroadcastPort = new System.Windows.Forms.Label();
             this.textBroadcastPort = new System.Windows.Forms.TextBox();
@@ -42,7 +46,6 @@
             this.chbSecureOn = new System.Windows.Forms.CheckBox();
             this.chbMac = new System.Windows.Forms.CheckBox();
             this.chbTitle = new System.Windows.Forms.CheckBox();
-            this.buttonCheckHost = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.erp)).BeginInit();
             this.tabs.SuspendLayout();
             this.tabs_pagPacket.SuspendLayout();
@@ -95,6 +98,9 @@
             // 
             // tabs_pagPacket
             // 
+            this.tabs_pagPacket.Controls.Add(this.checkProtocolIPv6);
+            this.tabs_pagPacket.Controls.Add(this.labelProtocol);
+            this.tabs_pagPacket.Controls.Add(this.checkProtocolIPv4);
             this.tabs_pagPacket.Controls.Add(this.buttonCheckHost);
             this.tabs_pagPacket.Controls.Add(this.buttonDefault);
             this.tabs_pagPacket.Controls.Add(this.labelBroadcastPort);
@@ -109,52 +115,95 @@
             this.tabs_pagPacket.Text = "WOL packet";
             this.tabs_pagPacket.UseVisualStyleBackColor = true;
             // 
+            // checkProtocolIPv6
+            // 
+            this.checkProtocolIPv6.AutoSize = true;
+            this.checkProtocolIPv6.Location = new System.Drawing.Point(219, 6);
+            this.checkProtocolIPv6.Name = "checkProtocolIPv6";
+            this.checkProtocolIPv6.Size = new System.Drawing.Size(57, 21);
+            this.checkProtocolIPv6.TabIndex = 2;
+            this.checkProtocolIPv6.Text = "IPv6";
+            this.checkProtocolIPv6.UseVisualStyleBackColor = true;
+            this.checkProtocolIPv6.CheckedChanged += new System.EventHandler(this.checkProtocol_CheckedChanged);
+            // 
+            // labelProtocol
+            // 
+            this.labelProtocol.AutoSize = true;
+            this.labelProtocol.Location = new System.Drawing.Point(6, 7);
+            this.labelProtocol.Name = "labelProtocol";
+            this.labelProtocol.Size = new System.Drawing.Size(64, 17);
+            this.labelProtocol.TabIndex = 0;
+            this.labelProtocol.Text = "Protocol:";
+            // 
+            // checkProtocolIPv4
+            // 
+            this.checkProtocolIPv4.AutoSize = true;
+            this.checkProtocolIPv4.Enabled = false;
+            this.checkProtocolIPv4.Location = new System.Drawing.Point(156, 6);
+            this.checkProtocolIPv4.Name = "checkProtocolIPv4";
+            this.checkProtocolIPv4.Size = new System.Drawing.Size(57, 21);
+            this.checkProtocolIPv4.TabIndex = 1;
+            this.checkProtocolIPv4.Text = "IPv4";
+            this.checkProtocolIPv4.UseVisualStyleBackColor = true;
+            this.checkProtocolIPv4.CheckedChanged += new System.EventHandler(this.checkProtocol_CheckedChanged);
+            // 
+            // buttonCheckHost
+            // 
+            this.buttonCheckHost.Location = new System.Drawing.Point(6, 89);
+            this.buttonCheckHost.Name = "buttonCheckHost";
+            this.buttonCheckHost.Size = new System.Drawing.Size(100, 28);
+            this.buttonCheckHost.TabIndex = 7;
+            this.buttonCheckHost.Text = "Check host";
+            this.buttonCheckHost.UseVisualStyleBackColor = true;
+            this.buttonCheckHost.Click += new System.EventHandler(this.buttonCheckHost_Click);
+            // 
             // buttonDefault
             // 
             this.buttonDefault.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonDefault.Location = new System.Drawing.Point(256, 62);
+            this.buttonDefault.Location = new System.Drawing.Point(256, 89);
             this.buttonDefault.Name = "buttonDefault";
             this.buttonDefault.Size = new System.Drawing.Size(100, 28);
-            this.buttonDefault.TabIndex = 5;
+            this.buttonDefault.TabIndex = 8;
             this.buttonDefault.Text = "Default";
             this.buttonDefault.UseVisualStyleBackColor = true;
+            this.buttonDefault.Click += new System.EventHandler(this.buttonDefault_Click);
             // 
             // labelBroadcastPort
             // 
             this.labelBroadcastPort.AutoSize = true;
-            this.labelBroadcastPort.Location = new System.Drawing.Point(6, 37);
+            this.labelBroadcastPort.Location = new System.Drawing.Point(6, 64);
             this.labelBroadcastPort.Name = "labelBroadcastPort";
             this.labelBroadcastPort.Size = new System.Drawing.Size(105, 17);
-            this.labelBroadcastPort.TabIndex = 2;
+            this.labelBroadcastPort.TabIndex = 5;
             this.labelBroadcastPort.Text = "Broadcast port:";
             // 
             // textBroadcastPort
             // 
             this.textBroadcastPort.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBroadcastPort.Location = new System.Drawing.Point(156, 34);
+            this.textBroadcastPort.Location = new System.Drawing.Point(156, 61);
             this.textBroadcastPort.MaxLength = 0;
             this.textBroadcastPort.Name = "textBroadcastPort";
             this.textBroadcastPort.Size = new System.Drawing.Size(200, 22);
-            this.textBroadcastPort.TabIndex = 3;
+            this.textBroadcastPort.TabIndex = 6;
             // 
             // textBroadcastAddress
             // 
             this.textBroadcastAddress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBroadcastAddress.Location = new System.Drawing.Point(156, 6);
+            this.textBroadcastAddress.Location = new System.Drawing.Point(156, 33);
             this.textBroadcastAddress.MaxLength = 0;
             this.textBroadcastAddress.Name = "textBroadcastAddress";
             this.textBroadcastAddress.Size = new System.Drawing.Size(200, 22);
-            this.textBroadcastAddress.TabIndex = 1;
+            this.textBroadcastAddress.TabIndex = 4;
             // 
             // labelBroadcastAddress
             // 
             this.labelBroadcastAddress.AutoSize = true;
-            this.labelBroadcastAddress.Location = new System.Drawing.Point(6, 9);
+            this.labelBroadcastAddress.Location = new System.Drawing.Point(6, 36);
             this.labelBroadcastAddress.Name = "labelBroadcastAddress";
             this.labelBroadcastAddress.Size = new System.Drawing.Size(131, 17);
-            this.labelBroadcastAddress.TabIndex = 0;
+            this.labelBroadcastAddress.TabIndex = 3;
             this.labelBroadcastAddress.Text = "Broadcast address:";
             // 
             // tabs_pagColumns
@@ -236,16 +285,6 @@
             this.chbTitle.Text = "Name";
             this.chbTitle.UseVisualStyleBackColor = true;
             // 
-            // buttonCheckHost
-            // 
-            this.buttonCheckHost.Location = new System.Drawing.Point(6, 62);
-            this.buttonCheckHost.Name = "buttonCheckHost";
-            this.buttonCheckHost.Size = new System.Drawing.Size(100, 28);
-            this.buttonCheckHost.TabIndex = 4;
-            this.buttonCheckHost.Text = "Check host";
-            this.buttonCheckHost.UseVisualStyleBackColor = true;
-            this.buttonCheckHost.Click += new System.EventHandler(this.buttonCheckHost_Click);
-            // 
             // SettingsForm
             // 
             this.AcceptButton = this.buttonOk;
@@ -295,5 +334,8 @@
         private System.Windows.Forms.CheckBox chbMac;
         private System.Windows.Forms.CheckBox chbTitle;
         private System.Windows.Forms.Button buttonCheckHost;
+        private System.Windows.Forms.CheckBox checkProtocolIPv6;
+        private System.Windows.Forms.Label labelProtocol;
+        private System.Windows.Forms.CheckBox checkProtocolIPv4;
     }
 }
