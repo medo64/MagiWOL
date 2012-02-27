@@ -31,6 +31,10 @@ SHORTCUT KEYS
 
 VERSION HISTORY
 
+    3.20 (2012-03-04)
+
+        o Added IPv6 support.
+
     3.10 (2012-01-31)
 
         o All functionality is accessible over toolbar.
