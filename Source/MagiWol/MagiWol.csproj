@@ -76,7 +76,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="%28Medo%29\AboutBox [011].cs" />
+    <Compile Include="%28Medo%29\AboutBox [012].cs" />
     <Compile Include="%28Medo%29\Args [001].cs" />
     <Compile Include="%28Medo%29\EntryAssembly [003].cs" />
     <Compile Include="%28Medo%29\ErrorReport [018].cs" />
@@ -88,6 +88,7 @@
     <Compile Include="%28Medo%29\StringAdder [002].cs" />
     <Compile Include="%28Medo%29\TaskbarProgress [003].cs" />
     <Compile Include="%28Medo%29\UnhandledCatch [007].cs" />
+    <Compile Include="%28Medo%29\Upgrade [001].cs" />
     <Compile Include="%28Medo%29\WakeOnLan [005].cs" />
     <Compile Include="%28Medo%29\XmlTagWriter [002].cs" />
     <Compile Include="ImportResultsForm.cs">
@@ -118,12 +119,6 @@
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ToolStripBorderlessProfessionalRenderer.cs" />
-    <Compile Include="UpgradeForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UpgradeForm.designer.cs">
-      <DependentUpon>UpgradeForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="WakeProgressForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -175,9 +170,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SettingsForm.resx">
       <DependentUpon>SettingsForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UpgradeForm.resx">
-      <DependentUpon>UpgradeForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WakeProgressForm.resx">
       <DependentUpon>WakeProgressForm.cs</DependentUpon>
