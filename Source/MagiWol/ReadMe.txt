@@ -31,6 +31,10 @@ SHORTCUT KEYS
 
 VERSION HISTORY
 
+    3.21 (2012-04-10)
+
+        o UI updates.
+
     3.20 (2012-03-04)
 
         o Added IPv6 support.
