@@ -120,6 +120,12 @@ namespace MagiWol {
         }
 
 
+        public static string LastImportText {
+            get { return Medo.Configuration.Settings.Read("LastImportText", ""); }
+            set { Medo.Configuration.Settings.Write("LastImportText", value); }
+        }
+
+
         public static class Runtime { //reseted upon every application start
 
             public static int WolWaitBetweenComputersIntervalSeconds { get; set; }

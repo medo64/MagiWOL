@@ -14,7 +14,13 @@ namespace MagiWol {
         }
 
 
+        private void Form_Load(object sender, EventArgs e) {
+            textList.Text = Settings.LastImportText;
+        }
+
+
         private void buttonImport_Click(object sender, EventArgs e) {
+            Settings.LastImportText = textList.Text;
             using (var form = new ImportFromNetworkProgressForm(textList.Text)) {
                 if (form.ShowDialog(this) == DialogResult.OK) {
                     using (var resultsForm = new ImportResultsForm(form.ParsedAddresses)) {
