@@ -9,6 +9,7 @@ using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
+using System.Net.Sockets;
 
 namespace MagiWol {
     internal partial class ImportFromNetworkProgressForm : Form {
@@ -115,6 +116,7 @@ namespace MagiWol {
 
             }
 
+            worker.ReportProgress(0, "");
 
             this._asyncMacsList = new List<MagiWolDocument.Address>();
             this._asyncMacTotalCounter = 0;
@@ -126,7 +128,7 @@ namespace MagiWol {
             int totalCount = entries.Count;
             while (true) { //just wait until everything is done.
                 int currCounter = Interlocked.CompareExchange(ref this._asyncMacTotalCounter, totalCount, totalCount);
-                worker.ReportProgress(currCounter * 100 / totalCount, "");
+                worker.ReportProgress(currCounter * 100 / totalCount, null);
                 if (currCounter == totalCount) { break; }
                 Thread.Sleep(500);
             }
@@ -140,7 +142,9 @@ namespace MagiWol {
         private void worker_ProgressChanged(object sender, ProgressChangedEventArgs e) {
             progress.Value = e.ProgressPercentage;
             Medo.Windows.Forms.TaskbarProgress.SetPercentage(e.ProgressPercentage);
-            labelCurrent.Text = string.Format("{0}", e.UserState);
+            if (e.UserState != null) {
+                labelCurrent.Text = string.Format("{0}", e.UserState);
+            }
         }
 
         private void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e) {
@@ -202,9 +206,13 @@ namespace MagiWol {
 
                 if ((res == 0) && ((macBytes[0] != 0) || (macBytes[1] != 0) || (macBytes[2] != 0) || (macBytes[3] != 0) || (macBytes[4] != 0) || (macBytes[5] != 0))) {
                     if (string.IsNullOrEmpty(iEntryTitle)) {
-                        var hostEntry = System.Net.Dns.GetHostEntry(iEntryAddress);
-                        var hostName = hostEntry.HostName.Split(new char[] { '.' }, 2)[0];
-                        iEntryTitle = string.IsNullOrEmpty(hostName) ? iEntryAddress.ToString() : hostName + " (" + iEntryAddress.ToString() + ")";
+                        try {
+                            var hostEntry = System.Net.Dns.GetHostEntry(iEntryAddress);
+                            var hostName = hostEntry.HostName.Split(new char[] { '.' }, 2)[0];
+                            iEntryTitle = string.IsNullOrEmpty(hostName) ? iEntryAddress.ToString() : hostName + " (" + iEntryAddress.ToString() + ")";
+                        } catch (SocketException) { //NoSuchHostIsKnown
+                            iEntryTitle = iEntryAddress.ToString();
+                        }
                     }
 
                     var macText = (macBytes[0].ToString("x2") + ":" + macBytes[1].ToString("x2") + ":" + macBytes[2].ToString("x2") + ":" + macBytes[3].ToString("x2") + ":" + macBytes[4].ToString("x2") + ":" + macBytes[5].ToString("x2")).ToUpper();
