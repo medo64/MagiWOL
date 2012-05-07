@@ -5,16 +5,20 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.Net;
+using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
-using System.Net.Sockets;
+using Medo.Localization.Croatia;
 
 namespace MagiWol {
     internal partial class ImportFromNetworkProgressForm : Form {
 
         public IList<MagiWolDocument.Address> ParsedAddresses { get; private set; }
+        public NumberDeclination nudHours = new NumberDeclination("hour", "hours", "hours");
+        public NumberDeclination nudMinutes = new NumberDeclination("minute", "minutes", "minutes");
+        public NumberDeclination nudSeconds = new NumberDeclination("second", "seconds", "seconds");
 
         public ImportFromNetworkProgressForm(string textList) {
             InitializeComponent();
@@ -36,14 +40,14 @@ namespace MagiWol {
         private static Regex _rxIP = new Regex(@"^\d+\.\d+\.\d+\.\d+$", System.Text.RegularExpressions.RegexOptions.Compiled | System.Text.RegularExpressions.RegexOptions.IgnoreCase);
         private static Regex _rxIPRange = new Regex(@"^\d+\.\d+\.\d+\.\d+-\s*\d+\.\d+\.\d+\.\d+$", System.Text.RegularExpressions.RegexOptions.Compiled | System.Text.RegularExpressions.RegexOptions.IgnoreCase);
 
-        [DebuggerNonUserCodeAttribute] //to allow throwing exceptions from code - http://www.developerdotstar.com/community/node/671
+        //[DebuggerNonUserCodeAttribute] //to allow throwing exceptions from code - http://www.developerdotstar.com/community/node/671
         private void worker_DoWork(object sender, DoWorkEventArgs e) {
             string textList = (string)e.Argument;
 
             var entries = new Dictionary<IPAddress, string>();
 
             foreach (var iRawEntry in textList.Split(new char[] { ',', ';', System.Convert.ToChar(13), System.Convert.ToChar(10) }, StringSplitOptions.RemoveEmptyEntries)) {
-                worker.ReportProgress(0, iRawEntry);
+                worker.ReportProgress(0, new ImportProgressState(iRawEntry.ToString()));
 
                 try {
 
@@ -116,7 +120,7 @@ namespace MagiWol {
 
             }
 
-            worker.ReportProgress(0, "");
+            worker.ReportProgress(0, new ImportProgressState(""));
 
             this._asyncMacsList = new List<MagiWolDocument.Address>();
             this._asyncMacTotalCounter = 0;
@@ -125,11 +129,28 @@ namespace MagiWol {
                 ThreadPool.QueueUserWorkItem(new WaitCallback(AsyncRetrieveMac), iEntry);
             }
 
+            var progressLastCounter = 0;
+            var progressTime = Stopwatch.StartNew();
+            var progressSecondsLeft = new Medo.Math.MovingAverage();
             int totalCount = entries.Count;
             while (true) { //just wait until everything is done.
                 int currCounter = Interlocked.CompareExchange(ref this._asyncMacTotalCounter, totalCount, totalCount);
-                worker.ReportProgress(currCounter * 100 / totalCount, null);
                 if (currCounter == totalCount) { break; }
+                if (progressTime.ElapsedMilliseconds >= 1000) {
+                    var progressRemaining = totalCount - currCounter;
+                    var progressDiff = currCounter - progressLastCounter;
+                    progressLastCounter = currCounter;
+                    var countPerSecond = progressDiff / (progressTime.ElapsedMilliseconds / 1000.0);
+                    if (countPerSecond > 0) {
+                        progressSecondsLeft.Add(progressRemaining / countPerSecond);
+                        worker.ReportProgress(currCounter * 100 / totalCount, new ImportProgressState((int)Math.Round(progressSecondsLeft.Average)));
+                    } else {
+                        worker.ReportProgress(currCounter * 100 / totalCount, null);
+                    }
+                    progressTime = Stopwatch.StartNew();
+                } else {
+                    worker.ReportProgress(currCounter * 100 / totalCount, null);
+                }
                 Thread.Sleep(500);
             }
 
@@ -140,12 +161,32 @@ namespace MagiWol {
         }
 
         private void worker_ProgressChanged(object sender, ProgressChangedEventArgs e) {
+            if (e.UserState != null) {
+                var state = (ImportProgressState)e.UserState;
+
+                if (state.Text != null) {
+                    labelStatus.Text = string.Format("{0}", state.Text);
+                }
+
+                if (state.SecondsRemaining != null) {
+                    var h = state.SecondsRemaining.Value / 3600;
+                    if (h > 0) {
+                        labelTimeRemaining.Text = "Less than " + nudHours.GetText(h + 1) + " remaining.";
+                    } else {
+                        var m = state.SecondsRemaining.Value / 60;
+                        if (m > 0) {
+                            labelTimeRemaining.Text = "Less than " + nudMinutes.GetText(m + 1) + " remaining.";
+                        } else {
+                            var s = state.SecondsRemaining.Value;
+                            labelTimeRemaining.Text = nudSeconds.GetText(s + 1) + " remaining.";
+                        }
+                    }
+                }
+            }
+
             if (e.ProgressPercentage >= 0) {
                 progress.Value = e.ProgressPercentage;
                 Medo.Windows.Forms.TaskbarProgress.SetPercentage(e.ProgressPercentage);
-            }
-            if (e.UserState != null) {
-                labelCurrent.Text = string.Format("{0}", e.UserState);
             }
         }
 
@@ -207,7 +248,7 @@ namespace MagiWol {
                 int res = NativeMethods.SendARP(ipDestinationBytes, 0, macBytes, ref macBytesLength);
 
                 if ((res == 0) && ((macBytes[0] != 0) || (macBytes[1] != 0) || (macBytes[2] != 0) || (macBytes[3] != 0) || (macBytes[4] != 0) || (macBytes[5] != 0))) {
-                    worker.ReportProgress(-1, "Last found: " + iEntryAddress.ToString());
+                    worker.ReportProgress(-1, new ImportProgressState("Last found: " + iEntryAddress.ToString()));
                     if (string.IsNullOrEmpty(iEntryTitle)) {
                         try {
                             var hostEntry = System.Net.Dns.GetHostEntry(iEntryAddress);
@@ -216,7 +257,7 @@ namespace MagiWol {
                                 iEntryTitle = iEntryAddress.ToString();
                             } else {
                                 iEntryTitle = hostName + " at " + iEntryAddress.ToString();
-                                worker.ReportProgress(-1, "Last found: " + hostName + " at " + iEntryAddress.ToString());
+                                worker.ReportProgress(-1, new ImportProgressState("Last found: " + hostName + " at " + iEntryAddress.ToString()));
                             }
                         } catch (SocketException) { //NoSuchHostIsKnown
                             iEntryTitle = iEntryAddress.ToString();
