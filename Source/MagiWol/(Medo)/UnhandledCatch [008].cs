@@ -1,4 +1,4 @@
-//Josip Medved <jmedved@jmedved.com> http://www.jmedved.com
+//Copyright (c) 2007 Josip Medved <jmedved@jmedved.com>
 
 //2007-12-30: New version.
 //2008-01-02: Added support for inner exceptions.
@@ -9,6 +9,7 @@
 //            Uses FailFast to exit application.
 //2009-03-31: Changed FailFast to optional in order to avoid WER messages.
 //2010-11-07: Compatible with Mono (ignoring FailFast).
+//2010-11-22: Changed default exception mode to CatchException.
 
 
 using System;
@@ -34,7 +35,7 @@ namespace Medo.Application {
         /// </summary>
         public static void Attach() {
             lock (SyncRoot) {
-                Attach(System.Windows.Forms.UnhandledExceptionMode.ThrowException, true);
+                Attach(System.Windows.Forms.UnhandledExceptionMode.CatchException, true);
             }
         }
 
