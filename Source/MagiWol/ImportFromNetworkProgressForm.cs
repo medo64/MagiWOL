@@ -140,8 +140,10 @@ namespace MagiWol {
         }
 
         private void worker_ProgressChanged(object sender, ProgressChangedEventArgs e) {
-            progress.Value = e.ProgressPercentage;
-            Medo.Windows.Forms.TaskbarProgress.SetPercentage(e.ProgressPercentage);
+            if (e.ProgressPercentage >= 0) {
+                progress.Value = e.ProgressPercentage;
+                Medo.Windows.Forms.TaskbarProgress.SetPercentage(e.ProgressPercentage);
+            }
             if (e.UserState != null) {
                 labelCurrent.Text = string.Format("{0}", e.UserState);
             }
@@ -205,11 +207,17 @@ namespace MagiWol {
                 int res = NativeMethods.SendARP(ipDestinationBytes, 0, macBytes, ref macBytesLength);
 
                 if ((res == 0) && ((macBytes[0] != 0) || (macBytes[1] != 0) || (macBytes[2] != 0) || (macBytes[3] != 0) || (macBytes[4] != 0) || (macBytes[5] != 0))) {
+                    worker.ReportProgress(-1, "Last found: " + iEntryAddress.ToString());
                     if (string.IsNullOrEmpty(iEntryTitle)) {
                         try {
                             var hostEntry = System.Net.Dns.GetHostEntry(iEntryAddress);
                             var hostName = hostEntry.HostName.Split(new char[] { '.' }, 2)[0];
-                            iEntryTitle = string.IsNullOrEmpty(hostName) ? iEntryAddress.ToString() : hostName + " (" + iEntryAddress.ToString() + ")";
+                            if (string.IsNullOrEmpty(hostName)) {
+                                iEntryTitle = iEntryAddress.ToString();
+                            } else {
+                                iEntryTitle = hostName + " at " + iEntryAddress.ToString();
+                                worker.ReportProgress(-1, "Last found: " + hostName + " at " + iEntryAddress.ToString());
+                            }
                         } catch (SocketException) { //NoSuchHostIsKnown
                             iEntryTitle = iEntryAddress.ToString();
                         }
