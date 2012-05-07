@@ -31,6 +31,11 @@ SHORTCUT KEYS
 
 VERSION HISTORY
 
+    3.30 (2012-05-07)
+
+        o Enhancing import.
+        o Bug-fixing.
+
     3.21 (2012-04-10)
 
         o UI updates.
