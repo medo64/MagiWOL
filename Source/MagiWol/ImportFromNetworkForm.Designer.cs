@@ -33,7 +33,7 @@
             // buttonImport
             // 
             this.buttonImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.buttonImport.Location = new System.Drawing.Point(256, 247);
+            this.buttonImport.Location = new System.Drawing.Point(256, 273);
             this.buttonImport.Margin = new System.Windows.Forms.Padding(15, 15, 3, 3);
             this.buttonImport.Name = "buttonImport";
             this.buttonImport.Size = new System.Drawing.Size(100, 28);
@@ -46,7 +46,7 @@
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(362, 247);
+            this.buttonCancel.Location = new System.Drawing.Point(362, 273);
             this.buttonCancel.Margin = new System.Windows.Forms.Padding(3, 15, 3, 3);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(100, 28);
@@ -73,27 +73,28 @@
             this.textList.Multiline = true;
             this.textList.Name = "textList";
             this.textList.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textList.Size = new System.Drawing.Size(450, 128);
+            this.textList.Size = new System.Drawing.Size(450, 136);
             this.textList.TabIndex = 1;
             this.textList.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textList_KeyDown);
             // 
             // label1
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.Location = new System.Drawing.Point(12, 160);
+            this.label1.Location = new System.Drawing.Point(12, 168);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(450, 72);
+            this.label1.Size = new System.Drawing.Size(450, 90);
             this.label1.TabIndex = 3;
-            this.label1.Text = "Separate each entry with semicolon (;), comma (,) or new line.\r\n    E.g.:\r\n      " +
-    "  localhost\r\n        192.168.0.1-192.168.0.255";
+            this.label1.Text = "Separate each entry with semicolon (;), comma (,) or new line.\r\nE.g.:\r\n    someco" +
+    "mputer\r\n    192.168.0.1-192.168.0.255\r\n    192.168.0.0/24";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // ImportFromNetworkForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(474, 287);
+            this.ClientSize = new System.Drawing.Size(474, 313);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textList);
             this.Controls.Add(this.labelInfo);

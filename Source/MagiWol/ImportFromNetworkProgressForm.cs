@@ -19,6 +19,7 @@ namespace MagiWol {
         public NumberDeclination nudHours = new NumberDeclination("hour", "hours", "hours");
         public NumberDeclination nudMinutes = new NumberDeclination("minute", "minutes", "minutes");
         public NumberDeclination nudSeconds = new NumberDeclination("second", "seconds", "seconds");
+        private readonly int MaximumIpNetmask = 22;
 
         public ImportFromNetworkProgressForm(string textList) {
             InitializeComponent();
@@ -37,8 +38,10 @@ namespace MagiWol {
             } catch (InvalidOperationException) { }
         }
 
-        private static Regex _rxIP = new Regex(@"^\d+\.\d+\.\d+\.\d+$", System.Text.RegularExpressions.RegexOptions.Compiled | System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-        private static Regex _rxIPRange = new Regex(@"^\d+\.\d+\.\d+\.\d+-\s*\d+\.\d+\.\d+\.\d+$", System.Text.RegularExpressions.RegexOptions.Compiled | System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+
+        private static Regex _rxIP = new Regex(@"^\d+\.\d+\.\d+\.\d+$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static Regex _rxIPRange = new Regex(@"^\d+\.\d+\.\d+\.\d+\s*-\s*\d+\.\d+\.\d+\.\d+$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static Regex _rxIPWithNetmask = new Regex(@"^\d+\.\d+\.\d+\.\d+\/\d+$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         //[DebuggerNonUserCodeAttribute] //to allow throwing exceptions from code - http://www.developerdotstar.com/community/node/671
         private void worker_DoWork(object sender, DoWorkEventArgs e) {
@@ -46,66 +49,42 @@ namespace MagiWol {
 
             var entries = new Dictionary<IPAddress, string>();
 
-            foreach (var iRawEntry in textList.Split(new char[] { ',', ';', System.Convert.ToChar(13), System.Convert.ToChar(10) }, StringSplitOptions.RemoveEmptyEntries)) {
-                worker.ReportProgress(0, new ImportProgressState(iRawEntry.ToString()));
+            foreach (var iText in textList.Split(new char[] {',', ';', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries)) {
+                var text = iText.Replace(" ", "").Replace("\t", "");
+                worker.ReportProgress(0, new ImportProgressState(text.ToString()));
 
                 try {
 
-                    if (_rxIPRange.IsMatch(iRawEntry.Replace(" ", ""))) { //IP range
+                    if (_rxIPRange.IsMatch(text)) { //IP range
 
-                        string[] parts = iRawEntry.Split('-');
-                        if (parts.Length != 2) { throw new FormatException("Invalid range."); }
-                        string part1 = parts[0].Trim();
-                        string part2 = parts[1].Trim();
-                        if (part1.Length == 0) { throw new FormatException("Invalid range."); }
-                        if (part2.Length == 0) { throw new FormatException("Invalid range."); }
-
-                        System.Net.IPAddress ip1 = System.Net.IPAddress.Parse(part1);
-                        byte[] ipByte1 = ip1.GetAddressBytes();
-                        Array.Reverse(ipByte1);
-                        int ipInt1 = BitConverter.ToInt32(ipByte1, 0);
-                        if (ipInt1 == 0) { throw new System.FormatException("Invalid IP address."); }
-
-                        System.Net.IPAddress ip2 = System.Net.IPAddress.Parse(part2);
-                        byte[] ipByte2 = ip2.GetAddressBytes();
-                        Array.Reverse(ipByte2);
-                        int ipInt2 = BitConverter.ToInt32(ipByte2, 0);
-                        if (ipInt2 == 0) { throw new System.FormatException("Invalid IP address."); }
-
-                        if (ipInt1 > ipInt2) {
-                            var ipIntX = ipInt1;
-                            ipInt1 = ipInt2;
-                            ipInt2 = ipIntX;
-                        }
-
-                        if (ipInt1 + 256 < ipInt2) {
-                            throw new InvalidOperationException("Range cannot containg more than 256 elements.");
-                        }
-
-                        do {
-                            byte[] ipByte = BitConverter.GetBytes(ipInt1);
-                            Array.Reverse(ipByte);
-                            var ipX = IPAddress.Parse(string.Format(CultureInfo.InvariantCulture, "{0}.{1}.{2}.{3}", ipByte[0], ipByte[1], ipByte[2], ipByte[3]));
-                            if (!entries.ContainsKey(ipX)) {
-                                entries.Add(ipX, "");
+                        foreach (var entry in ProcessIpRange(text)) {
+                            if (!entries.ContainsKey(entry.Key)) {
+                                entries.Add(entry.Key, entry.Value);
                             }
-                            ipInt1 += 1;
-                        } while (ipInt1 <= ipInt2);
+                        }
 
-                    } else if (_rxIP.IsMatch(iRawEntry.Replace(" ", ""))) { //single IP
+                    } else if (_rxIPWithNetmask.IsMatch(text)) { //IP with netmask
 
-                        System.Net.IPAddress ip1 = System.Net.IPAddress.Parse(iRawEntry.Trim());
-                        byte[] ipByte1 = ip1.GetAddressBytes();
-                        Array.Reverse(ipByte1);
-                        int ipInt1 = BitConverter.ToInt32(ipByte1, 0);
-                        if (ipInt1 == 0) { throw new System.FormatException("Invalid IP address."); }
+                        foreach (var entry in ProcessIpWithNetmask(text)) {
+                            if (!entries.ContainsKey(entry.Key)) {
+                                entries.Add(entry.Key, entry.Value);
+                            }
+                        }
+
+                    } else if (_rxIP.IsMatch(text)) { //single IP
+
+                        var ip1 = IPAddress.Parse(text);
+                        var ipByte1 = ip1.GetAddressBytes();
+                        if (BitConverter.IsLittleEndian) { Array.Reverse(ipByte1); }
+                        var ipInt1 = BitConverter.ToInt32(ipByte1, 0);
+                        if (ipInt1 == 0) { throw new FormatException("Invalid IP address."); }
                         if (!entries.ContainsKey(ip1)) {
                             entries.Add(ip1, "");
                         }
 
                     } else { //host name
 
-                        var host = System.Net.Dns.GetHostEntry(iRawEntry.Trim());
+                        var host = System.Net.Dns.GetHostEntry(text.Trim());
                         foreach (var iAddress in host.AddressList) {
                             if (!entries.ContainsKey(iAddress)) {
                                 entries.Add(iAddress, string.Format("{1} ({0})", iAddress, host.HostName));
@@ -115,7 +94,7 @@ namespace MagiWol {
                     }
 
                 } catch (Exception ex) {
-                    throw new FormatException(string.Format("Cannot parse text near \"{0}\".\r\n\r\n{1}", iRawEntry, ex.Message));
+                    throw new FormatException(string.Format("Cannot parse text near \"{0}\".\r\n\r\n{1}", text, ex.Message));
                 }
 
             }
@@ -160,6 +139,83 @@ namespace MagiWol {
             return;
         }
 
+
+        private IEnumerable<KeyValuePair<IPAddress, string>> ProcessIpRange(string text) {
+            string[] parts = text.Split('-');
+            if (parts.Length != 2) { throw new FormatException("Invalid range."); }
+            string part1 = parts[0].Trim();
+            string part2 = parts[1].Trim();
+            if (part1.Length == 0) { throw new FormatException("Invalid range."); }
+            if (part2.Length == 0) { throw new FormatException("Invalid range."); }
+
+            var ip1 = IPAddress.Parse(part1);
+            var ipByte1 = ip1.GetAddressBytes();
+            if (BitConverter.IsLittleEndian) { Array.Reverse(ipByte1); }
+            var ipInt1 = BitConverter.ToUInt32(ipByte1, 0);
+            if (ipInt1 == 0) { throw new FormatException("Invalid IP address."); }
+
+            var ip2 = IPAddress.Parse(part2);
+            var ipByte2 = ip2.GetAddressBytes();
+            if (BitConverter.IsLittleEndian) { Array.Reverse(ipByte2); }
+            var ipInt2 = BitConverter.ToUInt32(ipByte2, 0);
+            if (ipInt2 == 0) { throw new FormatException("Invalid IP address."); }
+
+            if (ipInt1 > ipInt2) {
+                var ipIntX = ipInt1;
+                ipInt1 = ipInt2;
+                ipInt2 = ipIntX;
+            }
+
+            var maxIpCount = (long)Math.Pow(2, 32 - MaximumIpNetmask);
+            if (ipInt1 + maxIpCount < ipInt2) {
+                throw new InvalidOperationException("Range cannot containg more than " + maxIpCount + " IP addresses.");
+            }
+
+            do {
+                byte[] ipByte = BitConverter.GetBytes(ipInt1);
+                if (BitConverter.IsLittleEndian) { Array.Reverse(ipByte); }
+                var ipX = IPAddress.Parse(string.Format(CultureInfo.InvariantCulture, "{0}.{1}.{2}.{3}", ipByte[0], ipByte[1], ipByte[2], ipByte[3]));
+                yield return new KeyValuePair<IPAddress, string>(ipX, "");
+                if (ipInt1 == uint.MaxValue) { break; }
+                ipInt1 += 1;
+            } while (ipInt1 <= ipInt2);
+        }
+
+        private IEnumerable<KeyValuePair<IPAddress, string>> ProcessIpWithNetmask(string text) {
+            string[] parts = text.Split('/');
+            if (parts.Length != 2) { throw new FormatException("Cannot parse netmasked IP."); }
+            string ipText = parts[0].Trim();
+            string netmaskText = parts[1].Trim();
+            if (ipText.Length == 0) { throw new FormatException("Invalid IP address."); }
+            if (netmaskText.Length == 0) { throw new FormatException("Invalid netmask."); }
+
+            var ip1 = IPAddress.Parse(ipText);
+            var ip1Bytes = ip1.GetAddressBytes();
+            if (BitConverter.IsLittleEndian) { Array.Reverse(ip1Bytes); }
+            var ip1Int = BitConverter.ToUInt32(ip1Bytes, 0);
+            if (ip1Int == 0) { throw new FormatException("Invalid IP address."); }
+
+            var netmask = int.Parse(netmaskText);
+            if (netmask < this.MaximumIpNetmask) {
+                throw new InvalidOperationException("Cannot use netmask larger than /" + this.MaximumIpNetmask.ToString() + ".");
+            }
+
+            var hostmask = 32 - netmask;
+            ip1Int = (ip1Int >> hostmask) << hostmask;
+            var ip2Int = ip1Int | (uint)(Math.Pow(2, hostmask) - 1);
+
+            var ipInt = ip1Int;
+            do {
+                var ipBytes = BitConverter.GetBytes(ipInt);
+                if (BitConverter.IsLittleEndian) { Array.Reverse(ipBytes); }
+                var ip = IPAddress.Parse(string.Format(CultureInfo.InvariantCulture, "{0}.{1}.{2}.{3}", ipBytes[0], ipBytes[1], ipBytes[2], ipBytes[3]));
+                yield return new KeyValuePair<IPAddress, string>(ip, "");
+                if (ipInt == uint.MaxValue) { break; }
+                ipInt += 1;
+            } while (ipInt <= ip2Int);
+        }
+
+
         private void worker_ProgressChanged(object sender, ProgressChangedEventArgs e) {
             if (e.UserState != null) {
                 var state = (ImportProgressState)e.UserState;
@@ -178,7 +234,11 @@ namespace MagiWol {
                             labelTimeRemaining.Text = "Less than " + nudMinutes.GetText(m + 1) + " remaining.";
                         } else {
                             var s = state.SecondsRemaining.Value;
-                            labelTimeRemaining.Text = nudSeconds.GetText(s + 1) + " remaining.";
+                            if (s >= 10) {
+                                labelTimeRemaining.Text = nudSeconds.GetText(s + 1) + " remaining.";
+                            } else {
+                                labelTimeRemaining.Text = "Less than 10 seconds remaining.";
+                            }
                         }
                     }
                 }
@@ -240,7 +300,7 @@ namespace MagiWol {
             var iEntryAddress = iEntry.Key;
             var iEntryTitle = iEntry.Value;
 
-            if (iEntryAddress.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork) {
+            if (iEntryAddress.AddressFamily == AddressFamily.InterNetwork) {
                 byte[] macBytes = new byte[6];
                 int macBytesLength = macBytes.Length;
 
