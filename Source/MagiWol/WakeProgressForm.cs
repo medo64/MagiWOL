@@ -42,14 +42,16 @@ namespace MagiWol {
                         return;
                     }
 
-                    int percent = (i * Settings.WolCount + j) * 100 / (this._addresses.Count * Settings.WolCount);
-                    worker.ReportProgress(percent, "Waking " + iAddress.Title + "...");
                     if (j != 0) {
                         System.Threading.Thread.Sleep(Settings.WolSleepInterval);
                     }
                     Magic.SendMagicPacket(iAddress);
+
+                    int percent = (i * Settings.WolCount + j + 1) * 100 / (this._addresses.Count * Settings.WolCount);
+                    worker.ReportProgress(percent, "Waking " + iAddress.Title + "...");
                 }
-                if (this.PauseInSeconds > 0) {
+
+                if ((this.PauseInSeconds > 0) && (i < this._addresses.Count - 1)) {
                     swPause.Reset();
                     swPause.Start();
                     int lastSecondsRemaining = -1;
