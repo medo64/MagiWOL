@@ -439,12 +439,16 @@ namespace MagiWol {
 
 
         private void mnuWake_Click(object sender, EventArgs e) {
-            if (list.SelectedItems.Count > 0) {
-                var addresses = new List<MagiWolDocument.Address>();
-                foreach (ListViewItem iItem in list.SelectedItems) {
-                    var iAddress = (MagiWolDocument.Address)iItem;
-                    addresses.Add(iAddress);
+            var addresses = new List<MagiWolDocument.Address>();
+            foreach (ListViewItem iItem in list.SelectedItems) {
+                var iAddress = (MagiWolDocument.Address)iItem;
+                addresses.Add(iAddress);
+            }
+            if (addresses.Count == 1) {
+                using (var form = new WakeProgressForm(addresses.AsReadOnly(), 0)) {
+                    form.ShowDialog(this);
                 }
+            } else if (addresses.Count > 1) {
                 using (var form = new WakeForm(addresses.AsReadOnly())) {
                     form.ShowDialog(this);
                 }
@@ -551,16 +555,7 @@ namespace MagiWol {
         }
 
         private void list_ItemActivate(object sender, EventArgs e) {
-            var addresses = new List<MagiWolDocument.Address>();
-            foreach (ListViewItem iItem in list.SelectedItems) {
-                var iAddress = (MagiWolDocument.Address)iItem;
-                addresses.Add(iAddress);
-            }
-            if (addresses.Count > 0) {
-                using (var form = new WakeProgressForm(addresses, 0)) {
-                    form.ShowDialog(this);
-                }
-            }
+            mnuWake_Click(null, null);
         }
 
         private void timerEnableDisable_Tick(object sender, EventArgs e) {
