@@ -90,10 +90,6 @@ namespace MagiWol {
         }
 
 
-        public static bool ShowColumnTitle {
-            get { return true; }
-        }
-
         public static bool ShowColumnMac {
             get { return Medo.Configuration.Settings.Read("ShowColumnMac", true); }
             set { Medo.Configuration.Settings.Write("ShowColumnMac", value); }

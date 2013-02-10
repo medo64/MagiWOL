@@ -57,19 +57,13 @@ namespace MagiWol.MagiWolDocument {
 
 
         public new string Text {
-            get {
-                return this.Title;
-            }
-            set {
-                this.Title = value;
-            }
+            get { return this.Title; }
+            set { this.Title = value; }
         }
 
 
         private new string Name {
-            get {
-                return null;
-            }
+            get { return null; }
             set { }
         }
 

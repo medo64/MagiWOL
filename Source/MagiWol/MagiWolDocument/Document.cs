@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace MagiWol.MagiWolDocument {
 
@@ -212,81 +213,89 @@ namespace MagiWol.MagiWolDocument {
         private static IEnumerable<Address> GetAddressesFromXml(Document document, string xmlContent) {
             List<Address> all = new List<Address>();
 
-            using (System.IO.StringReader sr = new System.IO.StringReader(xmlContent))
-            using (System.Xml.XmlTextReader xr = new System.Xml.XmlTextReader(sr)) {
-                while (xr.Read()) {
+            StringReader sr = null;
+            try {
+                sr = new StringReader(xmlContent);
 
-                    switch (xr.NodeType) {
+                using (var xr = new XmlTextReader(sr)) {
+                    sr = null;
+                    while (xr.Read()) {
+                        switch (xr.NodeType) {
 
-                        case System.Xml.XmlNodeType.Element: {
+                            case XmlNodeType.Element: {
 
-                                switch (xr.Name) {
-                                    case "MagiWOL":
-                                        break;
-                                    case "Addresses":
-                                        break;
-                                    case "Address":
-                                        string aName = xr.GetAttribute("name");
-                                        string aMac = xr.GetAttribute("macAddress");
-                                        string aSecureOn = xr.GetAttribute("secureOnPassword");
-                                        string aHost = xr.GetAttribute("broadcastAddress");
-                                        string aPort = xr.GetAttribute("broadcastPort");
-                                        string aDescription = xr.GetAttribute("description");
-                                        string aIsAddressValid = xr.GetAttribute("isBroadcastAddressValid");
-                                        string aIsPortValid = xr.GetAttribute("isBroadcastPortValid");
+                                    switch (xr.Name) {
+                                        case "MagiWOL":
+                                            break;
+                                        case "Addresses":
+                                            break;
+                                        case "Address":
+                                            string aName = xr.GetAttribute("name");
+                                            string aMac = xr.GetAttribute("macAddress");
+                                            string aSecureOn = xr.GetAttribute("secureOnPassword");
+                                            string aHost = xr.GetAttribute("broadcastAddress");
+                                            string aPort = xr.GetAttribute("broadcastPort");
+                                            string aDescription = xr.GetAttribute("description");
+                                            string aIsAddressValid = xr.GetAttribute("isBroadcastAddressValid");
+                                            string aIsPortValid = xr.GetAttribute("isBroadcastPortValid");
 
-                                        bool isHostValid;
-                                        string host;
-                                        if ((aHost != null) && (string.IsNullOrEmpty(aHost) == false)) {
-                                            host = aHost;
-                                            if (!bool.TryParse(aIsAddressValid, out isHostValid)) { //if it is overriden by version 2.00 setting
-                                                isHostValid = true;
+                                            bool isHostValid;
+                                            string host;
+                                            if ((aHost != null) && (string.IsNullOrEmpty(aHost) == false)) {
+                                                host = aHost;
+                                                if (!bool.TryParse(aIsAddressValid, out isHostValid)) { //if it is overriden by version 2.00 setting
+                                                    isHostValid = true;
+                                                }
+                                            } else {
+                                                host = Settings.BroadcastHost;
+                                                isHostValid = false;
                                             }
-                                        } else {
-                                            host = Settings.BroadcastHost;
-                                            isHostValid = false;
-                                        }
 
-                                        bool isPortValid;
-                                        int port;
-                                        if ((aPort != null) && (int.TryParse(aPort, NumberStyles.Integer, CultureInfo.InvariantCulture, out port))) {
-                                            if ((port >= 1) || (port <= 65535)) {
-                                                if (!bool.TryParse(aIsPortValid, out isPortValid)) { //if it is overriden by version 2.00 setting
-                                                    isPortValid = true;
+                                            bool isPortValid;
+                                            int port;
+                                            if ((aPort != null) && (int.TryParse(aPort, NumberStyles.Integer, CultureInfo.InvariantCulture, out port))) {
+                                                if ((port >= 1) || (port <= 65535)) {
+                                                    if (!bool.TryParse(aIsPortValid, out isPortValid)) { //if it is overriden by version 2.00 setting
+                                                        isPortValid = true;
+                                                    }
+                                                } else {
+                                                    port = Settings.BroadcastPort;
+                                                    isPortValid = false;
                                                 }
                                             } else {
                                                 port = Settings.BroadcastPort;
                                                 isPortValid = false;
                                             }
-                                        } else {
-                                            port = Settings.BroadcastPort;
-                                            isPortValid = false;
-                                        }
 
-                                        Address addr = new Address(aName, aMac, aSecureOn, aDescription, host, port, isHostValid, isPortValid);
-                                        all.Add(addr);
-                                        break;
+                                            Address addr = new Address(aName, aMac, aSecureOn, aDescription, host, port, isHostValid, isPortValid);
+                                            all.Add(addr);
+                                            break;
+                                    }
+
                                 }
+                                break;
 
-                            }
-                            break;
+                            case XmlNodeType.EndElement: {
+                                }
+                                break;
 
-                        case System.Xml.XmlNodeType.EndElement: {
-                            }
-                            break;
-
+                        }
                     }
-
-
                 }
+
+            } finally {
+                if (sr != null) { sr.Dispose(); }
             }
             return all.AsReadOnly();
         }
 
         private static string GetXmlFromAddresses(IEnumerable<Address> addresses) {
-            System.Text.StringBuilder sb = new StringBuilder();
-            using (System.IO.StringWriter sw = new System.IO.StringWriter(sb)) {
-                using (Medo.Xml.XmlTagWriter xw = new Medo.Xml.XmlTagWriter(sw)) {
+            var sb = new StringBuilder();
+            StringWriter sw = null;
+            try {
+                sw = new StringWriter(sb);
+                using (var xw = new Medo.Xml.XmlTagWriter(sw)) {
+                    sw = null;
                     xw.WriteStartDocument();
                     xw.StartTag("MagiWOL", "version", "2.00");
                     xw.StartTag("Addresses");
@@ -305,6 +314,8 @@ namespace MagiWol.MagiWolDocument {
                     xw.EndTag(); //Addresses
                     xw.EndTag(); //MagiWOL
                 }
+            } finally {
+                if (sw != null) { sw.Dispose(); }
             }
             return sb.ToString();
         }

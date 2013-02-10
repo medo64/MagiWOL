@@ -632,7 +632,6 @@ namespace MagiWol {
                 } catch (Exception ex) {
                     Medo.MessageBox.ShowError(this, string.Format("Cannot open \"{0}\".\n\n{1}", iFile.Name, ex.Message));
                     if (Medo.Application.Args.Current.ContainsKey("OpenOrExit")) {
-                        this.Close();
                         System.Environment.Exit(1);
                     }
                 }

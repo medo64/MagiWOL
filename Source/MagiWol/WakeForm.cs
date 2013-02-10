@@ -50,12 +50,5 @@ namespace MagiWol {
             WakeForm_Resize(null, null);
         }
 
-
-        private static bool IsRunningOnMono {
-            get {
-                return (Type.GetType("Mono.Runtime") != null);
-            }
-        }
-
     }
 }
