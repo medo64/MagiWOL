@@ -53,5 +53,5 @@ Root: HKCR;  Subkey: "MagiWolFile\DefaultIcon";         ValueType: string;  Valu
 Root: HKCR;  Subkey: "MagiWolFile\shell\open\command";  ValueType: string;  ValueName: "";           ValueData: """{app}\MagiWol.exe"" ""%1""";
 
 [Run]
-Filename: "{app}\ReadMe.txt";   Description: "View ReadMe.txt";         Flags: postinstall runasoriginaluser shellexec nowait skipifsilent unchecked
 Filename: "{app}\MagiWol.exe";  Description: "Launch application now";  Flags: postinstall nowait skipifsilent runasoriginaluser unchecked
+Filename: "{app}\ReadMe.txt";   Description: "View read me";            Flags: postinstall runasoriginaluser shellexec nowait skipifsilent unchecked
