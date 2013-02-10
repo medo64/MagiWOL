@@ -469,7 +469,8 @@ namespace MagiWol {
         }
 
         private void mnuQuickWake_Click(object sender, EventArgs e) {
-            using (var form = new QuickWakeForm()) {
+            var address = (list.SelectedItems.Count > 0) ? (MagiWolDocument.Address)list.SelectedItems[0] : null;
+            using (var form = new QuickWakeForm(address)) {
                 form.ShowDialog(this);
             }
         }
@@ -521,7 +522,7 @@ namespace MagiWol {
         private void mnxListQuickWake_Click(object sender, EventArgs e) {
             if (list.SelectedItems.Count == 1) {
                 var address = (MagiWolDocument.Address)list.SelectedItems[0];
-                using (var form = new QuickWakeForm(address.Mac)) {
+                using (var form = new QuickWakeForm(address)) {
                     form.ShowDialog(this);
                 }
             }

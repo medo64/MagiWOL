@@ -20,9 +20,20 @@ namespace MagiWol {
             }
         }
 
-        public QuickWakeForm(string defaultMac)
+        public QuickWakeForm(MagiWolDocument.Address address)
             : this() {
-            this.textMac.Text = defaultMac;
+            if (address != null) {
+                textMac.Text = address.Mac;
+                textSecureOn.Text = address.SecureOn;
+                if (address.IsBroadcastHostValid) {
+                    checkBroadcastAddress.Checked = true;
+                    textBroadcastAddress.Text = address.BroadcastHost;
+                }
+                if (address.IsBroadcastPortValid) {
+                    checkBroadcastPort.Checked = true;
+                    textBroadcastPort.Text = address.BroadcastPort.ToString(CultureInfo.CurrentCulture);
+                }
+            }
         }
 
 
@@ -133,7 +144,7 @@ namespace MagiWol {
                         }
                     } catch (InvalidOperationException ex) {
                         Medo.MessageBox.ShowError(this, ex.Message);
-                    }                    
+                    }
                     System.Threading.Thread.Sleep(Settings.WolSleepInterval);
                 } finally {
                     Cursor.Current = Cursors.Default;
