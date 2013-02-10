@@ -39,7 +39,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.progress.Location = new System.Drawing.Point(12, 12);
             this.progress.Name = "progress";
-            this.progress.Size = new System.Drawing.Size(450, 23);
+            this.progress.Size = new System.Drawing.Size(398, 23);
             this.progress.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.progress.TabIndex = 0;
             // 
@@ -47,7 +47,7 @@
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(362, 53);
+            this.buttonCancel.Location = new System.Drawing.Point(310, 53);
             this.buttonCancel.Margin = new System.Windows.Forms.Padding(3, 15, 3, 3);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(100, 28);
@@ -64,22 +64,22 @@
             this.worker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.worker_ProgressChanged);
             this.worker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.worker_RunWorkerCompleted);
             // 
-            // labelCurrent
+            // labelStatus
             // 
             this.labelStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelStatus.Location = new System.Drawing.Point(9, 38);
-            this.labelStatus.Name = "labelCurrent";
-            this.labelStatus.Size = new System.Drawing.Size(344, 20);
+            this.labelStatus.Name = "labelStatus";
+            this.labelStatus.Size = new System.Drawing.Size(292, 20);
             this.labelStatus.TabIndex = 18;
             // 
-            // labelTimeLeft
+            // labelTimeRemaining
             // 
             this.labelTimeRemaining.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelTimeRemaining.Location = new System.Drawing.Point(9, 61);
-            this.labelTimeRemaining.Name = "labelTimeLeft";
-            this.labelTimeRemaining.Size = new System.Drawing.Size(344, 20);
+            this.labelTimeRemaining.Name = "labelTimeRemaining";
+            this.labelTimeRemaining.Size = new System.Drawing.Size(292, 20);
             this.labelTimeRemaining.TabIndex = 19;
             this.labelTimeRemaining.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
@@ -88,7 +88,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(474, 93);
+            this.ClientSize = new System.Drawing.Size(422, 93);
             this.Controls.Add(this.labelTimeRemaining);
             this.Controls.Add(this.labelStatus);
             this.Controls.Add(this.buttonCancel);
