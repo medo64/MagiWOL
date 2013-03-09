@@ -188,7 +188,8 @@ namespace MagiWol {
 
             this.Document.FillListView(list, selection);
 
-            this.Text = this.Document.FileTitle + " - " + Medo.Reflection.EntryAssembly.Title;
+            var fileTitle = Path.GetFileNameWithoutExtension(this.Document.FileName);
+            this.Text = (string.IsNullOrEmpty(fileTitle) ? "" : fileTitle + " - ") + Medo.Reflection.EntryAssembly.Title;
 
             for (int i = mnuOpenRoot.DropDownItems.Count - 1; i >= 0; i--) {
                 if (mnuOpenRoot.DropDownItems[i].Tag == null) { break; }
