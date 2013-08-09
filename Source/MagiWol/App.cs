@@ -23,10 +23,10 @@ namespace MagiWol {
                 Medo.Application.UnhandledCatch.ThreadException += new EventHandler<ThreadExceptionEventArgs>(UnhandledCatch_ThreadException);
                 Medo.Application.UnhandledCatch.Attach();
 
-                Medo.Configuration.Settings.NoRegistryWrites = !Settings.IsInstalled;
-                Medo.Configuration.RecentFiles.NoRegistryWrites = !Settings.IsInstalled;
-                Medo.Windows.Forms.State.NoRegistryWrites = !Settings.IsInstalled;
-                Medo.Diagnostics.ErrorReport.DisableAutomaticSaveToTemp = !Settings.IsInstalled;
+                Medo.Configuration.Settings.NoRegistryWrites = Settings.NoRegistryWrites;
+                Medo.Configuration.RecentFiles.NoRegistryWrites = Settings.NoRegistryWrites;
+                Medo.Windows.Forms.State.NoRegistryWrites = Settings.NoRegistryWrites;
+                Medo.Diagnostics.ErrorReport.DisableAutomaticSaveToTemp = Settings.NoRegistryWrites;
 
                 if (!((Environment.OSVersion.Version.Build < 7000) || (App.IsRunningOnMono))) {
                     var appId = Assembly.GetExecutingAssembly().Location;

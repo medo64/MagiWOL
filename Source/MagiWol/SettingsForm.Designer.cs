@@ -38,7 +38,6 @@
             this.labelBroadcastPort = new System.Windows.Forms.Label();
             this.textBroadcastPort = new System.Windows.Forms.TextBox();
             this.textBroadcastAddress = new System.Windows.Forms.TextBox();
-            this.labelBroadcastAddress = new System.Windows.Forms.Label();
             this.tabs_pagColumns = new System.Windows.Forms.TabPage();
             this.chbNotes = new System.Windows.Forms.CheckBox();
             this.chbBroadcastPort = new System.Windows.Forms.CheckBox();
@@ -46,6 +45,8 @@
             this.chbSecureOn = new System.Windows.Forms.CheckBox();
             this.chbMac = new System.Windows.Forms.CheckBox();
             this.chbTitle = new System.Windows.Forms.CheckBox();
+            this.btnAllowRegistryWrites = new System.Windows.Forms.Button();
+            this.labelBroadcastAddress = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.erp)).BeginInit();
             this.tabs.SuspendLayout();
             this.tabs_pagPacket.SuspendLayout();
@@ -98,6 +99,7 @@
             // 
             // tabs_pagPacket
             // 
+            this.tabs_pagPacket.Controls.Add(this.labelBroadcastAddress);
             this.tabs_pagPacket.Controls.Add(this.checkProtocolIPv6);
             this.tabs_pagPacket.Controls.Add(this.labelProtocol);
             this.tabs_pagPacket.Controls.Add(this.checkProtocolIPv4);
@@ -106,7 +108,6 @@
             this.tabs_pagPacket.Controls.Add(this.labelBroadcastPort);
             this.tabs_pagPacket.Controls.Add(this.textBroadcastPort);
             this.tabs_pagPacket.Controls.Add(this.textBroadcastAddress);
-            this.tabs_pagPacket.Controls.Add(this.labelBroadcastAddress);
             this.tabs_pagPacket.Location = new System.Drawing.Point(4, 25);
             this.tabs_pagPacket.Name = "tabs_pagPacket";
             this.tabs_pagPacket.Padding = new System.Windows.Forms.Padding(3);
@@ -197,15 +198,6 @@
             this.textBroadcastAddress.Size = new System.Drawing.Size(200, 22);
             this.textBroadcastAddress.TabIndex = 4;
             // 
-            // labelBroadcastAddress
-            // 
-            this.labelBroadcastAddress.AutoSize = true;
-            this.labelBroadcastAddress.Location = new System.Drawing.Point(6, 36);
-            this.labelBroadcastAddress.Name = "labelBroadcastAddress";
-            this.labelBroadcastAddress.Size = new System.Drawing.Size(131, 17);
-            this.labelBroadcastAddress.TabIndex = 3;
-            this.labelBroadcastAddress.Text = "Broadcast address:";
-            // 
             // tabs_pagColumns
             // 
             this.tabs_pagColumns.Controls.Add(this.chbNotes);
@@ -285,6 +277,27 @@
             this.chbTitle.Text = "Name";
             this.chbTitle.UseVisualStyleBackColor = true;
             // 
+            // btnAllowRegistryWrites
+            // 
+            this.btnAllowRegistryWrites.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnAllowRegistryWrites.Location = new System.Drawing.Point(12, 226);
+            this.btnAllowRegistryWrites.Margin = new System.Windows.Forms.Padding(3, 15, 3, 3);
+            this.btnAllowRegistryWrites.Name = "btnAllowRegistryWrites";
+            this.btnAllowRegistryWrites.Size = new System.Drawing.Size(100, 28);
+            this.btnAllowRegistryWrites.TabIndex = 3;
+            this.btnAllowRegistryWrites.Text = "Allow save";
+            this.btnAllowRegistryWrites.UseVisualStyleBackColor = true;
+            this.btnAllowRegistryWrites.Click += new System.EventHandler(this.btnAllowRegistryWrites_Click);
+            // 
+            // labelBroadcastAddress
+            // 
+            this.labelBroadcastAddress.AutoSize = true;
+            this.labelBroadcastAddress.Location = new System.Drawing.Point(6, 36);
+            this.labelBroadcastAddress.Name = "labelBroadcastAddress";
+            this.labelBroadcastAddress.Size = new System.Drawing.Size(131, 17);
+            this.labelBroadcastAddress.TabIndex = 9;
+            this.labelBroadcastAddress.Text = "Broadcast address:";
+            // 
             // SettingsForm
             // 
             this.AcceptButton = this.buttonOk;
@@ -292,6 +305,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
             this.ClientSize = new System.Drawing.Size(394, 266);
+            this.Controls.Add(this.btnAllowRegistryWrites);
             this.Controls.Add(this.tabs);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonOk);
@@ -303,7 +317,7 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Options";
-            this.Load += new System.EventHandler(this.SettingsForm_Load);
+            this.Load += new System.EventHandler(this.Form_Load);
             ((System.ComponentModel.ISupportInitialize)(this.erp)).EndInit();
             this.tabs.ResumeLayout(false);
             this.tabs_pagPacket.ResumeLayout(false);
@@ -325,7 +339,6 @@
         private System.Windows.Forms.Label labelBroadcastPort;
         private System.Windows.Forms.TextBox textBroadcastPort;
         private System.Windows.Forms.TextBox textBroadcastAddress;
-        private System.Windows.Forms.Label labelBroadcastAddress;
         private System.Windows.Forms.TabPage tabs_pagColumns;
         private System.Windows.Forms.CheckBox chbNotes;
         private System.Windows.Forms.CheckBox chbBroadcastPort;
@@ -337,5 +350,7 @@
         private System.Windows.Forms.CheckBox checkProtocolIPv6;
         private System.Windows.Forms.Label labelProtocol;
         private System.Windows.Forms.CheckBox checkProtocolIPv4;
+        private System.Windows.Forms.Button btnAllowRegistryWrites;
+        private System.Windows.Forms.Label labelBroadcastAddress;
     }
 }

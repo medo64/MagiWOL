@@ -18,9 +18,12 @@ namespace MagiWol {
                 erp.SetIconPadding(iControl, 4);
                 erp.SetIconAlignment(iControl, ErrorIconAlignment.MiddleLeft);
             }
+
+            SetWritableState(!Settings.NoRegistryWrites);
         }
 
-        private void SettingsForm_Load(object sender, EventArgs e) {
+
+        private void Form_Load(object sender, EventArgs e) {
             textBroadcastAddress.Text = Settings.BroadcastHost;
             textBroadcastPort.Text = Settings.BroadcastPort.ToString(CultureInfo.InvariantCulture);
 
@@ -33,6 +36,7 @@ namespace MagiWol {
             chbBroadcastPort.Checked = Settings.ShowColumnBroadcastPort;
             chbNotes.Checked = Settings.ShowColumnNotes;
         }
+
 
         private void buttonOk_Click(object sender, EventArgs e) {
             Settings.UseIPv4 = checkProtocolIPv4.Checked;
@@ -136,6 +140,22 @@ namespace MagiWol {
         private void buttonDefault_Click(object sender, EventArgs e) {
             textBroadcastAddress.Text = Settings.DefaultBroadcastHost;
             textBroadcastPort.Text = Settings.DefaultBroadcastPort.ToString();
+        }
+
+        private void btnAllowRegistryWrites_Click(object sender, EventArgs e) {
+            if (Medo.MessageBox.ShowQuestion(this, "Do you allow this program use of registry in order to save its settings?", MessageBoxButtons.YesNo) == DialogResult.Yes) {
+                btnAllowRegistryWrites.Visible = false;
+                Settings.NoRegistryWrites = false;
+                SetWritableState(true);
+            }
+        }
+
+
+        private void SetWritableState(bool newState) {
+            btnAllowRegistryWrites.Visible = !newState;
+
+            buttonOk.Enabled = newState;
+            foreach (Control control in tabs.Controls) { control.Enabled = newState; }
         }
 
     }
