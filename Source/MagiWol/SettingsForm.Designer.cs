@@ -30,6 +30,7 @@
             this.erp = new System.Windows.Forms.ErrorProvider(this.components);
             this.tabs = new System.Windows.Forms.TabControl();
             this.tabs_pagPacket = new System.Windows.Forms.TabPage();
+            this.labelBroadcastAddress = new System.Windows.Forms.Label();
             this.checkProtocolIPv6 = new System.Windows.Forms.CheckBox();
             this.labelProtocol = new System.Windows.Forms.Label();
             this.checkProtocolIPv4 = new System.Windows.Forms.CheckBox();
@@ -46,7 +47,6 @@
             this.chbMac = new System.Windows.Forms.CheckBox();
             this.chbTitle = new System.Windows.Forms.CheckBox();
             this.btnAllowRegistryWrites = new System.Windows.Forms.Button();
-            this.labelBroadcastAddress = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.erp)).BeginInit();
             this.tabs.SuspendLayout();
             this.tabs_pagPacket.SuspendLayout();
@@ -61,7 +61,7 @@
             this.buttonCancel.Margin = new System.Windows.Forms.Padding(3, 15, 3, 3);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(100, 28);
-            this.buttonCancel.TabIndex = 2;
+            this.buttonCancel.TabIndex = 0;
             this.buttonCancel.Text = "Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
             // 
@@ -73,7 +73,7 @@
             this.buttonOk.Margin = new System.Windows.Forms.Padding(3, 15, 3, 3);
             this.buttonOk.Name = "buttonOk";
             this.buttonOk.Size = new System.Drawing.Size(100, 28);
-            this.buttonOk.TabIndex = 1;
+            this.buttonOk.TabIndex = 3;
             this.buttonOk.Text = "OK";
             this.buttonOk.UseVisualStyleBackColor = true;
             this.buttonOk.Click += new System.EventHandler(this.buttonOk_Click);
@@ -95,7 +95,7 @@
             this.tabs.Name = "tabs";
             this.tabs.SelectedIndex = 0;
             this.tabs.Size = new System.Drawing.Size(370, 197);
-            this.tabs.TabIndex = 0;
+            this.tabs.TabIndex = 1;
             // 
             // tabs_pagPacket
             // 
@@ -115,6 +115,15 @@
             this.tabs_pagPacket.TabIndex = 1;
             this.tabs_pagPacket.Text = "WOL packet";
             this.tabs_pagPacket.UseVisualStyleBackColor = true;
+            // 
+            // labelBroadcastAddress
+            // 
+            this.labelBroadcastAddress.AutoSize = true;
+            this.labelBroadcastAddress.Location = new System.Drawing.Point(6, 36);
+            this.labelBroadcastAddress.Name = "labelBroadcastAddress";
+            this.labelBroadcastAddress.Size = new System.Drawing.Size(131, 17);
+            this.labelBroadcastAddress.TabIndex = 3;
+            this.labelBroadcastAddress.Text = "Broadcast address:";
             // 
             // checkProtocolIPv6
             // 
@@ -284,19 +293,10 @@
             this.btnAllowRegistryWrites.Margin = new System.Windows.Forms.Padding(3, 15, 3, 3);
             this.btnAllowRegistryWrites.Name = "btnAllowRegistryWrites";
             this.btnAllowRegistryWrites.Size = new System.Drawing.Size(100, 28);
-            this.btnAllowRegistryWrites.TabIndex = 3;
+            this.btnAllowRegistryWrites.TabIndex = 2;
             this.btnAllowRegistryWrites.Text = "Allow save";
             this.btnAllowRegistryWrites.UseVisualStyleBackColor = true;
             this.btnAllowRegistryWrites.Click += new System.EventHandler(this.btnAllowRegistryWrites_Click);
-            // 
-            // labelBroadcastAddress
-            // 
-            this.labelBroadcastAddress.AutoSize = true;
-            this.labelBroadcastAddress.Location = new System.Drawing.Point(6, 36);
-            this.labelBroadcastAddress.Name = "labelBroadcastAddress";
-            this.labelBroadcastAddress.Size = new System.Drawing.Size(131, 17);
-            this.labelBroadcastAddress.TabIndex = 9;
-            this.labelBroadcastAddress.Text = "Broadcast address:";
             // 
             // SettingsForm
             // 
