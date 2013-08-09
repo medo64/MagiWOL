@@ -50,8 +50,8 @@ Source: "Resources/MagiWolDocument.ico";  DestDir: "{app}";  Attribs: readonly; 
 Name: "{userstartmenu}\MagiWOL"; Filename: "{app}\MagiWol.exe"
 
 [Registry]
-Root: HKCU;  Subkey: "Software\Josip Medved\MagiWol";   ValueType: none;    ValueName: "Installed";                                              Flags: deletevalue uninsdeletevalue
-Root: HKLM;  Subkey: "Software\Josip Medved\MagiWol";   ValueType: dword;   ValueName: "Installed";  ValueData: "1";                             Flags: uninsdeletekey
+Root: HKLM;  Subkey: "Software\Josip Medved\MagiWol";   ValueType: none;    ValueName: "Installed";                                              Flags: deletevalue uninsdeletevalue
+Root: HKCU;  Subkey: "Software\Josip Medved\MagiWol";   ValueType: dword;   ValueName: "Installed";  ValueData: "1";                             Flags: uninsdeletekey
 Root: HKCU;  Subkey: "Software\Josip Medved";                                                                                                    Flags: uninsdeletekeyifempty
 Root: HKCR;  Subkey: ".magiwol";                        ValueType: string;  ValueName: "";           ValueData: "MagiWolFile";                   Flags: uninsdeletevalue
 Root: HKCR;  Subkey: "MagiWolFile";                     ValueType: string;  ValueName: "";           ValueData: "MagiWOL File";                  Flags: uninsdeletekey
