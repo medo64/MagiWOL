@@ -33,6 +33,7 @@ ShowLanguageDialog=no
 SolidCompression=yes
 ChangesAssociations=yes
 DisableWelcomePage=yes
+LicenseFile=..\Setup\License.txt
 
 [Files]
 Source: "MagiWol.exe";                    DestDir: "{app}";                      Flags: ignoreversion;
