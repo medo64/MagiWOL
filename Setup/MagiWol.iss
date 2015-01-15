@@ -6,6 +6,12 @@
 #define AppBase        LowerCase(StringChange(AppName, ' ', ''))
 #define AppSetupFile   AppBase + StringChange(AppVersion, '.', '')
 
+#define AppVersionEx   StringChange(AppVersion, '0.00', '')
+#if "" != HgNode
+#  define AppVersionEx AppVersionEx + " (" + HgNode + ")"
+#endif
+
+
 [Setup]
 AppName={#AppName}
 AppVersion={#AppVersion}
@@ -14,7 +20,7 @@ AppPublisher={#AppCompany}
 AppPublisherURL=http://jmedved.com/{#AppBase}/
 AppCopyright={#AppCopyright}
 VersionInfoProductVersion={#AppVersion}
-VersionInfoProductTextVersion={#AppVersion}
+VersionInfoProductTextVersion={#AppVersionEx}
 VersionInfoVersion={#AppFileVersion}
 DefaultDirName={pf}\{#AppCompany}\{#AppName}
 OutputBaseFilename={#AppSetupFile}
