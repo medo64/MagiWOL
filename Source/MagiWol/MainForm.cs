@@ -20,7 +20,9 @@ namespace MagiWol {
         public MainForm() {
             InitializeComponent();
             this.Font = SystemFonts.MessageBoxFont;
-            mnu.Renderer = new ToolStripBorderlessProfessionalRenderer();
+
+            mnu.Renderer = new Helper.ToolStripBorderlessProfessionalRenderer();
+            Helper.UpdateToolstripImages(mnu, mnuOpenRoot.DropDown, mnuSaveRoot.DropDown, mnxList);
 
             Medo.Windows.Forms.TaskbarProgress.DefaultOwner = this;
             Medo.Windows.Forms.TaskbarProgress.DoNotThrowNotImplementedException = true;
@@ -477,14 +479,13 @@ namespace MagiWol {
         }
 
 
-        private void mnuOptions_Click(object sender, EventArgs e) {
+        private void mnuAppOptions_Click(object sender, EventArgs e) {
             using (var form = new SettingsForm()) {
                 if (form.ShowDialog(this) == DialogResult.OK) {
                     mnuRefresh_Click(null, null);
                 }
             }
         }
-
 
         private void mnuAppFeedback_Click(object sender, EventArgs e) {
             Medo.Diagnostics.ErrorReport.ShowDialog(this, null, new Uri("http://jmedved.com/feedback/"));
