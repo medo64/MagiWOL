@@ -40,7 +40,7 @@ ShowLanguageDialog=no
 SolidCompression=yes
 ChangesAssociations=yes
 DisableWelcomePage=yes
-LicenseFile=..\Setup\License.txt
+LicenseFile=..\Setup\License.rtf
 
 [Messages]
 SetupAppTitle=Setup {#AppName} {#AppVersion}
@@ -68,3 +68,9 @@ Root: HKCR;  Subkey: "MagiWolFile\shell\open\command";  ValueType: string;  Valu
 [Run]
 Filename: "{app}\MagiWol.exe";  Description: "Launch application now";  Flags: postinstall nowait skipifsilent runasoriginaluser unchecked
 Filename: "{app}\ReadMe.txt";   Description: "View read me";            Flags: postinstall runasoriginaluser shellexec nowait skipifsilent unchecked
+
+[Code]
+procedure InitializeWizard;
+begin
+  WizardForm.LicenseAcceptedRadio.Checked := True;
+end;

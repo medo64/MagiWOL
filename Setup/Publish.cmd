@@ -5,7 +5,6 @@ SET        FILE_SETUP=".\MagiWol.iss"
 SET     FILE_SOLUTION="..\Source\MagiWol.sln"
 SET  FILES_EXECUTABLE="..\Binaries\MagiWol.exe" "..\Binaries\wol.exe"
 SET       FILES_OTHER="..\Binaries\ReadMe.txt"
-SET     FILES_LICENSE="License.txt"
 
 SET    COMPILE_TOOL_1="%PROGRAMFILES(X86)%\Microsoft Visual Studio 12.0\Common7\IDE\devenv.exe"
 SET    COMPILE_TOOL_2="%PROGRAMFILES(X86)%\Microsoft Visual Studio 12.0\Common7\IDE\WDExpress.exe"
@@ -84,7 +83,7 @@ ECHO.
 
 SET _OLDSETUPEXE=%_SETUPEXE%
 IF NOT [%HG_NODE%]==[] (
-    SET _SETUPEXE=!_SETUPEXE:000=~%HG_NODE_NUMBER%~%HG_NODE%!
+    SET _SETUPEXE=!_SETUPEXE:000=~rev%HG_NODE_NUMBER%~%HG_NODE%!
 )
 IF NOT "%_OLDSETUPEXE%"=="%_SETUPEXE%" (
     ECHO Renaming %_OLDSETUPEXE% to %_SETUPEXE%
@@ -120,7 +119,7 @@ ECHO.
 
 SET _SETUPZIP=%_SETUPEXE:.exe=.zip%
 ECHO Zipping into %_SETUPZIP%
-"%PROGRAMFILES%\WinRAR\WinRAR.exe" a -afzip -ep -m5 -z%FILES_LICENSE% ".\Temp\%_SETUPZIP%" %FILES_EXECUTABLE% %FILES_OTHER%
+"%PROGRAMFILES%\WinRAR\WinRAR.exe" a -afzip -ep -m5 ".\Temp\%_SETUPZIP%" %FILES_EXECUTABLE% %FILES_OTHER%
 IF ERRORLEVEL 1 PAUSE && EXIT /B %ERRORLEVEL%
 
 ECHO.
