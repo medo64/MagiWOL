@@ -25,7 +25,7 @@ namespace MagiWol {
             var form = toolstrips[0].Parent as Form;
 
             using (var g = form.CreateGraphics()) {
-                var scale = Math.Max(Math.Max(g.DpiX, g.DpiY) / 96.0 + 0.25, 1);
+                var scale = Math.Max(Math.Max(g.DpiX, g.DpiY) / 96.0, 1);
 
                 int size;
                 string set;
