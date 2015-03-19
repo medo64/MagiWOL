@@ -17,8 +17,12 @@ Required Tools
 Script Modifications
 --------------------
 
-In `Publish.cmd` check location of Visual Studio (`COMPILE_TOOL` variable) and location of Sign Tool (`SIGN_TOOL` variable).
+In `Publish.cmd` check location of Visual Studio (`COMPILE_TOOL` variable) and
+location of Sign Tool (`SIGN_TOOL` variable).
 
-In case you have certificate that you want to use for signing, update it also (`SIGN_HASH` variable). In case you don't have a certificate, it is ok, script will just avoid signing executables.
+In case you have certificate that you want to use for signing, update it also
+(`SIGN_HASH` variable). In case you don't have a certificate, it is OK, script
+will just skip signing executables.
 
-After this you can start script and it will compile project and make its setup. Executables will be in `Binaries` directory and setup will be in `Releases`.
+After this you can start script and it will compile project and make its setup.
+Executables will be in `Binaries` directory and setup will be in `Releases`.
