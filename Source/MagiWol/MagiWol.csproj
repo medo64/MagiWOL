@@ -213,7 +213,9 @@
     <CodeAnalysisDictionary Include="_CodeAnalysis\CodeAnalysisDictionary.xml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Properties\App.manifest" />
+    <None Include="Properties\App.manifest">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\App.snk" />
   </ItemGroup>
   <ItemGroup>

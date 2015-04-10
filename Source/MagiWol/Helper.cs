@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Windows.Forms;
 
 namespace MagiWol {
@@ -64,7 +65,12 @@ namespace MagiWol {
                             bitmap = resources.GetObject(item.Tag + set) as Bitmap;
                         }
 
-                        if (bitmap != null) { item.Image = bitmap; }
+                        item.ImageScaling = ToolStripItemImageScaling.None;
+#if DEBUG
+                        item.Image = (bitmap != null) ? new Bitmap(bitmap, size, size) : new Bitmap(size, size, PixelFormat.Format8bppIndexed);
+#else
+                        if (bitmap != null) { item.Image = new Bitmap(bitmap, size, size); }
+#endif
                     }
                 }
             }
