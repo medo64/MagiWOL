@@ -7,8 +7,8 @@
 #define AppSetupFile   AppBase + StringChange(AppVersion, '.', '')
 
 #define AppVersionEx   StringChange(AppVersion, '0.00', '')
-#if "" != HgNode
-#  define AppVersionEx AppVersionEx + " (" + HgNode + ")"
+#if "" != VersionHash
+#  define AppVersionEx AppVersionEx + " (" + VersionHash + ")"
 #endif
 
 
@@ -42,15 +42,17 @@ ChangesAssociations=yes
 DisableWelcomePage=yes
 LicenseFile=..\Setup\License.rtf
 
+
 [Messages]
-SetupAppTitle=Setup {#AppName} {#AppVersion}
-SetupWindowTitle=Setup {#AppName} {#AppVersion}
+SetupAppTitle=Setup {#AppName} {#AppVersionEx}
+SetupWindowTitle=Setup {#AppName} {#AppVersionEx}
 BeveledLabel=jmedved.com
 
 [Files]
 Source: "MagiWol.exe";                    DestDir: "{app}";                      Flags: ignoreversion;
 Source: "wol.exe";                        DestDir: "{app}";                      Flags: ignoreversion;
 Source: "ReadMe.txt";                     DestDir: "{app}";  Attribs: readonly;  Flags: overwritereadonly uninsremovereadonly;
+Source: "License.txt";                    DestDir: "{app}";  Attribs: readonly;  Flags: overwritereadonly uninsremovereadonly;
 Source: "Resources/MagiWolDocument.ico";  DestDir: "{app}";  Attribs: readonly;  Flags: overwritereadonly uninsremovereadonly;
 
 [Icons]
