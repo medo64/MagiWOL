@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -24,11 +24,7 @@ namespace MagiWol {
         }
 
         private void buttonCancel_Click(object sender, EventArgs e) {
-            try {
-                if (worker.IsBusy) {
-                    worker.CancelAsync();
-                }
-            } catch (InvalidOperationException) { }
+            this.DialogResult = DialogResult.Cancel;
         }
 
         private void worker_DoWork(object sender, DoWorkEventArgs e) {
@@ -80,9 +76,7 @@ namespace MagiWol {
         }
 
         private void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e) {
-            if (e.Cancelled) {
-                this.DialogResult = DialogResult.Cancel;
-            } else {
+            if (!e.Cancelled) {
                 if (e.Error != null) {
                     Medo.MessageBox.ShowError(this, e.Error.Message);
                     this.DialogResult = DialogResult.Cancel;
@@ -94,10 +88,9 @@ namespace MagiWol {
         }
 
         private void ProgressForm_FormClosing(object sender, FormClosingEventArgs e) {
-            if (e.CloseReason == CloseReason.UserClosing) {
-                buttonCancel_Click(null, null);
-                e.Cancel = true;
-            }
+            try {
+                if (worker.IsBusy) { worker.CancelAsync(); }
+            } catch (InvalidOperationException) { }
         }
 
     }
