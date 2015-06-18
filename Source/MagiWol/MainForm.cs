@@ -538,9 +538,9 @@ namespace MagiWol {
                 var iAddress = ((MagiWolDocument.Address)list.Items[e.Item]);
                 iAddress.Title = e.Label;
                 this.list.Enabled = false;
-                tmrReSort.Enabled = true;
                 this.Document.MarkAsChanged();
-                UpdateData(new MagiWolDocument.Address[] { iAddress });
+                tmrReSort.Tag = iAddress;
+                tmrReSort.Enabled = true;
             } else {
                 e.CancelEdit = true;
             }
@@ -594,12 +594,15 @@ namespace MagiWol {
             this.list.Sort();
         }
 
-        private void tmrReSortAfterRename_Tick(object sender, EventArgs e) {
+        private void tmrReSortAfterRename_Tick(object sender, EventArgs e) { //hack to properly re-sort after rename
             tmrReSort.Enabled = false;
             this.list.Sort();
             this.list.Enabled = true;
             this.list.Focus();
-            //UpdateData(new MagiWolDocument.Address[] { iAddress });
+
+            var iAddress = tmrReSort.Tag as MagiWolDocument.Address;
+            tmrReSort.Tag = null;
+            UpdateData(new MagiWolDocument.Address[] { iAddress });
         }
 
 
