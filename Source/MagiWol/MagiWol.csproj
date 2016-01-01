@@ -95,7 +95,7 @@
     <Compile Include="%28Medo%29\StringAdder [002].cs" />
     <Compile Include="%28Medo%29\TaskbarProgress [003].cs" />
     <Compile Include="%28Medo%29\UnhandledCatch [008].cs" />
-    <Compile Include="%28Medo%29\Upgrade [002].cs" />
+    <Compile Include="%28Medo%29\Upgrade [004].cs" />
     <Compile Include="%28Medo%29\WakeOnLan [006].cs" />
     <Compile Include="%28Medo%29\XmlTagWriter [002].cs" />
     <Compile Include="Helper.cs" />
@@ -174,35 +174,45 @@
     </Compile>
     <EmbeddedResource Include="ImportResultsForm.resx">
       <DependentUpon>ImportResultsForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ImportFromNetworkProgressForm.resx">
       <DependentUpon>ImportFromNetworkProgressForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ImportFromNetworkForm.resx">
       <DependentUpon>ImportFromNetworkForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="SettingsForm.resx">
       <DependentUpon>SettingsForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="WakeProgressForm.resx">
       <DependentUpon>WakeProgressForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="QuickWakeForm.resx">
       <DependentUpon>QuickWakeForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="DetailForm.resx">
       <DependentUpon>DetailForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <Compile Include="Properties\SolutionInfo.cs" />
     <EmbeddedResource Include="WakeForm.resx">
       <DependentUpon>WakeForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
