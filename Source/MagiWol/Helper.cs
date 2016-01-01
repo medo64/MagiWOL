@@ -20,43 +20,17 @@ namespace MagiWol {
 
         #region Toolstrip images
 
-        internal static void UpdateToolstripImages(params ToolStrip[] toolstrips) {
-            if (toolstrips == null) { return; }
+        internal static void ScaleToolstrip(params ToolStrip[] toolstrips) {
+            var sizeAndSet = GetSizeAndSet(toolstrips);
+            var size = sizeAndSet.Key;
+            var set = sizeAndSet.Value;
 
-            var form = toolstrips[0].Parent as Form;
-
-            using (var g = form.CreateGraphics()) {
-                var scale = Math.Max(Math.Max(g.DpiX, g.DpiY) / 96.0, 1);
-
-                int size;
-                string set;
-                if (scale < 1.5) {
-                    size = 16;
-                    set = "_16";
-                } else if (scale < 2) {
-                    size = 24;
-                    set = "_24";
-                } else if (scale < 3) {
-                    size = 32;
-                    set = "_32";
-                } else {
-                    var base32 = 16 * scale / 32;
-                    var base48 = 16 * scale / 48;
-                    if ((base48 - (int)base48) < (base32 - (int)base32)) {
-                        size = 48 * (int)base48;
-                        set = "_48";
-                    } else {
-                        size = 32 * (int)base32;
-                        set = "_32";
-                    }
-                }
-
-                var resources = MagiWol.Properties.Resources.ResourceManager;
-
-                foreach (var toolstrip in toolstrips) {
-                    toolstrip.ImageScalingSize = new Size(size, size);
-
-                    foreach (ToolStripItem item in toolstrip.Items) {
+            var resources = MagiWol.Properties.Resources.ResourceManager;
+            foreach (var toolstrip in toolstrips) {
+                toolstrip.ImageScalingSize = new Size(size, size);
+                foreach (ToolStripItem item in toolstrip.Items) {
+                    item.ImageScaling = ToolStripItemImageScaling.None;
+                    if (item.Image != null) { //update only those already having image
                         Bitmap bitmap = null;
                         if (!string.IsNullOrEmpty(item.Name)) {
                             bitmap = resources.GetObject(item.Name + set) as Bitmap;
@@ -71,6 +45,47 @@ namespace MagiWol {
 #else
                         if (bitmap != null) { item.Image = new Bitmap(bitmap, size, size); }
 #endif
+                    }
+
+                    var toolstripSplitButton = item as ToolStripSplitButton;
+                    if (toolstripSplitButton != null) { ScaleToolstrip(toolstripSplitButton.DropDown); }
+                }
+            }
+        }
+
+        internal static void ScaleToolstripItem(ToolStripItem item, string name) {
+            var sizeAndSet = GetSizeAndSet(item.GetCurrentParent());
+            var size = sizeAndSet.Key;
+            var set = sizeAndSet.Value;
+
+            var resources = MagiWol.Properties.Resources.ResourceManager;
+            Bitmap bitmap = resources.GetObject(name + set) as Bitmap;
+            item.ImageScaling = ToolStripItemImageScaling.None;
+#if DEBUG
+            item.Image = (bitmap != null) ? new Bitmap(bitmap, size, size) : new Bitmap(size, size, PixelFormat.Format8bppIndexed);
+#else
+            if (bitmap != null) { item.Image = new Bitmap(bitmap, size, size); }
+#endif
+        }
+
+        private static KeyValuePair<int, string> GetSizeAndSet(params Control[] controls) {
+            using (var g = controls[0].CreateGraphics()) {
+                var scale = Math.Max(Math.Max(g.DpiX, g.DpiY), 96.0) / 96.0;
+                scale += Settings.ScaleBoost;
+
+                if (scale < 1.5) {
+                    return new KeyValuePair<int, string>(16, "_16");
+                } else if (scale < 2) {
+                    return new KeyValuePair<int, string>(24, "_24");
+                } else if (scale < 3) {
+                    return new KeyValuePair<int, string>(32, "_32");
+                } else {
+                    var base32 = 16 * scale / 32;
+                    var base48 = 16 * scale / 48;
+                    if ((base48 - (int)base48) < (base32 - (int)base32)) {
+                        return new KeyValuePair<int, string>(48 * (int)base48, "_48");
+                    } else {
+                        return new KeyValuePair<int, string>(32 * (int)base32, "_32");
                     }
                 }
             }

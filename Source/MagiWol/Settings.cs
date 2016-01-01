@@ -153,6 +153,14 @@ namespace MagiWol {
             set { Medo.Configuration.Settings.Write("LastImportText", value); }
         }
 
+        public static double ScaleBoost {
+            get { return Medo.Configuration.Settings.Read("ScaleBoost", 0.00); }
+            set {
+                if ((value < -1) || (value > 4)) { return; }
+                Medo.Configuration.Settings.Write("ScaleBoost", value);
+            }
+        }
+
 
         public static class Runtime { //reseted upon every application start
 

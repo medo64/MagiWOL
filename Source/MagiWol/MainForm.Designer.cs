@@ -73,6 +73,7 @@ namespace MagiWol {
             this.mnxListQuickWake = new System.Windows.Forms.ToolStripMenuItem();
             this.timerEnableDisable = new System.Windows.Forms.Timer(this.components);
             this.tmrReSort = new System.Windows.Forms.Timer(this.components);
+            this.bwCheckForUpgrade = new System.ComponentModel.BackgroundWorker();
             this.mnu.SuspendLayout();
             this.mnxList.SuspendLayout();
             this.SuspendLayout();
@@ -80,6 +81,7 @@ namespace MagiWol {
             // mnu
             // 
             this.mnu.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.mnu.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.mnu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuNew,
             this.mnuOpenRoot,
@@ -111,7 +113,7 @@ namespace MagiWol {
             this.mnuNew.Image = global::MagiWol.Properties.Resources.mnuNew_16;
             this.mnuNew.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuNew.Name = "mnuNew";
-            this.mnuNew.Size = new System.Drawing.Size(23, 24);
+            this.mnuNew.Size = new System.Drawing.Size(24, 24);
             this.mnuNew.Text = "New";
             this.mnuNew.ToolTipText = "New file (Ctrl+N)";
             this.mnuNew.Click += new System.EventHandler(this.mnuNew_Click);
@@ -126,7 +128,7 @@ namespace MagiWol {
             this.mnuOpenRoot.Image = global::MagiWol.Properties.Resources.mnuOpen_16;
             this.mnuOpenRoot.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuOpenRoot.Name = "mnuOpenRoot";
-            this.mnuOpenRoot.Size = new System.Drawing.Size(32, 24);
+            this.mnuOpenRoot.Size = new System.Drawing.Size(39, 24);
             this.mnuOpenRoot.Tag = "mnuOpen";
             this.mnuOpenRoot.Text = "Open";
             this.mnuOpenRoot.ToolTipText = "Open file (Ctrl+O)";
@@ -137,7 +139,7 @@ namespace MagiWol {
             this.mnuOpen.Image = global::MagiWol.Properties.Resources.mnuOpen_16;
             this.mnuOpen.Name = "mnuOpen";
             this.mnuOpen.ShortcutKeyDisplayString = "Ctrl+O";
-            this.mnuOpen.Size = new System.Drawing.Size(167, 24);
+            this.mnuOpen.Size = new System.Drawing.Size(173, 26);
             this.mnuOpen.Text = "&Open";
             this.mnuOpen.Click += new System.EventHandler(this.mnuOpen_Click);
             // 
@@ -145,14 +147,14 @@ namespace MagiWol {
             // 
             this.mnuImport.Image = global::MagiWol.Properties.Resources.mnuImport_16;
             this.mnuImport.Name = "mnuImport";
-            this.mnuImport.Size = new System.Drawing.Size(167, 24);
+            this.mnuImport.Size = new System.Drawing.Size(173, 26);
             this.mnuImport.Text = "&Import";
             this.mnuImport.Click += new System.EventHandler(this.mnuImport_Click);
             // 
             // mnuImport0
             // 
             this.mnuImport0.Name = "mnuImport0";
-            this.mnuImport0.Size = new System.Drawing.Size(164, 6);
+            this.mnuImport0.Size = new System.Drawing.Size(170, 6);
             // 
             // mnuSaveRoot
             // 
@@ -163,7 +165,7 @@ namespace MagiWol {
             this.mnuSaveRoot.Image = global::MagiWol.Properties.Resources.mnuSave_16;
             this.mnuSaveRoot.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuSaveRoot.Name = "mnuSaveRoot";
-            this.mnuSaveRoot.Size = new System.Drawing.Size(32, 24);
+            this.mnuSaveRoot.Size = new System.Drawing.Size(39, 24);
             this.mnuSaveRoot.Tag = "mnuSave";
             this.mnuSaveRoot.Text = "Save";
             this.mnuSaveRoot.ToolTipText = "Save file (Ctrl+S)";
@@ -174,7 +176,7 @@ namespace MagiWol {
             this.mnuSave.Image = global::MagiWol.Properties.Resources.mnuSave_16;
             this.mnuSave.Name = "mnuSave";
             this.mnuSave.ShortcutKeyDisplayString = "Ctrl+S";
-            this.mnuSave.Size = new System.Drawing.Size(217, 24);
+            this.mnuSave.Size = new System.Drawing.Size(223, 26);
             this.mnuSave.Text = "&Save";
             this.mnuSave.Click += new System.EventHandler(this.mnuSave_Click);
             // 
@@ -182,7 +184,7 @@ namespace MagiWol {
             // 
             this.mnuSaveAs.Name = "mnuSaveAs";
             this.mnuSaveAs.ShortcutKeyDisplayString = "Ctrl+Shift+S";
-            this.mnuSaveAs.Size = new System.Drawing.Size(217, 24);
+            this.mnuSaveAs.Size = new System.Drawing.Size(223, 26);
             this.mnuSaveAs.Text = "Save &as";
             this.mnuSaveAs.Click += new System.EventHandler(this.mnuSaveAs_Click);
             // 
@@ -197,7 +199,7 @@ namespace MagiWol {
             this.mnuCut.Image = global::MagiWol.Properties.Resources.mnuCut_16;
             this.mnuCut.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuCut.Name = "mnuCut";
-            this.mnuCut.Size = new System.Drawing.Size(23, 24);
+            this.mnuCut.Size = new System.Drawing.Size(24, 24);
             this.mnuCut.Text = "Cut";
             this.mnuCut.ToolTipText = "Cut (Ctrl+X)";
             this.mnuCut.Click += new System.EventHandler(this.mnuCut_Click);
@@ -208,7 +210,7 @@ namespace MagiWol {
             this.mnuCopy.Image = global::MagiWol.Properties.Resources.mnuCopy_16;
             this.mnuCopy.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuCopy.Name = "mnuCopy";
-            this.mnuCopy.Size = new System.Drawing.Size(23, 24);
+            this.mnuCopy.Size = new System.Drawing.Size(24, 24);
             this.mnuCopy.Text = "Copy";
             this.mnuCopy.ToolTipText = "Copy (Ctrl+C)";
             this.mnuCopy.Click += new System.EventHandler(this.mnuCopy_Click);
@@ -219,7 +221,7 @@ namespace MagiWol {
             this.mnuPaste.Image = global::MagiWol.Properties.Resources.mnuPaste_16;
             this.mnuPaste.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuPaste.Name = "mnuPaste";
-            this.mnuPaste.Size = new System.Drawing.Size(23, 24);
+            this.mnuPaste.Size = new System.Drawing.Size(24, 24);
             this.mnuPaste.Text = "Paste";
             this.mnuPaste.ToolTipText = "Paste (Ctrl+V)";
             this.mnuPaste.Click += new System.EventHandler(this.mnuPaste_Click);
@@ -235,7 +237,7 @@ namespace MagiWol {
             this.mnuAdd.Image = global::MagiWol.Properties.Resources.mnuAdd_16;
             this.mnuAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuAdd.Name = "mnuAdd";
-            this.mnuAdd.Size = new System.Drawing.Size(23, 24);
+            this.mnuAdd.Size = new System.Drawing.Size(24, 24);
             this.mnuAdd.Text = "Add";
             this.mnuAdd.ToolTipText = "Add (Ins)";
             this.mnuAdd.Click += new System.EventHandler(this.mnuAdd_Click);
@@ -246,7 +248,7 @@ namespace MagiWol {
             this.mnuChange.Image = global::MagiWol.Properties.Resources.mnuEdit_16;
             this.mnuChange.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuChange.Name = "mnuChange";
-            this.mnuChange.Size = new System.Drawing.Size(23, 24);
+            this.mnuChange.Size = new System.Drawing.Size(24, 24);
             this.mnuChange.Tag = "mnuEdit";
             this.mnuChange.Text = "Change";
             this.mnuChange.ToolTipText = "Change (F4)";
@@ -258,7 +260,7 @@ namespace MagiWol {
             this.mnuRemove.Image = global::MagiWol.Properties.Resources.mnuSave_16;
             this.mnuRemove.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuRemove.Name = "mnuRemove";
-            this.mnuRemove.Size = new System.Drawing.Size(23, 24);
+            this.mnuRemove.Size = new System.Drawing.Size(24, 24);
             this.mnuRemove.Text = "Remove";
             this.mnuRemove.ToolTipText = "Remove (Del)";
             this.mnuRemove.Click += new System.EventHandler(this.mnuRemove_Click);
@@ -273,7 +275,7 @@ namespace MagiWol {
             this.mnuWake.Image = global::MagiWol.Properties.Resources.mnuWake_16;
             this.mnuWake.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuWake.Name = "mnuWake";
-            this.mnuWake.Size = new System.Drawing.Size(125, 24);
+            this.mnuWake.Size = new System.Drawing.Size(128, 24);
             this.mnuWake.Text = "Wake selected";
             this.mnuWake.ToolTipText = "Wake selected (F6)";
             this.mnuWake.Click += new System.EventHandler(this.mnuWake_Click);
@@ -283,7 +285,7 @@ namespace MagiWol {
             this.mnuWakeAll.Image = global::MagiWol.Properties.Resources.mnuWakeAll_16;
             this.mnuWakeAll.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuWakeAll.Name = "mnuWakeAll";
-            this.mnuWakeAll.Size = new System.Drawing.Size(86, 24);
+            this.mnuWakeAll.Size = new System.Drawing.Size(89, 24);
             this.mnuWakeAll.Text = "Wake all";
             this.mnuWakeAll.ToolTipText = "Wake all (Shift+F6)";
             this.mnuWakeAll.Click += new System.EventHandler(this.mnuWakeAll_Click);
@@ -302,44 +304,44 @@ namespace MagiWol {
             this.mnuApp.Image = global::MagiWol.Properties.Resources.mnuApp_16;
             this.mnuApp.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuApp.Name = "mnuApp";
-            this.mnuApp.Size = new System.Drawing.Size(29, 24);
+            this.mnuApp.Size = new System.Drawing.Size(34, 24);
             this.mnuApp.Text = "About";
             // 
             // mnuAppOptions
             // 
             this.mnuAppOptions.Name = "mnuAppOptions";
-            this.mnuAppOptions.Size = new System.Drawing.Size(200, 24);
+            this.mnuAppOptions.Size = new System.Drawing.Size(206, 26);
             this.mnuAppOptions.Text = "&Options";
             this.mnuAppOptions.Click += new System.EventHandler(this.mnuAppOptions_Click);
             // 
             // mnuApp0
             // 
             this.mnuApp0.Name = "mnuApp0";
-            this.mnuApp0.Size = new System.Drawing.Size(197, 6);
+            this.mnuApp0.Size = new System.Drawing.Size(203, 6);
             // 
             // mnuAppFeedback
             // 
             this.mnuAppFeedback.Name = "mnuAppFeedback";
-            this.mnuAppFeedback.Size = new System.Drawing.Size(200, 24);
+            this.mnuAppFeedback.Size = new System.Drawing.Size(206, 26);
             this.mnuAppFeedback.Text = "Send &feedback";
             this.mnuAppFeedback.Click += new System.EventHandler(this.mnuAppFeedback_Click);
             // 
             // mnuAppUpgrade
             // 
             this.mnuAppUpgrade.Name = "mnuAppUpgrade";
-            this.mnuAppUpgrade.Size = new System.Drawing.Size(200, 24);
+            this.mnuAppUpgrade.Size = new System.Drawing.Size(206, 26);
             this.mnuAppUpgrade.Text = "Check for &upgrade";
             this.mnuAppUpgrade.Click += new System.EventHandler(this.mnuAppUpgrade_Click);
             // 
             // mnuApp1
             // 
             this.mnuApp1.Name = "mnuApp1";
-            this.mnuApp1.Size = new System.Drawing.Size(197, 6);
+            this.mnuApp1.Size = new System.Drawing.Size(203, 6);
             // 
             // mnuAppAbout
             // 
             this.mnuAppAbout.Name = "mnuAppAbout";
-            this.mnuAppAbout.Size = new System.Drawing.Size(200, 24);
+            this.mnuAppAbout.Size = new System.Drawing.Size(206, 26);
             this.mnuAppAbout.Text = "&About";
             this.mnuAppAbout.Click += new System.EventHandler(this.mnuAppAbout_Click);
             // 
@@ -348,7 +350,7 @@ namespace MagiWol {
             this.mnuQuickWake.Image = global::MagiWol.Properties.Resources.mnuQuickWake_16;
             this.mnuQuickWake.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuQuickWake.Name = "mnuQuickWake";
-            this.mnuQuickWake.Size = new System.Drawing.Size(104, 24);
+            this.mnuQuickWake.Size = new System.Drawing.Size(108, 24);
             this.mnuQuickWake.Text = "Quick wake";
             this.mnuQuickWake.ToolTipText = "Quick wake (Ctrl+W)";
             this.mnuQuickWake.Click += new System.EventHandler(this.mnuQuickWake_Click);
@@ -397,6 +399,7 @@ namespace MagiWol {
             // 
             // mnxList
             // 
+            this.mnxList.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.mnxList.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnxListCut,
             this.mnxListCopy,
@@ -412,7 +415,7 @@ namespace MagiWol {
             this.toolStripMenuItem10,
             this.mnxListQuickWake});
             this.mnxList.Name = "mnxListAddress";
-            this.mnxList.Size = new System.Drawing.Size(210, 244);
+            this.mnxList.Size = new System.Drawing.Size(216, 262);
             this.mnxList.Opening += new System.ComponentModel.CancelEventHandler(this.mnxList_Opening);
             // 
             // mnxListCut
@@ -420,7 +423,7 @@ namespace MagiWol {
             this.mnxListCut.Image = global::MagiWol.Properties.Resources.mnuCut_16;
             this.mnxListCut.Name = "mnxListCut";
             this.mnxListCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.mnxListCut.Size = new System.Drawing.Size(209, 24);
+            this.mnxListCut.Size = new System.Drawing.Size(215, 26);
             this.mnxListCut.Tag = "mnuCut";
             this.mnxListCut.Text = "Cu&t";
             this.mnxListCut.Click += new System.EventHandler(this.mnuCut_Click);
@@ -430,7 +433,7 @@ namespace MagiWol {
             this.mnxListCopy.Image = global::MagiWol.Properties.Resources.mnuCopy_16;
             this.mnxListCopy.Name = "mnxListCopy";
             this.mnxListCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.mnxListCopy.Size = new System.Drawing.Size(209, 24);
+            this.mnxListCopy.Size = new System.Drawing.Size(215, 26);
             this.mnxListCopy.Tag = "mnuCopy";
             this.mnxListCopy.Text = "&Copy";
             this.mnxListCopy.Click += new System.EventHandler(this.mnuCopy_Click);
@@ -440,7 +443,7 @@ namespace MagiWol {
             this.mnxListPaste.Image = global::MagiWol.Properties.Resources.mnuPaste_16;
             this.mnxListPaste.Name = "mnxListPaste";
             this.mnxListPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.mnxListPaste.Size = new System.Drawing.Size(209, 24);
+            this.mnxListPaste.Size = new System.Drawing.Size(215, 26);
             this.mnxListPaste.Tag = "mnuPaste";
             this.mnxListPaste.Text = "&Paste";
             this.mnxListPaste.Click += new System.EventHandler(this.mnuPaste_Click);
@@ -448,27 +451,27 @@ namespace MagiWol {
             // toolStripMenuItem6
             // 
             this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-            this.toolStripMenuItem6.Size = new System.Drawing.Size(206, 6);
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(212, 6);
             // 
             // mnxListEditSelectAll
             // 
             this.mnxListEditSelectAll.Name = "mnxListEditSelectAll";
             this.mnxListEditSelectAll.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-            this.mnxListEditSelectAll.Size = new System.Drawing.Size(209, 24);
+            this.mnxListEditSelectAll.Size = new System.Drawing.Size(215, 26);
             this.mnxListEditSelectAll.Text = "&Select all";
             this.mnxListEditSelectAll.Click += new System.EventHandler(this.mnuSelectAll_Click);
             // 
             // toolStripMenuItem9
             // 
             this.toolStripMenuItem9.Name = "toolStripMenuItem9";
-            this.toolStripMenuItem9.Size = new System.Drawing.Size(206, 6);
+            this.toolStripMenuItem9.Size = new System.Drawing.Size(212, 6);
             // 
             // mnxListAdd
             // 
             this.mnxListAdd.Image = ((System.Drawing.Image)(resources.GetObject("mnxListAdd.Image")));
             this.mnxListAdd.Name = "mnxListAdd";
             this.mnxListAdd.ShortcutKeys = System.Windows.Forms.Keys.Insert;
-            this.mnxListAdd.Size = new System.Drawing.Size(209, 24);
+            this.mnxListAdd.Size = new System.Drawing.Size(215, 26);
             this.mnxListAdd.Tag = "mnuAdd";
             this.mnxListAdd.Text = "&Add";
             this.mnxListAdd.Click += new System.EventHandler(this.mnuAdd_Click);
@@ -478,7 +481,7 @@ namespace MagiWol {
             this.mnxListChange.Image = global::MagiWol.Properties.Resources.mnuEdit_16;
             this.mnxListChange.Name = "mnxListChange";
             this.mnxListChange.ShortcutKeys = System.Windows.Forms.Keys.F4;
-            this.mnxListChange.Size = new System.Drawing.Size(209, 24);
+            this.mnxListChange.Size = new System.Drawing.Size(215, 26);
             this.mnxListChange.Tag = "mnuEdit";
             this.mnxListChange.Text = "C&hange";
             this.mnxListChange.Click += new System.EventHandler(this.mnuChange_Click);
@@ -488,21 +491,21 @@ namespace MagiWol {
             this.mnxListRemove.Image = global::MagiWol.Properties.Resources.mnuRemove_16;
             this.mnxListRemove.Name = "mnxListRemove";
             this.mnxListRemove.ShortcutKeyDisplayString = "Del";
-            this.mnxListRemove.Size = new System.Drawing.Size(209, 24);
+            this.mnxListRemove.Size = new System.Drawing.Size(215, 26);
             this.mnxListRemove.Text = "&Remove";
             this.mnxListRemove.Click += new System.EventHandler(this.mnuRemove_Click);
             // 
             // toolStripMenuItem7
             // 
             this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-            this.toolStripMenuItem7.Size = new System.Drawing.Size(206, 6);
+            this.toolStripMenuItem7.Size = new System.Drawing.Size(212, 6);
             // 
             // mnxListActionWake
             // 
             this.mnxListActionWake.Image = global::MagiWol.Properties.Resources.mnuWake_16;
             this.mnxListActionWake.Name = "mnxListActionWake";
             this.mnxListActionWake.ShortcutKeys = System.Windows.Forms.Keys.F6;
-            this.mnxListActionWake.Size = new System.Drawing.Size(209, 24);
+            this.mnxListActionWake.Size = new System.Drawing.Size(215, 26);
             this.mnxListActionWake.Tag = "mnuWake";
             this.mnxListActionWake.Text = "&Wake selected";
             this.mnxListActionWake.Click += new System.EventHandler(this.mnuWake_Click);
@@ -510,13 +513,13 @@ namespace MagiWol {
             // toolStripMenuItem10
             // 
             this.toolStripMenuItem10.Name = "toolStripMenuItem10";
-            this.toolStripMenuItem10.Size = new System.Drawing.Size(206, 6);
+            this.toolStripMenuItem10.Size = new System.Drawing.Size(212, 6);
             // 
             // mnxListQuickWake
             // 
             this.mnxListQuickWake.Name = "mnxListQuickWake";
             this.mnxListQuickWake.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
-            this.mnxListQuickWake.Size = new System.Drawing.Size(209, 24);
+            this.mnxListQuickWake.Size = new System.Drawing.Size(215, 26);
             this.mnxListQuickWake.Text = "&Quick wake";
             this.mnxListQuickWake.Click += new System.EventHandler(this.mnxListQuickWake_Click);
             // 
@@ -529,6 +532,12 @@ namespace MagiWol {
             // tmrReSort
             // 
             this.tmrReSort.Tick += new System.EventHandler(this.tmrReSortAfterRename_Tick);
+            // 
+            // bwCheckForUpgrade
+            // 
+            this.bwCheckForUpgrade.WorkerSupportsCancellation = true;
+            this.bwCheckForUpgrade.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bwCheckForUpgrade_DoWork);
+            this.bwCheckForUpgrade.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bwCheckForUpgrade_RunWorkerCompleted);
             // 
             // MainForm
             // 
@@ -543,7 +552,9 @@ namespace MagiWol {
             this.Name = "MainForm";
             this.Text = "MagiWOL";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form_FormClosed);
             this.Load += new System.EventHandler(this.Form_Load);
+            this.Shown += new System.EventHandler(this.Form_Shown);
             this.mnu.ResumeLayout(false);
             this.mnu.PerformLayout();
             this.mnxList.ResumeLayout(false);
@@ -602,6 +613,7 @@ namespace MagiWol {
         private System.Windows.Forms.ToolStripMenuItem mnuOpen;
         private System.Windows.Forms.ToolStripMenuItem mnuAppOptions;
         private System.Windows.Forms.ToolStripSeparator mnuApp0;
+        private System.ComponentModel.BackgroundWorker bwCheckForUpgrade;
     }
 }
 

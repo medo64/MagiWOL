@@ -22,7 +22,7 @@ namespace MagiWol {
             this.Font = SystemFonts.MessageBoxFont;
 
             mnu.Renderer = new Helper.ToolStripBorderlessProfessionalRenderer();
-            Helper.UpdateToolstripImages(mnu, mnuOpenRoot.DropDown, mnuSaveRoot.DropDown, mnxList);
+            Helper.ScaleToolstrip(mnu, mnuOpenRoot.DropDown, mnuSaveRoot.DropDown, mnxList);
 
             Medo.Windows.Forms.TaskbarProgress.DefaultOwner = this;
             Medo.Windows.Forms.TaskbarProgress.DoNotThrowNotImplementedException = true;
@@ -173,6 +173,17 @@ namespace MagiWol {
             OpenFromCommandLineArgs();
             UpdateData(null);
         }
+
+        private void Form_FormClosed(object sender, FormClosedEventArgs e) {
+            bwCheckForUpgrade.CancelAsync();
+            Application.Exit();
+        }
+
+        private void Form_Shown(object sender, EventArgs e) {
+            var version = Assembly.GetExecutingAssembly().GetName().Version; //don't auto-check for development builds
+            if ((version.Major != 0) || (version.Minor != 0)) { bwCheckForUpgrade.RunWorkerAsync(); }
+        }
+
 
         private static ProcessStartInfo GetProcessStartInfo(string arguments) {
             var startInfo = new ProcessStartInfo();
@@ -635,6 +646,28 @@ namespace MagiWol {
             }
         }
 
-    }
+        private void bwCheckForUpgrade_DoWork(object sender, DoWorkEventArgs e) {
+            e.Cancel = true;
 
+            var sw = Stopwatch.StartNew();
+            while (sw.ElapsedMilliseconds < 3000) { //wait for three seconds
+                Thread.Sleep(100);
+                if (bwCheckForUpgrade.CancellationPending) { return; }
+            }
+
+            var file = Medo.Services.Upgrade.GetUpgradeFile(new Uri("https://medo64.com/upgrade/"));
+            if (file != null) {
+                if (bwCheckForUpgrade.CancellationPending) { return; }
+                e.Cancel = false;
+            }
+        }
+
+        private void bwCheckForUpgrade_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e) {
+            if (!e.Cancelled) {
+                Helper.ScaleToolstripItem(mnuApp, "mnuAppUpgrade");
+                mnuAppUpgrade.Text = "Upgrade is available";
+            }
+        }
+
+    }
 }
