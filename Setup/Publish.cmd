@@ -6,42 +6,40 @@ SET     FILE_SOLUTION="..\Source\MagiWol.sln"
 SET  FILES_EXECUTABLE="..\Binaries\MagiWol.exe" "..\Binaries\wol.exe"
 SET       FILES_OTHER="..\Binaries\ReadMe.txt" "..\Binaries\License.txt"
 
-SET    COMPILE_TOOL_1="%PROGRAMFILES(X86)%\Microsoft Visual Studio 14.0\Common7\IDE\devenv.exe"
-SET    COMPILE_TOOL_2="%PROGRAMFILES(X86)%\Microsoft Visual Studio 14.0\Common7\IDE\WDExpress.exe"
-SET    COMPILE_TOOL_3="%PROGRAMFILES(X86)%\Microsoft Visual Studio 12.0\Common7\IDE\devenv.exe"
-SET    COMPILE_TOOL_4="%PROGRAMFILES(X86)%\Microsoft Visual Studio 12.0\Common7\IDE\WDExpress.exe"
+SET   COMPILE_TOOL_15="%PROGRAMFILES(X86)%\Microsoft Visual Studio\2017\Community\Common7\IDE\devenv.exe"
+SET   COMPILE_TOOL_14="%PROGRAMFILES(X86)%\Microsoft Visual Studio 14.0\Common7\IDE\devenv.exe"
+SET  COMPILE_TOOL_14E="%PROGRAMFILES(X86)%\Microsoft Visual Studio 14.0\Common7\IDE\WDExpress.exe"
+
 SET        SETUP_TOOL="%PROGRAMFILES(x86)%\Inno Setup 5\iscc.exe"
 
-SET       SIGN_TOOL_1="%PROGRAMFILES(X86)%\Windows Kits\8.1\bin\x86\signtool.exe"
-SET       SIGN_TOOL_2="%PROGRAMFILES(X86)%\Windows Kits\8.0\bin\x86\signtool.exe"
+SET       SIGN_TOOL_1="%PROGRAMFILES(X86)%\Microsoft SDKs\ClickOnce\SignTool\signtool.exe"
+SET       SIGN_TOOL_2="%PROGRAMFILES(X86)%\Windows Kits\10\App Certification Kit\signtool.exe"
+SET       SIGN_TOOL_3="%PROGRAMFILES(X86)%\Windows Kits\10\bin\x86\signtool.exe"
 SET   SIGN_THUMBPRINT="df26e797ffaee47a40c1fab756e995d3763da968"
 SET SIGN_TIMESTAMPURL="http://timestamp.comodoca.com/rfc3161"
 
 SET        GIT_TOOL_1="%PROGRAMFILES%\Git\mingw64\bin\git.exe"
 
+SET          RAR_TOOL="%PROGRAMFILES%\WinRAR\WinRAR.exe"
+
 
 ECHO --- DISCOVER TOOLS
 ECHO.
 
-IF EXIST %COMPILE_TOOL_1% (
-    ECHO Visual Studio 2015
-    SET COMPILE_TOOL=%COMPILE_TOOL_1%
+IF EXIST %COMPILE_TOOL_15% (
+    ECHO Visual Studio 2017
+    SET COMPILE_TOOL=%COMPILE_TOOL_15%
 ) ELSE (
-    IF EXIST %COMPILE_TOOL_2% (
-        ECHO Visual Studio Express 2015
-        SET COMPILE_TOOL=%COMPILE_TOOL_2%
+    IF EXIST %COMPILE_TOOL_14% (
+        ECHO Visual Studio 2015
+        SET COMPILE_TOOL=%COMPILE_TOOL_14%
     ) ELSE (
-        IF EXIST %COMPILE_TOOL_3% (
-            ECHO Visual Studio 2012
-            SET COMPILE_TOOL=%COMPILE_TOOL_3%
+        IF EXIST %COMPILE_TOOL_14E% (
+            ECHO Visual Studio Express 2015
+            SET COMPILE_TOOL=%COMPILE_TOOL_14E%
         ) ELSE (
-            IF EXIST %COMPILE_TOOL_4% (
-                ECHO Visual Studio Express 2012
-                SET COMPILE_TOOL=%COMPILE_TOOL_4%
-            ) ELSE (
-                ECHO Cannot find Visual Studio^^!
-                PAUSE && EXIT /B 255
-            )
+            ECHO Cannot find Visual Studio^^!
+            PAUSE && EXIT /B 255
         )
     )
 )
@@ -54,15 +52,20 @@ IF EXIST %SETUP_TOOL% (
 )
 
 IF EXIST %SIGN_TOOL_1% (
-    ECHO Windows SignTool 8.1
+    ECHO Windows SignTool 10 ^(ClickOnce^)
     SET SIGN_TOOL=%SIGN_TOOL_1%
 ) ELSE (
     IF EXIST %SIGN_TOOL_2% (
-        ECHO Windows SignTool 8.0
+        ECHO Windows SignTool 10 ^(App Certification Kit^)
         SET SIGN_TOOL=%SIGN_TOOL_2%
     ) ELSE (
-        ECHO Cannot find Windows SignTool^^!
-        PAUSE && EXIT /B 255
+        IF EXIST %SIGN_TOOL_3% (
+            ECHO Windows SignTool 10 ^(SDK^)
+            SET SIGN_TOOL=%SIGN_TOOL_3%
+        ) ELSE (
+            ECHO Cannot find Windows SignTool^^!
+            PAUSE && EXIT /B 255
+        )
     )
 )
 
@@ -71,6 +74,10 @@ IF EXIST %GIT_TOOL_1% (
     SET GIT_TOOL=%GIT_TOOL_1%
 ) ELSE (
     GIT_TOOL="git"
+)
+
+IF NOT EXIST %RAR_TOOL% (
+    ECHO WinRAR not present^^!
 )
 
 ECHO.
@@ -86,9 +93,7 @@ IF NOT [%VERSION_HASH%]==[] (
     FOR /F "delims=" %%N IN ('%GIT_TOOL% rev-list --count HEAD') DO @SET VERSION_NUMBER=%%N%
     %GIT_TOOL% diff --exit-code --quiet
     IF ERRORLEVEL 1 SET VERSION_HASH=%VERSION_HASH%+
-)
-IF NOT [%VERSION_HASH%]==[] (
-    ECHO %VERSION_NUMBER%: %VERSION_HASH%
+    ECHO %VERSION_HASH%
 )
 
 ECHO.
@@ -189,10 +194,13 @@ ECHO.
 ECHO --- BUILD ZIP
 ECHO.
 
-SET _SETUPZIP=%_SETUPEXE:.exe=.zip%
-ECHO Zipping into %_SETUPZIP%
-"%PROGRAMFILES%\WinRAR\WinRAR.exe" a -afzip -ep -m5 ".\Temp\%_SETUPZIP%" %FILES_EXECUTABLE% %FILES_OTHER%
-IF ERRORLEVEL 1 PAUSE && EXIT /B %ERRORLEVEL%
+IF EXIST %RAR_TOOL% (
+    ECHO Zipping into %_SETUPEXE:.exe=.zip%
+    "%PROGRAMFILES%\WinRAR\WinRAR.exe" a -afzip -ep -m5 ".\Temp\%_SETUPEXE:.exe=.zip%" %FILES_EXECUTABLE% %FILES_OTHER%
+    IF ERRORLEVEL 1 PAUSE && EXIT /B %ERRORLEVEL%
+) ELSE (
+    ECHO No WinRAR
+)
 
 ECHO.
 ECHO.
