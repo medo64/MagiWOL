@@ -1,0 +1,8 @@
+Package:        MagiWOL
+Version:        MAJOR.MINOR
+Architecture:   all
+Maintainer:     Josip Medved <jmedved@jmedved.com>
+Description:    Sending Wake-on-LAN packets.
+Section:        net
+Priority:       optional
+Depends:        mono-complete (>=3)

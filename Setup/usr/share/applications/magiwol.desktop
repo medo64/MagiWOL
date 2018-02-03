@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=MagiWOL
+GenericName=Wake-on-LAN
+Comment=Sending wake-on-LAN packets.
+TryExec=/opt/magiwol/magiwol.exe
+Exec=/opt/magiwol/magiwol.exe %f
+Icon=magiwol
+Type=Application
+Categories=GTK;GNOME;Network;
+MimeType=application/x-magiwol

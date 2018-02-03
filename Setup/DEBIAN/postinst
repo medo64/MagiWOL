@@ -1,0 +1,4 @@
+#!/bin/bash
+
+chmod +x /opt/magiwol/magiwol.exe
+exit 0

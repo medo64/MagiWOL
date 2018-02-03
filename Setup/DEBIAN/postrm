@@ -1,0 +1,11 @@
+#!/bin/bash
+
+if [ "$1" == "remove" ]
+then
+    if [ -f "$HOME/.magiwol" ]
+    then
+        rm "$HOME/.magiwol"
+    fi
+fi
+
+exit 0
