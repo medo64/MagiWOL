@@ -2,7 +2,8 @@ Package:        MagiWOL
 Version:        MAJOR.MINOR
 Architecture:   all
 Maintainer:     Josip Medved <jmedved@jmedved.com>
+Homepage:       https://www.medo64.com/magiwol/
 Description:    Sending Wake-on-LAN packets.
 Section:        net
 Priority:       optional
-Depends:        mono-complete (>=3)
+Depends:        mono-complete (>=4.2), gnupg2

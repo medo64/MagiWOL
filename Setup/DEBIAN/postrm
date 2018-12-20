@@ -2,6 +2,11 @@
 
 if [ "$1" == "remove" ]
 then
+    if [ -f "/usr/bin/magiwol" ]
+    then
+        rm "/usr/bin/magiwol"
+    fi
+
     if [ -f "$HOME/.magiwol" ]
     then
         rm "$HOME/.magiwol"

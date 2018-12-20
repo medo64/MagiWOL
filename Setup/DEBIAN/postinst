@@ -1,6 +1,7 @@
 #!/bin/bash
 
 chmod +x /opt/magiwol/magiwol.exe
+ln -s /opt/magiwol/magiwol.exe /usr/bin/magiwol
 
 echo "deb [arch=all] https://medo64.com/repositories/deb stable main" > /etc/apt/sources.list.d/medo64.list
 echo "-----BEGIN PGP PUBLIC KEY BLOCK-----
