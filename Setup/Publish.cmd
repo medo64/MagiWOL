@@ -15,7 +15,7 @@ SET        SETUP_TOOL="%PROGRAMFILES(x86)%\Inno Setup 5\iscc.exe"
 SET       SIGN_TOOL_1="%PROGRAMFILES(X86)%\Microsoft SDKs\ClickOnce\SignTool\signtool.exe"
 SET       SIGN_TOOL_2="%PROGRAMFILES(X86)%\Windows Kits\10\App Certification Kit\signtool.exe"
 SET       SIGN_TOOL_3="%PROGRAMFILES(X86)%\Windows Kits\10\bin\x86\signtool.exe"
-SET   SIGN_THUMBPRINT="df26e797ffaee47a40c1fab756e995d3763da968"
+SET   SIGN_THUMBPRINT="026184de8dbf52fdcbae75fd6b1a7d9ce4310e5d"
 SET SIGN_TIMESTAMPURL="http://timestamp.comodoca.com/rfc3161"
 
 SET        GIT_TOOL_1="%PROGRAMFILES%\Git\mingw64\bin\git.exe"
