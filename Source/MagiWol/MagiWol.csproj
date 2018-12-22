@@ -77,7 +77,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -85,14 +84,15 @@
   <ItemGroup>
     <Compile Include="%28Medo%29\AboutBox [013].cs" />
     <Compile Include="%28Medo%29\Args [002].cs" />
+    <Compile Include="%28Medo%29\Config [006].cs" />
     <Compile Include="%28Medo%29\EntryAssembly [003].cs" />
     <Compile Include="%28Medo%29\ErrorReport [019].cs" />
     <Compile Include="%28Medo%29\MessageBox [007].cs" />
     <Compile Include="%28Medo%29\MovingAverage [006].cs" />
     <Compile Include="%28Medo%29\NumberDeclination [001].cs" />
-    <Compile Include="%28Medo%29\RecentFiles [005].cs" />
-    <Compile Include="%28Medo%29\Settings [012].cs" />
-    <Compile Include="%28Medo%29\State [015x].cs" />
+    <Compile Include="%28Medo%29\RecentFiles [---].cs" />
+    <Compile Include="%28Medo%29\RecentlyUsed [001].cs" />
+    <Compile Include="%28Medo%29\State [016].cs" />
     <Compile Include="%28Medo%29\StringAdder [002].cs" />
     <Compile Include="%28Medo%29\TaskbarProgress [003].cs" />
     <Compile Include="%28Medo%29\UnhandledCatch [008].cs" />

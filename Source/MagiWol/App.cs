@@ -1,13 +1,17 @@
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Threading;
 using System.Windows.Forms;
+using Medo.Configuration;
 
 namespace MagiWol {
     internal static class App {
+
+        public static RecentlyUsed Recent;
 
         [STAThread]
         static void Main() {
@@ -18,15 +22,39 @@ namespace MagiWol {
 
                 System.Windows.Forms.Application.EnableVisualStyles();
                 System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
-                System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(Medo.Configuration.Settings.Read("CultureName", "en-US"));
+                System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(Config.Read("CultureName", "en-US"));
 
                 Medo.Application.UnhandledCatch.ThreadException += new EventHandler<ThreadExceptionEventArgs>(UnhandledCatch_ThreadException);
                 Medo.Application.UnhandledCatch.Attach();
 
-                Medo.Configuration.Settings.NoRegistryWrites = Settings.NoRegistryWrites;
-                Medo.Configuration.RecentFiles.NoRegistryWrites = Settings.NoRegistryWrites;
-                Medo.Windows.Forms.State.NoRegistryWrites = Settings.NoRegistryWrites;
-                Medo.Diagnostics.ErrorReport.DisableAutomaticSaveToTemp = Settings.NoRegistryWrites;
+                Medo.Diagnostics.ErrorReport.DisableAutomaticSaveToTemp = !Config.IsAssumedInstalled;
+
+#pragma warning disable CS0618 // Type or member is obsolete
+                var recentLegacy = new RecentFiles();
+#pragma warning restore CS0618 // Type or member is obsolete
+                if (recentLegacy.Count > 0) {
+                    var fileList = new List<string>();
+                    foreach (var item in recentLegacy.Items) {
+                        fileList.Add(item.FileName);
+                    }
+                    Recent = new RecentlyUsed(fileList);
+                    Config.Write("RecentFile", Recent.FileNames);
+                    recentLegacy.Clear();
+                } else {
+                    Recent = new RecentlyUsed(Config.Read("RecentFile"));
+                }
+                Recent.Changed += (o, i) => {
+                    Config.Write("RecentFile", Recent.FileNames);
+                };
+
+                if (!Config.IsAssumedInstalled) {
+                    Medo.Windows.Forms.State.ReadState += delegate (object sender, Medo.Windows.Forms.StateReadEventArgs e) {
+                        e.Value = Config.Read("State!" + e.Name.Replace("Bimil.", ""), e.DefaultValue);
+                    };
+                    Medo.Windows.Forms.State.WriteState += delegate (object sender, Medo.Windows.Forms.StateWriteEventArgs e) {
+                        Config.Write("State!" + e.Name.Replace("Bimil.", ""), e.Value);
+                    };
+                }
 
                 if (!((Environment.OSVersion.Version.Build < 7000) || (App.IsRunningOnMono))) {
                     var appId = Assembly.GetExecutingAssembly().Location;

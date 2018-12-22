@@ -1,13 +1,16 @@
-//Copyright (c) 2009 Josip Medved <jmedved@jmedved.com>
+/* Josip Medved <jmedved@jmedved.com> * www.medo64.com * MIT License */
 
-//2009-05-23: New version.
-//2009-07-04: Compatibility with Mono 2.4.
-//2010-10-31: Added option to skip registry writes (NoRegistryWrites).
-//2012-05-31: Refactoring.
+//2017-04-29: Obsoleted.
+//2016-03-24: Added IEnumerable interface.
 //2012-08-20: Fixed crash when HideFileExt cannot be found in registry.
+//2012-05-31: Refactoring.
+//2010-10-31: Added option to skip registry writes (NoRegistryWrites).
+//2009-07-04: Compatibility with Mono 2.4.
+//2009-05-23: New version.
 
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -21,7 +24,9 @@ namespace Medo.Configuration {
     /// Enables loading and saving of files list.
     /// It is written in State key at HKEY_CURRENT_USER branch withing defined SubKeyPath.
     /// </summary>
-    public class RecentFiles {
+    [Obsolete("Use RecentlyUsed in combination with Config instead.")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "While this class offers IEnumerable interface, it is not a collection as such.")]
+    public class RecentFiles : IEnumerable<RecentFile> {
 
         /// <summary>
         /// Creates new instance with "Default" as group name and maximum of 16 files.
@@ -70,16 +75,16 @@ namespace Medo.Configuration {
             if (!string.IsNullOrEmpty(company)) { basePath += "\\" + company; }
             if (!string.IsNullOrEmpty(product)) { basePath += "\\" + product; }
 
-            this.SubkeyPath = basePath + "\\RecentFiles";
+            SubkeyPath = basePath + "\\RecentFiles";
 
-            this.MaximumCount = maximumCount;
+            MaximumCount = maximumCount;
             if (string.IsNullOrEmpty(groupName)) {
-                this.GroupName = "Default";
+                GroupName = "Default";
             } else {
-                this.GroupName = groupName;
+                GroupName = groupName;
             }
 
-            this.Load();
+            Load();
         }
 
         /// <summary>
@@ -96,7 +101,7 @@ namespace Medo.Configuration {
         /// Gets number of file names.
         /// </summary>
         public int Count {
-            get { return this._items.Count; }
+            get { return _items.Count; }
         }
 
         /// <summary>
@@ -112,7 +117,7 @@ namespace Medo.Configuration {
         /// </summary>
         /// <param name="index">Index.</param>
         public RecentFile this[int index] {
-            get { return this._items[index]; }
+            get { return _items[index]; }
         }
 
         /// <summary>
@@ -120,7 +125,7 @@ namespace Medo.Configuration {
         /// </summary>
         [Obsolete("Use Items property instead.")]
         public ReadOnlyCollection<RecentFile> AsReadOnly() {
-            return this._items.AsReadOnly();
+            return _items.AsReadOnly();
         }
 
         /// <summary>
@@ -128,7 +133,7 @@ namespace Medo.Configuration {
         /// </summary>
         public IEnumerable<RecentFile> Items {
             get {
-                foreach (var item in this._items) {
+                foreach (var item in _items) {
                     yield return item;
                 }
             }
@@ -146,11 +151,11 @@ namespace Medo.Configuration {
 
                 for (int i = _items.Count - 1; i >= 1; --i) { //remove duplicate of it
                     if (_items[i].Equals(fileName)) {
-                        this._items.RemoveAt(i);
+                        _items.RemoveAt(i);
                     }
                 }
 
-                this.Save();
+                Save();
             }
         }
 
@@ -162,10 +167,10 @@ namespace Medo.Configuration {
         public void Remove(string fileName) {
             for (int i = _items.Count - 1; i >= 0; --i) {
                 if (_items[i].Equals(fileName)) {
-                    this._items.RemoveAt(i);
+                    _items.RemoveAt(i);
                 }
             }
-            this.Save();
+            Save();
         }
 
         /// <summary>
@@ -173,8 +178,8 @@ namespace Medo.Configuration {
         /// All changes are immediately saved.
         /// </summary>
         public void Clear() {
-            this._items.Clear();
-            this.Save();
+            _items.Clear();
+            Save();
         }
 
 
@@ -182,17 +187,16 @@ namespace Medo.Configuration {
         /// Reloads file list from registry.
         /// </summary>
         public void Load() {
-            this._items.Clear();
+            _items.Clear();
             try {
-                using (var rk = Registry.CurrentUser.OpenSubKey(this.SubkeyPath, false)) {
+                using (var rk = Registry.CurrentUser.OpenSubKey(SubkeyPath, false)) {
                     if (rk != null) {
-                        object valueCU = rk.GetValue(this.GroupName, null);
+                        object valueCU = rk.GetValue(GroupName, null);
                         if (valueCU != null) {
                             var valueKind = RegistryValueKind.MultiString;
-                            if (!RecentFiles.IsRunningOnMono) { valueKind = rk.GetValueKind(this.GroupName); }
+                            if (!RecentFiles.IsRunningOnMono) { valueKind = rk.GetValueKind(GroupName); }
                             if (valueKind == RegistryValueKind.MultiString) {
-                                string[] valueArr = valueCU as string[];
-                                if (valueArr != null) {
+                                if (valueCU is string[] valueArr) {
                                     for (int i = 0; i < valueArr.Length; ++i) {
                                         if (!string.IsNullOrEmpty(valueArr[i])) {
                                             var item = RecentFile.GetRecentFile(valueArr[i]);
@@ -214,20 +218,19 @@ namespace Medo.Configuration {
         /// This is automaticaly done on each insert.
         /// </summary>
         public void Save() {
-            if (this._items.Count > this.MaximumCount) { this._items.RemoveRange(this.MaximumCount, this._items.Count - this.MaximumCount); }
+            if (_items.Count > MaximumCount) { _items.RemoveRange(MaximumCount, _items.Count - MaximumCount); }
 
-            string[] fileNames = new string[this._items.Count];
-            for (int i = 0; i < this._items.Count; ++i) {
-                fileNames[i] = this._items[i].FileName;
+            string[] fileNames = new string[_items.Count];
+            for (int i = 0; i < _items.Count; ++i) {
+                fileNames[i] = _items[i].FileName;
             }
 
             if (RecentFiles.NoRegistryWrites == false) {
-                using (RegistryKey rk = Registry.CurrentUser.CreateSubKey(this.SubkeyPath)) {
-                    rk.SetValue(this.GroupName, fileNames, RegistryValueKind.MultiString);
+                using (RegistryKey rk = Registry.CurrentUser.CreateSubKey(SubkeyPath)) {
+                    rk.SetValue(GroupName, fileNames, RegistryValueKind.MultiString);
                 }
             }
         }
-
 
 
         /// <summary>
@@ -241,6 +244,23 @@ namespace Medo.Configuration {
             }
         }
 
+
+        #region IEnumerable
+
+        /// <summary>
+        /// Returns an IEnumerator for the recent files.
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerator<RecentFile> GetEnumerator() {
+            return Items.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() {
+            return Items.GetEnumerator();
+        }
+
+        #endregion
+
     }
 
 
@@ -251,8 +271,8 @@ namespace Medo.Configuration {
     public class RecentFile {
 
         private RecentFile(string fileName, string title) {
-            this.FileName = fileName;
-            this.Title = title;
+            FileName = fileName;
+            Title = title;
         }
 
         /// <summary>
@@ -270,13 +290,11 @@ namespace Medo.Configuration {
         /// </summary>
         /// <param name="obj">The object to compare with the current object.</param>
         public override bool Equals(object obj) {
-            var other = obj as RecentFile;
-            if (other != null) {
-                return string.Equals(this.FileName, other.FileName, StringComparison.OrdinalIgnoreCase);
+            if (obj is RecentFile other) {
+                return string.Equals(FileName, other.FileName, StringComparison.OrdinalIgnoreCase);
             }
-            var otherString = obj as string;
-            if (otherString != null) {
-                return string.Equals(this.FileName, otherString, StringComparison.OrdinalIgnoreCase);
+            if (obj is string otherString) {
+                return string.Equals(FileName, otherString, StringComparison.OrdinalIgnoreCase);
             }
             return false;
         }
@@ -285,14 +303,14 @@ namespace Medo.Configuration {
         /// Serves as a hash function for a particular type.
         /// </summary>
         public override int GetHashCode() {
-            return this.FileName.GetHashCode();
+            return FileName.GetHashCode();
         }
 
         /// <summary>
         /// Returns a System.String that represents the current object.
         /// </summary>
         public override string ToString() {
-            return this.Title;
+            return Title;
         }
 
 

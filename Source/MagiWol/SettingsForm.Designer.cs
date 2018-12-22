@@ -1,4 +1,4 @@
-﻿namespace MagiWol {
+namespace MagiWol {
     partial class SettingsForm {
         /// <summary>
         /// Required designer variable.
@@ -46,7 +46,6 @@
             this.chbSecureOn = new System.Windows.Forms.CheckBox();
             this.chbMac = new System.Windows.Forms.CheckBox();
             this.chbTitle = new System.Windows.Forms.CheckBox();
-            this.btnAllowRegistryWrites = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.erp)).BeginInit();
             this.tabs.SuspendLayout();
             this.tabs_pagPacket.SuspendLayout();
@@ -286,18 +285,6 @@
             this.chbTitle.Text = "Name";
             this.chbTitle.UseVisualStyleBackColor = true;
             // 
-            // btnAllowRegistryWrites
-            // 
-            this.btnAllowRegistryWrites.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnAllowRegistryWrites.Location = new System.Drawing.Point(12, 226);
-            this.btnAllowRegistryWrites.Margin = new System.Windows.Forms.Padding(3, 15, 3, 3);
-            this.btnAllowRegistryWrites.Name = "btnAllowRegistryWrites";
-            this.btnAllowRegistryWrites.Size = new System.Drawing.Size(100, 28);
-            this.btnAllowRegistryWrites.TabIndex = 2;
-            this.btnAllowRegistryWrites.Text = "Allow save";
-            this.btnAllowRegistryWrites.UseVisualStyleBackColor = true;
-            this.btnAllowRegistryWrites.Click += new System.EventHandler(this.btnAllowRegistryWrites_Click);
-            // 
             // SettingsForm
             // 
             this.AcceptButton = this.buttonOk;
@@ -305,7 +292,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
             this.ClientSize = new System.Drawing.Size(394, 266);
-            this.Controls.Add(this.btnAllowRegistryWrites);
             this.Controls.Add(this.tabs);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonOk);
@@ -350,7 +336,6 @@
         private System.Windows.Forms.CheckBox checkProtocolIPv6;
         private System.Windows.Forms.Label labelProtocol;
         private System.Windows.Forms.CheckBox checkProtocolIPv4;
-        private System.Windows.Forms.Button btnAllowRegistryWrites;
         private System.Windows.Forms.Label labelBroadcastAddress;
     }
 }

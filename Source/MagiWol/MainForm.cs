@@ -14,7 +14,6 @@ namespace MagiWol {
     internal partial class MainForm : Form {
 
         private MagiWolDocument.DocumentEx Document;
-        private Medo.Configuration.RecentFiles Recent;
 
 
         public MainForm() {
@@ -27,12 +26,7 @@ namespace MagiWol {
             Medo.Windows.Forms.TaskbarProgress.DefaultOwner = this;
             Medo.Windows.Forms.TaskbarProgress.DoNotThrowNotImplementedException = true;
 
-            if (Settings.IsInstalled == false) {
-                mnuImport0.Visible = false;
-            }
-
             this.Document = new MagiWolDocument.DocumentEx();
-            this.Recent = new Medo.Configuration.RecentFiles();
 
             list.ListViewItemSorter = _listColumnSorter;
             this._listColumnSorter.SortColumn = 0;
@@ -208,8 +202,8 @@ namespace MagiWol {
                 if (mnuOpenRoot.DropDownItems[i].Tag == null) { break; }
                 mnuOpenRoot.DropDownItems.RemoveAt(i);
             }
-            mnuImport0.Visible = (this.Recent.Count > 0);
-            foreach (var iRecentFile in this.Recent.Items) {
+            mnuImport0.Visible = (App.Recent.Count > 0);
+            foreach (var iRecentFile in App.Recent.Files) {
                 var item = new ToolStripMenuItem(iRecentFile.Title);
                 item.Tag = iRecentFile;
                 item.Click += new EventHandler(recentItem_Click);
@@ -223,7 +217,7 @@ namespace MagiWol {
             if (ProceedWithNewDocument()) {
                 try {
                     Document = MagiWolDocument.DocumentEx.Open(recentItem.FileName);
-                    Recent.Push(recentItem.FileName);
+                    App.Recent.Push(recentItem.FileName);
                 } catch (Exception ex) {
                     var exFile = new FileInfo(recentItem.FileName);
                     Medo.MessageBox.ShowError(this, string.Format("Cannot open \"{0}\".\n\n{1}", exFile.Name, ex.Message));
@@ -256,7 +250,6 @@ namespace MagiWol {
                 e.Cancel = true;
                 return;
             }
-            this.Recent.Save();
         }
 
 
@@ -282,7 +275,7 @@ namespace MagiWol {
                     if (dialog.ShowDialog(this) == DialogResult.OK) {
                         try {
                             Document = MagiWolDocument.DocumentEx.Open(dialog.FileName);
-                            Recent.Push(dialog.FileName);
+                            App.Recent.Push(dialog.FileName);
                         } catch (Exception ex) {
                             var exFile = new FileInfo(dialog.FileName);
                             Medo.MessageBox.ShowError(this, string.Format("Cannot open \"{0}\".\n\n{1}", exFile.Name, ex.Message));
@@ -327,7 +320,7 @@ namespace MagiWol {
                 }
             }
             if (this.Document.FileName != null) {
-                Recent.Push(this.Document.FileName);
+                App.Recent.Push(this.Document.FileName);
             }
             UpdateData(null);
         }
@@ -343,7 +336,7 @@ namespace MagiWol {
                     try {
                         this.Document.Save(dialog.FileName);
                         if (this.Document.FileName != null) {
-                            Recent.Push(this.Document.FileName);
+                            App.Recent.Push(this.Document.FileName);
                         }
                     } catch (Exception ex) {
                         var exFile = new FileInfo(dialog.FileName);
@@ -627,7 +620,7 @@ namespace MagiWol {
                 iFile = new FileInfo(filesToOpen[i]);
                 try {
                     Document = MagiWolDocument.DocumentEx.Open(iFile.FullName);
-                    Recent.Push(iFile.FullName);
+                    App.Recent.Push(iFile.FullName);
 
                     //send all other files to second instances
                     for (int j = i + 1; j < filesToOpen.Length; ++j) {

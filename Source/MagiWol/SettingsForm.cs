@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -18,8 +18,6 @@ namespace MagiWol {
                 erp.SetIconPadding(iControl, 4);
                 erp.SetIconAlignment(iControl, ErrorIconAlignment.MiddleLeft);
             }
-
-            SetWritableState(!Settings.NoRegistryWrites);
         }
 
 
@@ -140,22 +138,6 @@ namespace MagiWol {
         private void buttonDefault_Click(object sender, EventArgs e) {
             textBroadcastAddress.Text = Settings.DefaultBroadcastHost;
             textBroadcastPort.Text = Settings.DefaultBroadcastPort.ToString();
-        }
-
-        private void btnAllowRegistryWrites_Click(object sender, EventArgs e) {
-            if (Medo.MessageBox.ShowQuestion(this, "Do you allow this program use of registry in order to save its settings?", MessageBoxButtons.YesNo) == DialogResult.Yes) {
-                btnAllowRegistryWrites.Visible = false;
-                Settings.NoRegistryWrites = false;
-                SetWritableState(true);
-            }
-        }
-
-
-        private void SetWritableState(bool newState) {
-            btnAllowRegistryWrites.Visible = !newState;
-
-            buttonOk.Enabled = newState;
-            foreach (Control control in tabs.Controls) { control.Enabled = newState; }
         }
 
     }
