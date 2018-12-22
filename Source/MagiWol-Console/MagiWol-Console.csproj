@@ -74,8 +74,12 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="%28Medo%29\Args [002].cs" />
-    <Compile Include="%28Medo%29\WakeOnLan [006].cs" />
+    <Compile Include="..\MagiWol\%28Medo%29\Args [002].cs">
+      <Link>%28Medo%29\Args [002].cs</Link>
+    </Compile>
+    <Compile Include="..\MagiWol\%28Medo%29\WakeOnLan [006].cs">
+      <Link>%28Medo%29\WakeOnLan [006].cs</Link>
+    </Compile>
     <Compile Include="..\MagiWol\Properties\SolutionInfo.cs">
       <Link>Properties\SolutionInfo.cs</Link>
     </Compile>
