@@ -13,7 +13,7 @@ namespace MagiWol {
 
     internal partial class MainForm : Form {
 
-        private MagiWolDocument.Document Document;
+        private MagiWolDocument.DocumentEx Document;
         private Medo.Configuration.RecentFiles Recent;
 
 
@@ -31,7 +31,7 @@ namespace MagiWol {
                 mnuImport0.Visible = false;
             }
 
-            this.Document = new MagiWolDocument.Document();
+            this.Document = new MagiWolDocument.DocumentEx();
             this.Recent = new Medo.Configuration.RecentFiles();
 
             list.ListViewItemSorter = _listColumnSorter;
@@ -222,7 +222,7 @@ namespace MagiWol {
             var recentItem = (Medo.Configuration.RecentFile)item.Tag;
             if (ProceedWithNewDocument()) {
                 try {
-                    Document = MagiWolDocument.Document.Open(recentItem.FileName);
+                    Document = MagiWolDocument.DocumentEx.Open(recentItem.FileName);
                     Recent.Push(recentItem.FileName);
                 } catch (Exception ex) {
                     var exFile = new FileInfo(recentItem.FileName);
@@ -264,7 +264,7 @@ namespace MagiWol {
 
         private void mnuNew_Click(object sender, EventArgs e) {
             if (ProceedWithNewDocument()) {
-                Document = new MagiWolDocument.Document();
+                Document = new MagiWolDocument.DocumentEx();
                 UpdateData(null);
             }
         }
@@ -281,7 +281,7 @@ namespace MagiWol {
                     dialog.ShowReadOnly = false;
                     if (dialog.ShowDialog(this) == DialogResult.OK) {
                         try {
-                            Document = MagiWolDocument.Document.Open(dialog.FileName);
+                            Document = MagiWolDocument.DocumentEx.Open(dialog.FileName);
                             Recent.Push(dialog.FileName);
                         } catch (Exception ex) {
                             var exFile = new FileInfo(dialog.FileName);
@@ -626,7 +626,7 @@ namespace MagiWol {
             for (int i = 0; i < filesToOpen.Length; ++i) {
                 iFile = new FileInfo(filesToOpen[i]);
                 try {
-                    Document = MagiWolDocument.Document.Open(iFile.FullName);
+                    Document = MagiWolDocument.DocumentEx.Open(iFile.FullName);
                     Recent.Push(iFile.FullName);
 
                     //send all other files to second instances

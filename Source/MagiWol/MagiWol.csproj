@@ -122,6 +122,7 @@
     <Compile Include="ListViewColumnSorter.cs" />
     <Compile Include="Magic.cs" />
     <Compile Include="MagiWolDocument\Address.cs" />
+    <Compile Include="MagiWolDocument\DocumentEx.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
