@@ -72,16 +72,35 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\MagiWol\%28Medo%29\Args [002].cs">
       <Link>%28Medo%29\Args [002].cs</Link>
     </Compile>
+    <Compile Include="..\MagiWol\%28Medo%29\Config [006].cs">
+      <Link>%28Medo%29\Config [006].cs</Link>
+    </Compile>
+    <Compile Include="..\MagiWol\%28Medo%29\StringAdder [002].cs">
+      <Link>%28Medo%29\StringAdder [002].cs</Link>
+    </Compile>
     <Compile Include="..\MagiWol\%28Medo%29\WakeOnLan [006].cs">
       <Link>%28Medo%29\WakeOnLan [006].cs</Link>
     </Compile>
+    <Compile Include="..\MagiWol\%28Medo%29\XmlTagWriter [002].cs">
+      <Link>%28Medo%29\XmlTagWriter [002].cs</Link>
+    </Compile>
+    <Compile Include="..\MagiWol\MagiWolDocument\Address.cs">
+      <Link>MagiWolDocument\Address.cs</Link>
+    </Compile>
+    <Compile Include="..\MagiWol\MagiWolDocument\Document.cs">
+      <Link>MagiWolDocument\Document.cs</Link>
+    </Compile>
     <Compile Include="..\MagiWol\Properties\SolutionInfo.cs">
       <Link>Properties\SolutionInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\MagiWol\Settings.cs">
+      <Link>Settings.cs</Link>
     </Compile>
     <Compile Include="App.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

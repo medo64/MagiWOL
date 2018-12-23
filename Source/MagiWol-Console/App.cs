@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using MagiWol.MagiWolDocument;
 
 namespace MagiWolConsole {
     internal static class App {
@@ -16,19 +17,23 @@ namespace MagiWolConsole {
                 switch (iKey.ToUpperInvariant()) {
                     case "HELP": {
                             if (showHelpWritter == null) { showHelpWritter = Console.Out; }
-                        } break;
+                        }
+                        break;
 
                     case "IPV6": {
                             useIPv6 = true;
-                        } break;
+                        }
+                        break;
 
-                    case "WAKE": break;
+                    case "WAKE":
+                        break;
 
                     default: {
                             Console.Error.WriteLine(string.Format(CultureInfo.CurrentCulture, "Argument \"{0}\" is not recognized.", iKey));
                             Console.Error.WriteLine();
                             showHelpWritter = Console.Error;
-                        } break;
+                        }
+                        break;
                 }
             }
 
@@ -38,27 +43,54 @@ namespace MagiWolConsole {
             }
 
             var addrs = new List<string>();
-            addrs.AddRange(Medo.Application.Args.Current.GetValues(""));
-            addrs.AddRange(Medo.Application.Args.Current.GetValues("wake"));
-            foreach (var iMacAddr in addrs) {
-                if (!string.IsNullOrEmpty(iMacAddr)) {
-                    if (Medo.Net.WakeOnLan.IsMacAddressValid(iMacAddr)) {
-                        if (useIPv6) {
+
+            var inputs = new List<string>();
+            inputs.AddRange(Medo.Application.Args.Current.GetValues(""));
+            inputs.AddRange(Medo.Application.Args.Current.GetValues("wake"));
+            foreach (var input in inputs) {
+                if (!string.IsNullOrWhiteSpace(input)) {
+                    if (Medo.Net.WakeOnLan.IsMacAddressValid(input)) {
+                        addrs.Add(input);
+                    } else {
+                        if (File.Exists(input)) {
                             try {
-                                Medo.Net.WakeOnLan.SendMagicPacketIPv6(iMacAddr);
-                            } catch (InvalidOperationException ex) {
-                                Console.Error.WriteLine(string.Format(CultureInfo.CurrentCulture, "{0}  {1}", iMacAddr.PadRight(6 * 2 + 5), ex.Message));
+                                var doc = Document.Open(input);
+                                foreach (var addr in doc.Addresses) {
+                                    addrs.Add(addr.Mac);
+                                }
+                            } catch (Exception ex) {
+                                Console.Error.WriteLine(string.Format(CultureInfo.CurrentCulture, "Cannot read file {0}: {1}", input, ex.Message));
                             }
                         } else {
-                            Medo.Net.WakeOnLan.SendMagicPacket(iMacAddr);
+                            Console.Error.WriteLine(string.Format(CultureInfo.CurrentCulture, "Invalid MAC address {0}", input));
                         }
-                        Console.WriteLine(string.Format(CultureInfo.CurrentCulture, "{0}  Wake-on-LAN message sent.", iMacAddr.PadRight(6 * 2 + 5)));
-                    } else {
-                        Console.Error.WriteLine(string.Format(CultureInfo.CurrentCulture, "{0}  Invalid MAC address.", iMacAddr.PadRight(6 * 2 + 5)));
                     }
                 }
             }
 
+            foreach (var iMacAddr in addrs) {
+                if (!string.IsNullOrEmpty(iMacAddr)) {
+                    if (useIPv6) {
+                        try {
+                            Medo.Net.WakeOnLan.SendMagicPacketIPv6(iMacAddr);
+                            Console.WriteLine(string.Format(CultureInfo.CurrentCulture, "{0}  IPv6 wake-on-LAN message sent", iMacAddr.PadRight(6 * 2 + 5)));
+                        } catch (InvalidOperationException ex) {
+                            Console.Error.WriteLine(string.Format(CultureInfo.CurrentCulture, "{0}  {1}", iMacAddr.PadRight(6 * 2 + 5), ex.Message));
+                        }
+                    } else {
+                        try {
+                            Medo.Net.WakeOnLan.SendMagicPacket(iMacAddr);
+                            Console.WriteLine(string.Format(CultureInfo.CurrentCulture, "{0}  IPv4 wake-on-LAN message sent", iMacAddr.PadRight(6 * 2 + 5)));
+                        } catch (InvalidOperationException ex) {
+                            Console.Error.WriteLine(string.Format(CultureInfo.CurrentCulture, "{0}  {1}", iMacAddr.PadRight(6 * 2 + 5), ex.Message));
+                        }
+                    }
+                }
+            }
+
+#if DEBUG
+            Console.ReadKey();
+#endif
         }
 
         private static void ShowHelp(TextWriter output) {

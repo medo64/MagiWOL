@@ -10,6 +10,7 @@ namespace MagiWol.MagiWolDocument {
     internal class Document {
 
         protected List<Address> _addresses = new List<Address>();
+        public IEnumerable<Address> Addresses { get { return this._addresses; } }
 
         internal Document() {
         }
