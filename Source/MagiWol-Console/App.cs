@@ -96,10 +96,11 @@ namespace MagiWolConsole {
         private static void ShowHelp(TextWriter output) {
             output.WriteLine(@"Sends Wake-on-LAN packet to computers on network.");
             output.WriteLine(@"");
-            output.WriteLine(@"MAGIWOL [/ipv6] [/wake:""address1 address2 ... addressN""]");
+            output.WriteLine(@"MAGIWOL [/ipv6] [/wake:""address1 address2 ... addressN""] [file]");
             output.WriteLine(@"");
             output.WriteLine(@"  /wake       Wakes computers based on given list of MAC addresses.");
             output.WriteLine(@"  /ipv6       Uses IPv6 for wake-on-lan packages.");
+            output.WriteLine(@"  file        File to read.");
         }
 
     }
