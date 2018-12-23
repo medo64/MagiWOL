@@ -492,6 +492,7 @@ namespace MagiWol {
             this.mnxListRemove.Name = "mnxListRemove";
             this.mnxListRemove.ShortcutKeyDisplayString = "Del";
             this.mnxListRemove.Size = new System.Drawing.Size(215, 26);
+            this.mnxListRemove.Tag = "mnuRemove";
             this.mnxListRemove.Text = "&Remove";
             this.mnxListRemove.Click += new System.EventHandler(this.mnuRemove_Click);
             // 
