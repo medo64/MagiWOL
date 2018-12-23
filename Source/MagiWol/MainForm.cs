@@ -165,7 +165,7 @@ namespace MagiWol {
             mnuImport.Visible = !MainForm.IsRunningOnMono;
             mnuImport0.Visible = !MainForm.IsRunningOnMono;
             OpenFromCommandLineArgs();
-            UpdateData(null);
+            UpdateData();
         }
 
         private void Form_FormClosed(object sender, FormClosedEventArgs e) {
@@ -190,8 +190,17 @@ namespace MagiWol {
 
 
 
-        private void UpdateData(IEnumerable<MagiWolDocument.AddressItem> selection) {
+        private void UpdateData(IEnumerable<MagiWolDocument.AddressItem> selection = null, bool preserveCurrentSelection = false) {
             if (this.Document == null) { return; }
+
+            if (preserveCurrentSelection) {
+                var addrs = new List<MagiWolDocument.AddressItem>();
+                foreach (var iItem in list.SelectedItems) {
+                    var iAddress = (MagiWolDocument.AddressItem)iItem;
+                    addrs.Add(iAddress);
+                }
+                selection = addrs.AsReadOnly();
+            }
 
             this.Document.FillListView(list, selection);
 
@@ -222,7 +231,7 @@ namespace MagiWol {
                     var exFile = new FileInfo(recentItem.FileName);
                     Medo.MessageBox.ShowError(this, string.Format("Cannot open \"{0}\".\n\n{1}", exFile.Name, ex.Message));
                 }
-                UpdateData(null);
+                UpdateData();
             }
         }
 
@@ -258,7 +267,7 @@ namespace MagiWol {
         private void mnuNew_Click(object sender, EventArgs e) {
             if (ProceedWithNewDocument()) {
                 Document = new MagiWolDocument.DocumentEx();
-                UpdateData(null);
+                UpdateData();
             }
         }
 
@@ -280,7 +289,7 @@ namespace MagiWol {
                             var exFile = new FileInfo(dialog.FileName);
                             Medo.MessageBox.ShowError(this, string.Format("Cannot open \"{0}\".\n\n{1}", exFile.Name, ex.Message));
                         }
-                        UpdateData(null);
+                        UpdateData();
                     }
                 }
             }
@@ -322,7 +331,7 @@ namespace MagiWol {
             if (this.Document.FileName != null) {
                 App.Recent.Push(this.Document.FileName);
             }
-            UpdateData(null);
+            UpdateData(preserveCurrentSelection: true);
         }
 
         private void mnuSaveAs_Click(object sender, EventArgs e) {
@@ -344,17 +353,12 @@ namespace MagiWol {
                     }
                 }
             }
-            UpdateData(null);
+            UpdateData(preserveCurrentSelection: true);
         }
 
 
         private void mnuRefresh_Click(object sender, EventArgs e) {
-            var addrs = new List<MagiWolDocument.AddressItem>();
-            foreach (var iItem in list.SelectedItems) {
-                var iAddress = (MagiWolDocument.AddressItem)iItem;
-                addrs.Add(iAddress);
-            }
-            UpdateData(addrs);
+            UpdateData(preserveCurrentSelection: true);
         }
 
 
@@ -370,7 +374,7 @@ namespace MagiWol {
                 } catch (ExternalException ex) {
                     Medo.MessageBox.ShowError(this, "Cut error.\n\n" + ex.Message);
                 }
-                UpdateData(null);
+                UpdateData();
             }
         }
 
@@ -386,7 +390,6 @@ namespace MagiWol {
                 } catch (ExternalException ex) {
                     Medo.MessageBox.ShowError(this, "Copy error.\n\n" + ex.Message);
                 }
-                UpdateData(addrs);
             }
         }
 
@@ -440,7 +443,7 @@ namespace MagiWol {
                     var iAddress = (MagiWolDocument.AddressItem)iItem;
                     this.Document.RemoveAddress(iAddress);
                 }
-                UpdateData(null);
+                UpdateData();
             }
         }
 
