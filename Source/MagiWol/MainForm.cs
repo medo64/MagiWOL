@@ -213,7 +213,7 @@ namespace MagiWol {
 
         void recentItem_Click(object sender, EventArgs e) {
             var item = (ToolStripMenuItem)sender;
-            var recentItem = (Medo.Configuration.RecentFile)item.Tag;
+            var recentItem = (Medo.Configuration.RecentlyUsedFile)item.Tag;
             if (ProceedWithNewDocument()) {
                 try {
                     Document = MagiWolDocument.DocumentEx.Open(recentItem.FileName);
