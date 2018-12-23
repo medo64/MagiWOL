@@ -123,7 +123,7 @@ namespace MagiWol.MagiWolDocument {
 
 
         public override bool Equals(object obj) {
-            var other = obj as AddressItem;
+            var other = obj as Address;
             if ((other != null) && (string.Compare(this.Mac, other.Mac, StringComparison.OrdinalIgnoreCase) == 0)) { return true; }
             return false;
         }

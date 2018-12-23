@@ -10,10 +10,14 @@ namespace MagiWol.MagiWolDocument {
         private static Font _fixedSizeFont;
 
         public AddressItem()
-            : this("", "", "", "", null, null, false, false) {
+            : this(new Address()) {
         }
 
         public AddressItem(string title, string mac, string secureOn, string notes, string broadcastHost, int? broadcastPort, bool isHostValid, bool isPortValid)
+            : this(new Address(title, mac, secureOn, notes, broadcastHost, broadcastPort, isHostValid, isPortValid)) {
+        }
+
+        public AddressItem(Address address)
             : base() {
             if (_fixedSizeFont == null) {
                 _fixedSizeFont = new Font("Courier New", base.Font.Size, base.Font.Style);
@@ -22,9 +26,9 @@ namespace MagiWol.MagiWolDocument {
                 _fixedSizeFont = new Font("Courier New", base.Font.Size, base.Font.Style);
             }
 
-            this.Address = new Address(title, mac, secureOn, notes, broadcastHost, broadcastPort, isHostValid, isPortValid);
+            this.Address = address;
 
-            base.Text = title;
+            base.Text = address.Title;
             base.UseItemStyleForSubItems = false;
             RefreshColumns();
         }
@@ -104,8 +108,12 @@ namespace MagiWol.MagiWolDocument {
 
 
         public override bool Equals(object obj) {
-            var other = obj as AddressItem;
-            if ((other != null) && (string.Compare(this.Mac, other.Mac, StringComparison.OrdinalIgnoreCase) == 0)) { return true; }
+            var otherItem = obj as AddressItem;
+            if ((otherItem != null) && (string.Compare(this.Mac, otherItem.Mac, StringComparison.OrdinalIgnoreCase) == 0)) { return true; }
+
+            var otherAddress = obj as Address;
+            if ((otherAddress != null) && (string.Compare(this.Mac, otherItem.Mac, StringComparison.OrdinalIgnoreCase) == 0)) { return true; }
+
             return false;
         }
 

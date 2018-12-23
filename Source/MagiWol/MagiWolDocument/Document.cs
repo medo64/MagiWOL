@@ -9,7 +9,7 @@ namespace MagiWol.MagiWolDocument {
 
     internal class Document {
 
-        protected List<AddressItem> _addresses = new List<AddressItem>();
+        protected List<Address> _addresses = new List<Address>();
 
         internal Document() {
         }
@@ -28,7 +28,7 @@ namespace MagiWol.MagiWolDocument {
             doc.FileName = fileName;
             foreach (var iAddress in GetAddressesFromXml(doc, System.IO.File.ReadAllText(fileName))) {
                 doc._addresses.Add(iAddress);
-                iAddress.Address.Parent = doc;
+                iAddress.Parent = doc;
             }
         }
 
@@ -43,13 +43,26 @@ namespace MagiWol.MagiWolDocument {
         }
 
 
-        public bool HasAddress(AddressItem item) {
+        public void AddAddress(Address item, bool allowDuplicates) {
+            if ((allowDuplicates == true) || (this._addresses.Contains(item) == false)) {
+                item.Parent = this;
+                _addresses.Add(item);
+                this.HasChanged = true;
+            }
+        }
+
+        public void RemoveAddress(Address item) {
+            this._addresses.Remove(item);
+            this.HasChanged = true;
+        }
+
+        public bool HasAddress(Address item) {
             return this._addresses.Contains(item);
         }
 
 
-        protected static IEnumerable<AddressItem> GetAddressesFromXml(Document document, string xmlContent) {
-            List<AddressItem> all = new List<AddressItem>();
+        protected static IEnumerable<Address> GetAddressesFromXml(Document document, string xmlContent) {
+            var all = new List<Address>();
 
             StringReader sr = null;
             try {
@@ -105,7 +118,7 @@ namespace MagiWol.MagiWolDocument {
                                                 isPortValid = false;
                                             }
 
-                                            AddressItem addr = new AddressItem(aName, aMac, aSecureOn, aDescription, host, port, isHostValid, isPortValid);
+                                            var addr = new Address(aName, aMac, aSecureOn, aDescription, host, port, isHostValid, isPortValid);
                                             all.Add(addr);
                                             break;
                                     }
@@ -127,7 +140,7 @@ namespace MagiWol.MagiWolDocument {
             return all.AsReadOnly();
         }
 
-        protected static string GetXmlFromAddresses(IEnumerable<AddressItem> addresses) {
+        protected static string GetXmlFromAddresses(IEnumerable<Address> addresses) {
             var sb = new StringBuilder();
             StringWriter sw = null;
             try {
@@ -161,19 +174,19 @@ namespace MagiWol.MagiWolDocument {
 
         private static Regex _rxMacValid = new Regex(@"(^[0-9A-F]{2}-[0-9A-F]{2}-[0-9A-F]{2}-[0-9A-F]{2}-[0-9A-F]{2}-[0-9A-F]{2}$)|(^[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}$)|(^[0-9A-F]{4}\.[0-9A-F]{4}\.[0-9A-F]{4}$)|(^[0-9A-F]{12}$)", System.Text.RegularExpressions.RegexOptions.Compiled | System.Text.RegularExpressions.RegexOptions.IgnoreCase);
 
-        protected static AddressItem GetAddressFromLine(string line) {
+        protected static Address GetAddressFromLine(string line) {
             string[] parts = line.Split(new char[] { ' ', '\t' });
             for (int i = 0; i < parts.Length; i++) {
                 if (_rxMacValid.IsMatch(parts[i])) {
                     if (i == 0) {
                         string name = string.Join(" ", parts, 1, parts.Length - 1);
                         string mac = GetProperMAC(parts[i]);
-                        return new AddressItem(name, mac, string.Empty, string.Empty, null, null, false, false);
+                        return new Address(name, mac, string.Empty, string.Empty, null, null, false, false);
                     } else {
                         string name = string.Join(" ", parts, 0, i);
                         string mac = GetProperMAC(parts[i]);
                         string desc = string.Join(" ", parts, i + 1, parts.Length - i - 1);
-                        return new AddressItem(name, mac, string.Empty, desc, null, null, false, false);
+                        return new Address(name, mac, string.Empty, desc, null, null, false, false);
                     }
                 }
             }

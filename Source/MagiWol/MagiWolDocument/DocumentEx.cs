@@ -31,6 +31,19 @@ namespace MagiWol.MagiWolDocument {
         }
 
 
+        public void AddAddress(AddressItem item, bool allowDuplicates) {
+            base.AddAddress(item.Address, allowDuplicates);
+        }
+
+        public void RemoveAddress(AddressItem item) {
+            base.RemoveAddress(item.Address);
+        }
+
+        public bool HasAddress(AddressItem item) {
+            return base.HasAddress(item.Address);
+        }
+
+
         public void FillListView(ListView list, IEnumerable<AddressItem> selectedItems) {
             var selectionList = new List<AddressItem>();
             if (selectedItems != null) {
@@ -40,7 +53,6 @@ namespace MagiWol.MagiWolDocument {
             }
 
             MagiWolDocument.AddressItem potentialFocus = null;
-
             list.BeginUpdate();
 
             Medo.Windows.Forms.State.Save(list);
@@ -53,13 +65,16 @@ namespace MagiWol.MagiWolDocument {
             if (Settings.ShowColumnNotes) { list.Columns.Add(new ColumnHeader() { Text = "Notes", Tag = "Notes", Width = 270 }); }
             Medo.Windows.Forms.State.Load(list);
 
+
             list.Items.Clear();
             for (int i = 0; i < this._addresses.Count; ++i) {
-                _addresses[i].Selected = selectionList.Contains(_addresses[i]);
-                _addresses[i].RefreshColumns();
-                list.Items.Add(_addresses[i]);
-                if (selectionList.Contains(_addresses[i])) {
-                    potentialFocus = _addresses[i];
+                var address = _addresses[i];
+                var lvi = new AddressItem(_addresses[i]);
+                lvi.Selected = selectionList.Contains(lvi);
+                lvi.RefreshColumns();
+                list.Items.Add(lvi);
+                if (selectionList.Contains(lvi)) {
+                    potentialFocus = lvi;
                 }
             }
 
@@ -69,9 +84,15 @@ namespace MagiWol.MagiWolDocument {
         }
 
 
-        public void Cut(IEnumerable<AddressItem> addresses) {
+        public void Cut(IEnumerable<AddressItem> addressItems) {
             bool isChanged = false;
-            Copy(addresses);
+            Copy(addressItems);
+
+            var addresses = new List<Address>();
+            foreach (var item in addressItems) {
+                addresses.Add(item.Address);
+            }
+
             foreach (var iAddress in addresses) {
                 if (this._addresses.Contains(iAddress)) {
                     this._addresses.Remove(iAddress);
@@ -81,7 +102,12 @@ namespace MagiWol.MagiWolDocument {
             if (isChanged) { this.HasChanged = true; }
         }
 
-        public void Copy(IEnumerable<AddressItem> addresses) {
+        public void Copy(IEnumerable<AddressItem> addressItems) {
+            var addresses = new List<Address>();
+            foreach (var item in addressItems) {
+                addresses.Add(item.Address);
+            }
+
             var sb = new StringBuilder();
             foreach (var iAddress in addresses) {
                 sb.AppendLine(iAddress.Mac + " " + iAddress.Title);
@@ -97,7 +123,7 @@ namespace MagiWol.MagiWolDocument {
         }
 
         public IEnumerable<AddressItem> Paste() {
-            var pastedAddresses = new List<AddressItem>();
+            var pastedAddressItems = new List<AddressItem>();
 
             string xmlData = null;
             string dataText = null;
@@ -109,7 +135,7 @@ namespace MagiWol.MagiWolDocument {
                     if (dataText == null) { dataText = clipData.GetData(DataFormats.Text) as string; }
                 }
             } catch (ExternalException) {
-                return pastedAddresses;
+                return pastedAddressItems;
             }
 
             bool isChanged = false;
@@ -117,12 +143,12 @@ namespace MagiWol.MagiWolDocument {
                 foreach (var iAddress in GetAddressesFromXml(this, xmlData)) {
                     if (!this.HasAddress(iAddress)) {
                         this.AddAddress(iAddress, false);
-                        pastedAddresses.Add(iAddress);
+                        pastedAddressItems.Add(new AddressItem(iAddress));
                         isChanged = true;
                     } else {
                         foreach (var feAddress in this._addresses) {
                             if (feAddress.Equals(iAddress)) {
-                                pastedAddresses.Add(feAddress);
+                                pastedAddressItems.Add(new AddressItem(feAddress));
                                 break;
                             }
                         }
@@ -134,12 +160,12 @@ namespace MagiWol.MagiWolDocument {
                     if (iAddress != null) {
                         if (!this.HasAddress(iAddress)) {
                             this.AddAddress(iAddress, false);
-                            pastedAddresses.Add(iAddress);
+                            pastedAddressItems.Add(new AddressItem(iAddress));
                             isChanged = true;
                         } else {
                             foreach (var feAddress in this._addresses) {
                                 if (feAddress.Equals(iAddress)) {
-                                    pastedAddresses.Add(feAddress);
+                                    pastedAddressItems.Add(new AddressItem(feAddress));
                                     break;
                                 }
                             }
@@ -150,7 +176,7 @@ namespace MagiWol.MagiWolDocument {
             if (isChanged) { this.HasChanged = true; }
 
 
-            return pastedAddresses.AsReadOnly();
+            return pastedAddressItems.AsReadOnly();
         }
 
         public bool CanPaste() {
@@ -160,21 +186,6 @@ namespace MagiWol.MagiWolDocument {
                 return false;
             }
         }
-
-
-        public void AddAddress(AddressItem item, bool allowDuplicates) {
-            if ((allowDuplicates == true) || (this._addresses.Contains(item) == false)) {
-                item.Address.Parent = this;
-                _addresses.Add(item);
-                this.HasChanged = true;
-            }
-        }
-
-        public void RemoveAddress(AddressItem item) {
-            this._addresses.Remove(item);
-            this.HasChanged = true;
-        }
-
 
 
         public string FileTitle {
