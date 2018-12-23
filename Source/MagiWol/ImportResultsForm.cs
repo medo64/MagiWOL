@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
@@ -8,7 +8,7 @@ namespace MagiWol {
 
         Font _fixedSizeFont;
 
-        public ImportResultsForm(IList<MagiWolDocument.Address> addresses) {
+        public ImportResultsForm(IList<MagiWolDocument.AddressItem> addresses) {
             this._fixedSizeFont = new Font("Courier New", SystemFonts.MessageBoxFont.Size, SystemFonts.MessageBoxFont.Style);
 
             InitializeComponent();

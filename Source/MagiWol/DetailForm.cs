@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Globalization;
@@ -8,10 +8,10 @@ using System.Windows.Forms;
 namespace MagiWol {
     internal partial class DetailForm : Form {
 
-        public MagiWolDocument.Address Destination { get; private set; }
+        public MagiWolDocument.AddressItem Destination { get; private set; }
 
 
-        public DetailForm(MagiWolDocument.Address destination) {
+        public DetailForm(MagiWolDocument.AddressItem destination) {
             InitializeComponent();
             this.Font = SystemFonts.MessageBoxFont;
             var fixedSizeFont = new Font("Courier New", base.Font.Size, base.Font.Style);
@@ -47,7 +47,7 @@ namespace MagiWol {
 
         private void buttonOk_Click(object sender, EventArgs e) {
             if (this.Destination == null) {
-                this.Destination = new MagiWolDocument.Address();
+                this.Destination = new MagiWolDocument.AddressItem();
             }
 
             this.Destination.Title = textTitle.Text;

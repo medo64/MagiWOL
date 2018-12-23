@@ -190,7 +190,7 @@ namespace MagiWol {
 
 
 
-        private void UpdateData(IEnumerable<MagiWolDocument.Address> selection) {
+        private void UpdateData(IEnumerable<MagiWolDocument.AddressItem> selection) {
             if (this.Document == null) { return; }
 
             this.Document.FillListView(list, selection);
@@ -349,9 +349,9 @@ namespace MagiWol {
 
 
         private void mnuRefresh_Click(object sender, EventArgs e) {
-            var addrs = new List<MagiWolDocument.Address>();
+            var addrs = new List<MagiWolDocument.AddressItem>();
             foreach (var iItem in list.SelectedItems) {
-                var iAddress = (MagiWolDocument.Address)iItem;
+                var iAddress = (MagiWolDocument.AddressItem)iItem;
                 addrs.Add(iAddress);
             }
             UpdateData(addrs);
@@ -360,9 +360,9 @@ namespace MagiWol {
 
         private void mnuCut_Click(object sender, EventArgs e) {
             if (list.SelectedItems.Count > 0) {
-                var addrs = new List<MagiWolDocument.Address>();
+                var addrs = new List<MagiWolDocument.AddressItem>();
                 foreach (var iItem in list.SelectedItems) {
-                    var iAddress = (MagiWolDocument.Address)iItem;
+                    var iAddress = (MagiWolDocument.AddressItem)iItem;
                     addrs.Add(iAddress);
                 }
                 try {
@@ -376,9 +376,9 @@ namespace MagiWol {
 
         private void mnuCopy_Click(object sender, EventArgs e) {
             if (list.SelectedItems.Count > 0) {
-                var addrs = new List<MagiWolDocument.Address>();
+                var addrs = new List<MagiWolDocument.AddressItem>();
                 foreach (var iItem in list.SelectedItems) {
-                    var iAddress = (MagiWolDocument.Address)iItem;
+                    var iAddress = (MagiWolDocument.AddressItem)iItem;
                     addrs.Add(iAddress);
                 }
                 try {
@@ -401,7 +401,7 @@ namespace MagiWol {
 
         private void mnuSelectAll_Click(object sender, EventArgs e) {
             foreach (var iItem in list.Items) {
-                ((MagiWolDocument.Address)iItem).Selected = true;
+                ((MagiWolDocument.AddressItem)iItem).Selected = true;
             }
         }
 
@@ -416,18 +416,18 @@ namespace MagiWol {
                     } else {
                         this.Document.AddAddress(frm.Destination, false);
                     }
-                    UpdateData(new MagiWolDocument.Address[] { frm.Destination });
+                    UpdateData(new MagiWolDocument.AddressItem[] { frm.Destination });
                 }
             }
         }
 
         private void mnuChange_Click(object sender, EventArgs e) {
             if (list.SelectedItems.Count == 1) {
-                MagiWolDocument.Address currDestination = (MagiWolDocument.Address)list.SelectedItems[0];
+                MagiWolDocument.AddressItem currDestination = (MagiWolDocument.AddressItem)list.SelectedItems[0];
                 using (var frm = new DetailForm(currDestination)) {
                     if (frm.ShowDialog(this) == DialogResult.OK) {
                         currDestination = frm.Destination;
-                        UpdateData(new MagiWolDocument.Address[] { currDestination });
+                        UpdateData(new MagiWolDocument.AddressItem[] { currDestination });
                     }
                 }
             }
@@ -435,9 +435,9 @@ namespace MagiWol {
 
         private void mnuRemove_Click(object sender, EventArgs e) {
             if (list.SelectedItems.Count > 0) {
-                var addrs = new List<MagiWolDocument.Address>();
+                var addrs = new List<MagiWolDocument.AddressItem>();
                 foreach (var iItem in list.SelectedItems) {
-                    var iAddress = (MagiWolDocument.Address)iItem;
+                    var iAddress = (MagiWolDocument.AddressItem)iItem;
                     this.Document.RemoveAddress(iAddress);
                 }
                 UpdateData(null);
@@ -446,9 +446,9 @@ namespace MagiWol {
 
 
         private void mnuWake_Click(object sender, EventArgs e) {
-            var addresses = new List<MagiWolDocument.Address>();
+            var addresses = new List<MagiWolDocument.AddressItem>();
             foreach (ListViewItem iItem in list.SelectedItems) {
-                var iAddress = (MagiWolDocument.Address)iItem;
+                var iAddress = (MagiWolDocument.AddressItem)iItem;
                 addresses.Add(iAddress);
             }
             if (addresses.Count == 1) {
@@ -464,9 +464,9 @@ namespace MagiWol {
 
         private void mnuWakeAll_Click(object sender, EventArgs e) {
             if (list.Items.Count > 0) {
-                var addresses = new List<MagiWolDocument.Address>();
+                var addresses = new List<MagiWolDocument.AddressItem>();
                 foreach (ListViewItem iItem in list.Items) {
-                    var iAddress = (MagiWolDocument.Address)iItem;
+                    var iAddress = (MagiWolDocument.AddressItem)iItem;
                     addresses.Add(iAddress);
                 }
                 using (var form = new WakeForm(addresses.AsReadOnly())) {
@@ -476,7 +476,7 @@ namespace MagiWol {
         }
 
         private void mnuQuickWake_Click(object sender, EventArgs e) {
-            var address = (list.SelectedItems.Count > 0) ? (MagiWolDocument.Address)list.SelectedItems[0] : null;
+            var address = (list.SelectedItems.Count > 0) ? (MagiWolDocument.AddressItem)list.SelectedItems[0] : null;
             using (var form = new QuickWakeForm(address)) {
                 form.ShowDialog(this);
             }
@@ -523,7 +523,7 @@ namespace MagiWol {
 
         private void mnxListQuickWake_Click(object sender, EventArgs e) {
             if (list.SelectedItems.Count == 1) {
-                var address = (MagiWolDocument.Address)list.SelectedItems[0];
+                var address = (MagiWolDocument.AddressItem)list.SelectedItems[0];
                 using (var form = new QuickWakeForm(address)) {
                     form.ShowDialog(this);
                 }
@@ -535,7 +535,7 @@ namespace MagiWol {
 
         private void list_AfterLabelEdit(object sender, LabelEditEventArgs e) {
             if ((e != null) && (e.Label != null) && (e.Label.Length > 0)) {
-                var iAddress = ((MagiWolDocument.Address)list.Items[e.Item]);
+                var iAddress = ((MagiWolDocument.AddressItem)list.Items[e.Item]);
                 iAddress.Title = e.Label;
                 this.list.Enabled = false;
                 this.Document.MarkAsChanged();
@@ -600,9 +600,9 @@ namespace MagiWol {
             this.list.Enabled = true;
             this.list.Focus();
 
-            var iAddress = tmrReSort.Tag as MagiWolDocument.Address;
+            var iAddress = tmrReSort.Tag as MagiWolDocument.AddressItem;
             tmrReSort.Tag = null;
-            UpdateData(new MagiWolDocument.Address[] { iAddress });
+            UpdateData(new MagiWolDocument.AddressItem[] { iAddress });
         }
 
 

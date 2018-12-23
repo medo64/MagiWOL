@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Globalization;
@@ -7,7 +7,7 @@ using System.Threading;
 namespace MagiWol {
     internal static class Magic {
 
-        public static void SendMagicPacket(MagiWolDocument.Address address) {
+        public static void SendMagicPacket(MagiWolDocument.AddressItem address) {
             var broadcastPort = Settings.BroadcastPort;
             if (address.IsBroadcastPortValid) { broadcastPort = address.BroadcastPort; }
 

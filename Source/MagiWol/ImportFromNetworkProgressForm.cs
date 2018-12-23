@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -15,7 +15,7 @@ using Medo.Localization.Croatia;
 namespace MagiWol {
     internal partial class ImportFromNetworkProgressForm : Form {
 
-        public IList<MagiWolDocument.Address> ParsedAddresses { get; private set; }
+        public IList<MagiWolDocument.AddressItem> ParsedAddresses { get; private set; }
         public NumberDeclination nudHours = new NumberDeclination("hour", "hours", "hours");
         public NumberDeclination nudMinutes = new NumberDeclination("minute", "minutes", "minutes");
         public NumberDeclination nudSeconds = new NumberDeclination("second", "seconds", "seconds");
@@ -101,7 +101,7 @@ namespace MagiWol {
 
             worker.ReportProgress(0, new ImportProgressState(""));
 
-            this._asyncMacsList = new List<MagiWolDocument.Address>();
+            this._asyncMacsList = new List<MagiWolDocument.AddressItem>();
             this._asyncMacTotalCounter = 0;
 
             foreach (var iEntry in entries) {
@@ -255,7 +255,7 @@ namespace MagiWol {
                 if (e.Cancelled) {
                     this.DialogResult = DialogResult.Cancel;
                 } else {
-                    this.ParsedAddresses = (IList<MagiWolDocument.Address>)e.Result;
+                    this.ParsedAddresses = (IList<MagiWolDocument.AddressItem>)e.Result;
                     this.DialogResult = DialogResult.OK;
                 }
             } else {
@@ -292,7 +292,7 @@ namespace MagiWol {
 
 
         private int _asyncMacTotalCounter;
-        private List<MagiWolDocument.Address> _asyncMacsList;
+        private List<MagiWolDocument.AddressItem> _asyncMacsList;
         private readonly object _syncRootAsyncMac = new object();
 
         private void AsyncRetrieveMac(object parameter) {
@@ -325,7 +325,7 @@ namespace MagiWol {
                     }
 
                     var macText = (macBytes[0].ToString("x2") + ":" + macBytes[1].ToString("x2") + ":" + macBytes[2].ToString("x2") + ":" + macBytes[3].ToString("x2") + ":" + macBytes[4].ToString("x2") + ":" + macBytes[5].ToString("x2")).ToUpper();
-                    var iAddress = new MagiWolDocument.Address(iEntryTitle, macText, "", "", null, null, false, false);
+                    var iAddress = new MagiWolDocument.AddressItem(iEntryTitle, macText, "", "", null, null, false, false);
 
                     lock (_syncRootAsyncMac) {
                         if (!this._asyncMacsList.Contains(iAddress)) {

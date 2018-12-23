@@ -9,10 +9,10 @@ using System.Windows.Forms;
 namespace MagiWol {
     internal partial class WakeProgressForm : Form {
 
-        private IList<MagiWolDocument.Address> _addresses;
+        private IList<MagiWolDocument.AddressItem> _addresses;
         private readonly int PauseInSeconds;
 
-        public WakeProgressForm(IList<MagiWolDocument.Address> addresses, int pauseInSeconds) {
+        public WakeProgressForm(IList<MagiWolDocument.AddressItem> addresses, int pauseInSeconds) {
             InitializeComponent();
             this.Font = SystemFonts.MessageBoxFont;
 

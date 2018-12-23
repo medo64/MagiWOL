@@ -9,7 +9,7 @@ namespace MagiWol.MagiWolDocument {
 
     internal class Document {
 
-        protected List<Address> _addresses = new List<Address>();
+        protected List<AddressItem> _addresses = new List<AddressItem>();
 
         internal Document() {
         }
@@ -27,9 +27,9 @@ namespace MagiWol.MagiWolDocument {
         protected static void Load(string fileName, Document doc) {
             doc.FileName = fileName;
             foreach (var iAddress in GetAddressesFromXml(doc, System.IO.File.ReadAllText(fileName))) {
-                doc.AddAddress(iAddress, true);
+                doc._addresses.Add(iAddress);
+                iAddress.Address.Parent = doc;
             }
-            doc.HasChanged = false;
         }
 
 
@@ -40,52 +40,16 @@ namespace MagiWol.MagiWolDocument {
         public void Save(string fileName) {
             File.WriteAllText(fileName, GetXmlFromAddresses(this._addresses));
             this.FileName = fileName;
-            this.HasChanged = false;
         }
 
-        public bool HasChanged { get; internal set; }
-        internal void MarkAsChanged() {
-            this.HasChanged = true;
-        }
 
-        public string FileTitle {
-            get {
-                string fileNamePart;
-                if (this.FileName == null) {
-                    fileNamePart = "Untitled";
-                } else {
-                    var fi = new FileInfo(this.FileName);
-                    fileNamePart = fi.Name;
-                }
-                if (this.HasChanged) {
-                    return fileNamePart + "*";
-                } else {
-                    return fileNamePart;
-                }
-            }
-        }
-
-        public bool HasAddress(Address item) {
+        public bool HasAddress(AddressItem item) {
             return this._addresses.Contains(item);
         }
 
 
-        public void AddAddress(Address item, bool allowDuplicates) {
-            if ((allowDuplicates == true) || (this._addresses.Contains(item) == false)) {
-                item.Parent = this;
-                _addresses.Add(item);
-                this.HasChanged = true;
-            }
-        }
-
-        public void RemoveAddress(Address item) {
-            this._addresses.Remove(item);
-            this.HasChanged = true;
-        }
-
-
-        protected static IEnumerable<Address> GetAddressesFromXml(Document document, string xmlContent) {
-            List<Address> all = new List<Address>();
+        protected static IEnumerable<AddressItem> GetAddressesFromXml(Document document, string xmlContent) {
+            List<AddressItem> all = new List<AddressItem>();
 
             StringReader sr = null;
             try {
@@ -141,7 +105,7 @@ namespace MagiWol.MagiWolDocument {
                                                 isPortValid = false;
                                             }
 
-                                            Address addr = new Address(aName, aMac, aSecureOn, aDescription, host, port, isHostValid, isPortValid);
+                                            AddressItem addr = new AddressItem(aName, aMac, aSecureOn, aDescription, host, port, isHostValid, isPortValid);
                                             all.Add(addr);
                                             break;
                                     }
@@ -163,7 +127,7 @@ namespace MagiWol.MagiWolDocument {
             return all.AsReadOnly();
         }
 
-        protected static string GetXmlFromAddresses(IEnumerable<Address> addresses) {
+        protected static string GetXmlFromAddresses(IEnumerable<AddressItem> addresses) {
             var sb = new StringBuilder();
             StringWriter sw = null;
             try {
@@ -197,19 +161,19 @@ namespace MagiWol.MagiWolDocument {
 
         private static Regex _rxMacValid = new Regex(@"(^[0-9A-F]{2}-[0-9A-F]{2}-[0-9A-F]{2}-[0-9A-F]{2}-[0-9A-F]{2}-[0-9A-F]{2}$)|(^[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}$)|(^[0-9A-F]{4}\.[0-9A-F]{4}\.[0-9A-F]{4}$)|(^[0-9A-F]{12}$)", System.Text.RegularExpressions.RegexOptions.Compiled | System.Text.RegularExpressions.RegexOptions.IgnoreCase);
 
-        protected static Address GetAddressFromLine(string line) {
+        protected static AddressItem GetAddressFromLine(string line) {
             string[] parts = line.Split(new char[] { ' ', '\t' });
             for (int i = 0; i < parts.Length; i++) {
                 if (_rxMacValid.IsMatch(parts[i])) {
                     if (i == 0) {
                         string name = string.Join(" ", parts, 1, parts.Length - 1);
                         string mac = GetProperMAC(parts[i]);
-                        return new Address(name, mac, string.Empty, string.Empty, null, null, false, false);
+                        return new AddressItem(name, mac, string.Empty, string.Empty, null, null, false, false);
                     } else {
                         string name = string.Join(" ", parts, 0, i);
                         string mac = GetProperMAC(parts[i]);
                         string desc = string.Join(" ", parts, i + 1, parts.Length - i - 1);
-                        return new Address(name, mac, string.Empty, desc, null, null, false, false);
+                        return new AddressItem(name, mac, string.Empty, desc, null, null, false, false);
                     }
                 }
             }
@@ -268,6 +232,13 @@ namespace MagiWol.MagiWolDocument {
                 return newText.ToString();
             }
 
+        }
+
+
+        public bool HasChanged { get; internal set; }
+
+        internal void MarkAsChanged() {
+            this.HasChanged = true;
         }
 
     }

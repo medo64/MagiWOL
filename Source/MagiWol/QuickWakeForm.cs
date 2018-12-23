@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Globalization;
@@ -20,7 +20,7 @@ namespace MagiWol {
             }
         }
 
-        public QuickWakeForm(MagiWolDocument.Address address)
+        public QuickWakeForm(MagiWolDocument.AddressItem address)
             : this() {
             if (address != null) {
                 textMac.Text = address.Mac;
@@ -49,7 +49,7 @@ namespace MagiWol {
         }
 
         private void buttonOk_Click(object sender, EventArgs e) {
-            var destination = new MagiWolDocument.Address();
+            var destination = new MagiWolDocument.AddressItem();
 
             destination.Title = null;
             destination.Mac = textMac.Text;

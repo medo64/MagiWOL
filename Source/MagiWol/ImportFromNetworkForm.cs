@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
@@ -6,7 +6,7 @@ using System.Windows.Forms;
 namespace MagiWol {
     internal partial class ImportFromNetworkForm : Form {
 
-        public IList<MagiWolDocument.Address> ImportedAddresses { get; private set; }
+        public IList<MagiWolDocument.AddressItem> ImportedAddresses { get; private set; }
 
         public ImportFromNetworkForm() {
             InitializeComponent();

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
@@ -6,10 +6,10 @@ using System.Windows.Forms;
 namespace MagiWol {
     internal partial class WakeForm : Form {
 
-        private IList<MagiWolDocument.Address> _addresses;
+        private IList<MagiWolDocument.AddressItem> _addresses;
         Font _fixedSizeFont;
 
-        public WakeForm(IList<MagiWolDocument.Address> addresses) {
+        public WakeForm(IList<MagiWolDocument.AddressItem> addresses) {
             this._fixedSizeFont = new Font("Courier New", SystemFonts.MessageBoxFont.Size, SystemFonts.MessageBoxFont.Style);
 
             InitializeComponent();

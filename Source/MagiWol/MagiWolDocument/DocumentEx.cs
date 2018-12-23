@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
@@ -14,19 +15,31 @@ namespace MagiWol.MagiWolDocument {
         public static new DocumentEx Open(string fileName) {
             var doc = new DocumentEx();
             Load(fileName, doc);
+            doc.HasChanged = false;
             return doc;
         }
 
 
-        public void FillListView(ListView list, IEnumerable<Address> selectedItems) {
-            var selectionList = new List<Address>();
+        public new void Save() {
+            base.Save();
+            this.HasChanged = false;
+        }
+
+        public new void Save(string fileName) {
+            base.Save(fileName);
+            this.HasChanged = false;
+        }
+
+
+        public void FillListView(ListView list, IEnumerable<AddressItem> selectedItems) {
+            var selectionList = new List<AddressItem>();
             if (selectedItems != null) {
                 foreach (var iItem in selectedItems) {
                     selectionList.Add(iItem);
                 }
             }
 
-            MagiWolDocument.Address potentialFocus = null;
+            MagiWolDocument.AddressItem potentialFocus = null;
 
             list.BeginUpdate();
 
@@ -56,7 +69,7 @@ namespace MagiWol.MagiWolDocument {
         }
 
 
-        public void Cut(IEnumerable<Address> addresses) {
+        public void Cut(IEnumerable<AddressItem> addresses) {
             bool isChanged = false;
             Copy(addresses);
             foreach (var iAddress in addresses) {
@@ -68,7 +81,7 @@ namespace MagiWol.MagiWolDocument {
             if (isChanged) { this.HasChanged = true; }
         }
 
-        public void Copy(IEnumerable<Address> addresses) {
+        public void Copy(IEnumerable<AddressItem> addresses) {
             var sb = new StringBuilder();
             foreach (var iAddress in addresses) {
                 sb.AppendLine(iAddress.Mac + " " + iAddress.Title);
@@ -83,8 +96,8 @@ namespace MagiWol.MagiWolDocument {
             } catch (ExternalException) { }
         }
 
-        public IEnumerable<Address> Paste() {
-            var pastedAddresses = new List<Address>();
+        public IEnumerable<AddressItem> Paste() {
+            var pastedAddresses = new List<AddressItem>();
 
             string xmlData = null;
             string dataText = null;
@@ -145,6 +158,39 @@ namespace MagiWol.MagiWolDocument {
                 return Clipboard.ContainsData("MagiWOL") || Clipboard.ContainsText();
             } catch (ExternalException) {
                 return false;
+            }
+        }
+
+
+        public void AddAddress(AddressItem item, bool allowDuplicates) {
+            if ((allowDuplicates == true) || (this._addresses.Contains(item) == false)) {
+                item.Address.Parent = this;
+                _addresses.Add(item);
+                this.HasChanged = true;
+            }
+        }
+
+        public void RemoveAddress(AddressItem item) {
+            this._addresses.Remove(item);
+            this.HasChanged = true;
+        }
+
+
+
+        public string FileTitle {
+            get {
+                string fileNamePart;
+                if (this.FileName == null) {
+                    fileNamePart = "Untitled";
+                } else {
+                    var fi = new FileInfo(this.FileName);
+                    fileNamePart = fi.Name;
+                }
+                if (this.HasChanged) {
+                    return fileNamePart + "*";
+                } else {
+                    return fileNamePart;
+                }
             }
         }
 
