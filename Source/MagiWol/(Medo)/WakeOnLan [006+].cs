@@ -7,6 +7,8 @@
 //2012-02-26: Added IPv6 support.
 //2012-05-16: GetPacketBytes are internal. 
 //2019-01-05: Reworked IPv6 packet error handling.
+//            If IPv6 bind fails, retry on non-restricted port.
+
 
 using System;
 using System.Globalization;
@@ -139,7 +141,11 @@ namespace Medo.Net {
         private static void SendIPv6Packet(IPAddress address, int port, byte[] packet) {
             using (var socket = new Socket(AddressFamily.InterNetworkV6, SocketType.Dgram, ProtocolType.Udp)) {
                 socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
-                socket.Bind(new IPEndPoint(address, port));
+                try {
+                    socket.Bind(new IPEndPoint(address, port));
+                } catch (SocketException) { //try non-restricted port, if this fails
+                    socket.Bind(new IPEndPoint(address, 28433));
+                }
                 socket.SetSocketOption(SocketOptionLevel.IPv6, SocketOptionName.AddMembership, new IPv6MulticastOption(WakeOnLan.IPv6MulticastAddress));
                 socket.SendTo(packet, new IPEndPoint(WakeOnLan.IPv6MulticastAddress, port));
                 socket.SetSocketOption(SocketOptionLevel.IPv6, SocketOptionName.DropMembership, new IPv6MulticastOption(WakeOnLan.IPv6MulticastAddress));
