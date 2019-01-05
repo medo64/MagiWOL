@@ -6,7 +6,7 @@
 //2008-11-07: Refactored to enable testing.
 //2012-02-26: Added IPv6 support.
 //2012-05-16: GetPacketBytes are internal. 
-
+//2019-01-05: Reworked IPv6 packet error handling.
 
 using System;
 using System.Globalization;
@@ -110,13 +110,24 @@ namespace Medo.Net {
             if (localIPv6Address == IPAddress.IPv6Any) {
                 var host = Dns.GetHostEntry(Dns.GetHostName());
                 bool didSendOne = false;
+                Exception firstException = null;
                 foreach (IPAddress address in host.AddressList) {
                     if (address.AddressFamily == AddressFamily.InterNetworkV6) {
-                        SendIPv6Packet(address, port, packet);
-                        didSendOne = true;
+                        try {
+                            SendIPv6Packet(address, port, packet);
+                            didSendOne = true;
+                        } catch (SocketException ex) {
+                            firstException = ex;
+                        }
                     }
                 }
-                if (didSendOne == false) { throw new InvalidOperationException(Resources.ExceptionCannotFindAnyIPv6Address); }
+                if (didSendOne == false) {
+                    if (firstException != null) {
+                        throw new InvalidOperationException(Resources.ExceptionCannotFindAnyIPv6Address + ": " + firstException.Message, firstException);
+                    } else {
+                        throw new InvalidOperationException(Resources.ExceptionCannotFindAnyIPv6Address);
+                    }
+                }
             } else {
                 SendIPv6Packet(localIPv6Address, port, packet);
             }
@@ -220,7 +231,7 @@ namespace Medo.Net {
             internal static string ExceptionSecureOnPasswordIsInWrongFormat { get { return "SecureOn password is in wrong format."; } }
             internal static string ExceptionIPAddressCannotBeNull { get { return "IP address cannot be null."; } }
             internal static string ExceptionIPAddressMustBeIPv6 { get { return "IP address must be IPv6."; } }
-            internal static string ExceptionCannotFindAnyIPv6Address { get { return "Cannot find any IPv6 address."; } }
+            internal static string ExceptionCannotFindAnyIPv6Address { get { return "Cannot find any IPv6 address"; } }
 
         }
 

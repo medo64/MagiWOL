@@ -97,7 +97,7 @@
     <Compile Include="%28Medo%29\TaskbarProgress [003].cs" />
     <Compile Include="%28Medo%29\UnhandledCatch [008].cs" />
     <Compile Include="%28Medo%29\Upgrade [004].cs" />
-    <Compile Include="%28Medo%29\WakeOnLan [006].cs" />
+    <Compile Include="%28Medo%29\WakeOnLan [006+].cs" />
     <Compile Include="%28Medo%29\XmlTagWriter [002].cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="ImportProgressState.cs" />

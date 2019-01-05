@@ -84,8 +84,8 @@
     <Compile Include="..\MagiWol\%28Medo%29\StringAdder [002].cs">
       <Link>%28Medo%29\StringAdder [002].cs</Link>
     </Compile>
-    <Compile Include="..\MagiWol\%28Medo%29\WakeOnLan [006].cs">
-      <Link>%28Medo%29\WakeOnLan [006].cs</Link>
+    <Compile Include="..\MagiWol\%28Medo%29\WakeOnLan [006+].cs">
+      <Link>%28Medo%29\WakeOnLan [006+].cs</Link>
     </Compile>
     <Compile Include="..\MagiWol\%28Medo%29\XmlTagWriter [002].cs">
       <Link>%28Medo%29\XmlTagWriter [002].cs</Link>
