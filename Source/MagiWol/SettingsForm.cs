@@ -41,9 +41,8 @@ namespace MagiWol {
             Settings.UseIPv6 = checkProtocolIPv6.Checked;
 
             Settings.BroadcastHost = textBroadcastAddress.Text;
-            int port;
-            if (!(int.TryParse(textBroadcastPort.Text, NumberStyles.Integer, CultureInfo.CurrentCulture, out  port) && (port >= 0) && (port <= 65535))) {
-                port = Settings.BroadcastPort;
+            if (int.TryParse(textBroadcastPort.Text, NumberStyles.Integer, CultureInfo.CurrentCulture, out var port) && (port >= 0) && (port <= 65535)) {
+                Settings.BroadcastPort = port;
             }
 
             Settings.ShowColumnMac = chbMac.Checked;
@@ -72,8 +71,7 @@ namespace MagiWol {
                 isEnabled = false;
             }
 
-            int port;
-            if (int.TryParse(textBroadcastPort.Text, NumberStyles.Integer, CultureInfo.CurrentCulture, out  port) && (port >= 0) && (port <= 65535)) {
+            if (int.TryParse(textBroadcastPort.Text, NumberStyles.Integer, CultureInfo.CurrentCulture, out var port) && (port >= 0) && (port <= 65535)) {
                 erp.SetError(textBroadcastPort, null);
             } else {
                 erp.SetError(textBroadcastPort, "Invalid port number.");
