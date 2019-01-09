@@ -44,25 +44,34 @@ namespace MagiWolConsole {
 
             var addrs = new List<string>();
 
-            var inputs = new List<string>();
-            inputs.AddRange(Medo.Application.Args.Current.GetValues(""));
-            inputs.AddRange(Medo.Application.Args.Current.GetValues("wake"));
-            foreach (var input in inputs) {
-                if (!string.IsNullOrWhiteSpace(input)) {
-                    if (Medo.Net.WakeOnLan.IsMacAddressValid(input)) {
-                        addrs.Add(input);
-                    } else {
-                        if (File.Exists(input)) {
-                            try {
-                                var doc = Document.Open(input);
-                                foreach (var addr in doc.Addresses) {
-                                    addrs.Add(addr.Mac);
-                                }
-                            } catch (Exception ex) {
-                                Console.Error.WriteLine(string.Format(CultureInfo.CurrentCulture, "Cannot read file {0}: {1}", input, ex.Message));
+            //files
+            foreach (var file in Medo.Application.Args.Current.GetValues("")) {
+                if (!string.IsNullOrWhiteSpace(file)) {
+                    if (File.Exists(file)) {
+                        try {
+                            var doc = Document.Open(file);
+                            foreach (var addr in doc.Addresses) {
+                                addrs.Add(addr.Mac);
                             }
+                        } catch (Exception ex) {
+                            Console.Error.WriteLine(string.Format(CultureInfo.CurrentCulture, "Cannot read file {0}: {1}", file, ex.Message));
+                        }
+                    } else if (Medo.Net.WakeOnLan.IsMacAddressValid(file)) {
+                        addrs.Add(file); //it's address after all
+                    } else {
+                        Console.Error.WriteLine(string.Format(CultureInfo.CurrentCulture, "File {0} does not exist", file));
+                    }
+                }
+            }
+
+            foreach (var input in Medo.Application.Args.Current.GetValues("wake")) {
+                if (!string.IsNullOrWhiteSpace(input)) {
+                    var parts = input.Split(' ');
+                    foreach (var part in parts) {
+                        if (Medo.Net.WakeOnLan.IsMacAddressValid(part)) {
+                            addrs.Add(part);
                         } else {
-                            Console.Error.WriteLine(string.Format(CultureInfo.CurrentCulture, "Invalid MAC address {0}", input));
+                            Console.Error.WriteLine(string.Format(CultureInfo.CurrentCulture, "Unrecognized MAC address {0}", part));
                         }
                     }
                 }
