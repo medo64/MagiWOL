@@ -7,3 +7,4 @@ Description:    Sending Wake-on-LAN packets.
 Section:        net
 Priority:       optional
 Depends:        mono-complete (>=4.2), gnupg2
+Build-Depends:  mono-complete (>=4.2)
