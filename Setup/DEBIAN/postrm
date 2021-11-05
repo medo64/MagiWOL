@@ -1,5 +1,7 @@
 #!/bin/bash
+set -e
 
+# Remove links and config
 if [ "$1" == "remove" ]
 then
     if [ -f "/usr/bin/magiwol" ]
@@ -13,4 +15,11 @@ then
     fi
 fi
 
+# Purge debconf
+if [ "$1" = "purge" -a -e /usr/share/debconf/confmodule ]; then
+    . /usr/share/debconf/confmodule
+    db_purge
+fi
+
+# Done
 exit 0
