@@ -21,3 +21,12 @@ the program.
   * `Ctrl+V`                  Paste
   * `Ctrl+W`                  Quick wake
   * `Ctrl+X`                  Cut
+
+
+#### Command Line Arguments (MagiWOL)
+
+    MagiWOL.exe <file> [/Wake] [/WakeAndExit]
+
+* `<file>`: File to load
+* `/Wake`: Performs wake operation on a given file
+* `/WakeAndExit`: Performs wake operation on a given file and exits the program afterward

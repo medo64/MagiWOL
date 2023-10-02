@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
+using MagiWol.MagiWolDocument;
 
 namespace MagiWol {
 
@@ -176,6 +177,22 @@ namespace MagiWol {
         private void Form_Shown(object sender, EventArgs e) {
             var version = Assembly.GetExecutingAssembly().GetName().Version; //don't auto-check for development builds
             if ((version.Major != 0) || (version.Minor != 0)) { bwCheckForUpgrade.RunWorkerAsync(); }
+
+            // wake
+            if (Medo.Application.Args.Current.ContainsKey("Wake") || Medo.Application.Args.Current.ContainsKey("WakeAndExit")) {
+                if (Document != null) {
+                    var addresses = new List<AddressItem>();
+                    foreach (var address in Document.Addresses) {
+                        addresses.Add(new AddressItem(address));
+                    }
+                    if (addresses.Count > 0) {
+                        using (var form = new WakeProgressForm(addresses, Settings.Runtime.WolWaitBetweenComputersIntervalSeconds)) {
+                            form.ShowDialog(this);
+                        }
+                    }
+                }
+                if (Medo.Application.Args.Current.ContainsKey("WakeAndExit")) { this.Close(); }
+            }
         }
 
 
@@ -628,7 +645,10 @@ namespace MagiWol {
                     //send all other files to second instances
                     for (int j = i + 1; j < filesToOpen.Length; ++j) {
                         var jFile = new FileInfo(filesToOpen[j]);
-                        Process.Start(GetProcessStartInfo(@"""" + jFile.FullName + @""" /OpenOrExit"));
+                        var arg = @"""" + jFile.FullName + @""" /OpenOrExit";
+                        if (Medo.Application.Args.Current.ContainsKey("Wake")) { arg += " /Wake"; }
+                        if (Medo.Application.Args.Current.ContainsKey("WakeAndExit")) { arg += " /WakeAndExit"; }
+                        Process.Start(GetProcessStartInfo(arg));
                         Thread.Sleep(100 / Environment.ProcessorCount);
                     }
                     break; //i
