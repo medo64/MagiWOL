@@ -6,8 +6,8 @@ SET     FILE_SOLUTION="..\Source\MagiWol.sln"
 SET  FILES_EXECUTABLE="..\Binaries\MagiWol.exe" "..\Binaries\wol.exe"
 SET       FILES_OTHER="..\Binaries\ReadMe.txt" "..\Binaries\License.txt"
 
-SET   COMPILE_TOOL_16="%PROGRAMFILES(X86)%\Microsoft Visual Studio\2019\Community\Common7\IDE\devenv.exe"
-SET   COMPILE_TOOL_15="%PROGRAMFILES(X86)%\Microsoft Visual Studio\2017\Community\Common7\IDE\devenv.exe"
+SET   COMPILE_TOOL_2022="%PROGRAMFILES%\Microsoft Visual Studio\2022\Community\Common7\IDE\devenv.exe"
+SET   COMPILE_TOOL_2019="%PROGRAMFILES(X86)%\Microsoft Visual Studio\2019\Community\Common7\IDE\devenv.exe"
 
 SET        SETUP_TOOL="%PROGRAMFILES(x86)%\Inno Setup 6\iscc.exe"
 
@@ -25,13 +25,13 @@ SET          RAR_TOOL="%PROGRAMFILES%\WinRAR\WinRAR.exe"
 ECHO --- DISCOVER TOOLS
 ECHO.
 
-IF EXIST %COMPILE_TOOL_16% (
-    ECHO Visual Studio 2019
-    SET COMPILE_TOOL=%COMPILE_TOOL_16%
+IF EXIST %COMPILE_TOOL_2022% (
+    ECHO Visual Studio 2022
+    SET COMPILE_TOOL=%COMPILE_TOOL_2022%
 ) ELSE (
-    IF EXIST %COMPILE_TOOL_15% (
-        ECHO Visual Studio 2017
-        SET COMPILE_TOOL=%COMPILE_TOOL_15%
+    IF EXIST %COMPILE_TOOL_2019% (
+        ECHO Visual Studio 2019
+        SET COMPILE_TOOL=%COMPILE_TOOL_2019%
     ) ELSE (
 		ECHO Cannot find Visual Studio^^!
 		PAUSE && EXIT /B 255
