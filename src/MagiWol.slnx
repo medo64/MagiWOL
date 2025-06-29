@@ -1,0 +1,4 @@
+<Solution>
+    <Project Path="MagiWol.Console/MagiWol.Console.csproj" />
+    <Project Path="MagiWol.Core/MagiWol.Core.csproj" />
+</Solution>

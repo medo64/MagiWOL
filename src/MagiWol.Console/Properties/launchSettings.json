@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "MagiWol": {
+        "commandName": "Project",
+        "commandLineArgs": "../../tests/files/test.magiwol",
+        "worki ngDirectory": "."
+    }
+  }
+}
