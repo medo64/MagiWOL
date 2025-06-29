@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-16"?>
+<MagiWOL version="2.00">
+  <Addresses>
+    <Address name="julian" macAddress="E4:8D:8C:8B:DF:62" secureOnPassword="" broadcastAddress="255.255.255.255" broadcastPort="9" isBroadcastAddressValid="False" isBroadcastPortValid="False" description="" />
+    <Address name="dick" macAddress="C4:AD:34:5C:C2:A7" secureOnPassword="" broadcastAddress="255.255.255.255" broadcastPort="9" isBroadcastAddressValid="False" isBroadcastPortValid="False" description="" />
+    <Address name="anne" macAddress="74:4D:28:A1:1B:65" secureOnPassword="" broadcastAddress="255.255.255.255" broadcastPort="9" isBroadcastAddressValid="False" isBroadcastPortValid="False" description="" />
+    <Address name="george" macAddress="C4:CB:46:A9:AC:CE" secureOnPassword="" broadcastAddress="255.255.255.255" broadcastPort="9" isBroadcastAddressValid="False" isBroadcastPortValid="False" description="" />
+    <Address name="timmy" macAddress="6C:2F:30:DF:F3:50" secureOnPassword="" broadcastAddress="255.255.255.255" broadcastPort="9" isBroadcastAddressValid="False" isBroadcastPortValid="False" description="" />
+  </Addresses>
+</MagiWOL>
